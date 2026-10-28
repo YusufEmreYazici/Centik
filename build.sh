@@ -1,6 +1,7 @@
 #!/bin/bash
 # Builds dist/Çentik.app (release, universal, hardened runtime). Pass --install to copy it into
-# /Applications. Set CENTIK_SIGN_ID to sign with a given identity, or "-" for an ad-hoc signature.
+# /Applications. Signs with a "Developer ID Application" certificate when the keychain has one,
+# otherwise with a local certificate. Set CENTIK_SIGN_ID to pick an identity, or "-" for ad hoc.
 set -euo pipefail
 cd "$(dirname "$0")"
 
@@ -23,18 +24,23 @@ cp Resources/AppIcon.icns "$APP/Contents/Resources/AppIcon.icns"
 cp -R Resources/*.lproj "$APP/Contents/Resources/"
 # The hardened runtime stops other processes from injecting code that would inherit Çentik's
 # camera, calendar and automation permissions.
-SIGN=(codesign --force --options runtime --entitlements Resources/Centik.entitlements --timestamp=none)
+SIGN=(codesign --force --options runtime --entitlements Resources/Centik.entitlements)
+DEVELOPER_ID=$(security find-identity -v -p codesigning | sed -n 's/.*"\(Developer ID Application: [^"]*\)".*/\1/p' | head -1)
+SIGN_ID=${CENTIK_SIGN_ID:-$DEVELOPER_ID}
 # Sign with a stable identity. Ad-hoc signatures change on every build, so macOS treats each
-# build as a new app and asks for Automation/Calendar access again. The identity lives in a
-# private keychain under .signing/ (git-ignored), created on first use. Its password only
-# guards that local, throwaway keychain.
-if [ -n "${CENTIK_SIGN_ID:-}" ]; then
-    "${SIGN[@]}" --sign "$CENTIK_SIGN_ID" "$APP"
+# build as a new app and asks for Automation/Calendar access again. Without a Developer ID, the
+# identity lives in a private keychain under .signing/ (git-ignored), created on first use. Its
+# password only guards that local, throwaway keychain.
+if [[ "$SIGN_ID" == "Developer ID Application:"* ]]; then
+    # Notarization requires a secure timestamp.
+    "${SIGN[@]}" --timestamp --sign "$SIGN_ID" "$APP"
+elif [ -n "$SIGN_ID" ]; then
+    "${SIGN[@]}" --timestamp=none --sign "$SIGN_ID" "$APP"
 else
     KC="$PWD/.signing/centik.keychain-db"
     [ -f "$KC" ] || ./tools/make-signing-identity.sh
     security unlock-keychain -p centik-local-signing "$KC"
-    "${SIGN[@]}" --keychain "$KC" --sign "Centik Local Signing" "$APP"
+    "${SIGN[@]}" --timestamp=none --keychain "$KC" --sign "Centik Local Signing" "$APP"
 fi
 echo "Built $APP"
 

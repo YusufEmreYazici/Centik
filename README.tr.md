@@ -45,12 +45,23 @@ ve kodlama ajanı uyarıları, hepsi çentiğin olduğu yerde. Ücretsiz, açık
 
 ## Kurulum
 
+**Homebrew ile:**
+
+```sh
+brew trust yusufemreyazici/tap
+brew install --cask yusufemreyazici/tap/centik
+```
+
+**Ya da elle:**
+
 1. [Son sürümden](https://github.com/YusufEmreYazici/Centik/releases/latest) **Centik.dmg** dosyasını indir ve **Çentik**'i Uygulamalar klasörüne sürükle.
 2. Uygulama henüz Apple tarafından onaylanmadığı (notarize edilmediği) için macOS ilk açılışı engeller. Bir kez aç, sonra **Sistem Ayarları → Gizlilik ve Güvenlik**'te **Yine de Aç**'a tıkla. Ya da terminalde:
    ```sh
    xattr -dr com.apple.quarantine /Applications/Çentik.app
    ```
 3. İmleci çentiğin üzerine getir ya da **⌃⌥N**'ye bas.
+
+Homebrew ile kurduğunda da ilk açılış aynı şekilde engellenir. Güncellemek için: `brew upgrade --cask centik`.
 
 macOS 14 Sonoma ve sonrası; Apple Silicon ve Intel.
 

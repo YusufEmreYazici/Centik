@@ -105,12 +105,23 @@ Night, Aurora, Glass, Neon and Minimal. The accent follows the album art or your
 
 ## Install
 
+**With Homebrew:**
+
+```sh
+brew trust yusufemreyazici/tap
+brew install --cask yusufemreyazici/tap/centik
+```
+
+**Or by hand:**
+
 1. Download **Centik.dmg** from the [latest release](https://github.com/YusufEmreYazici/Centik/releases/latest) and drag **Çentik** to Applications.
 2. The app isn't notarized by Apple yet, so macOS blocks the first launch. Open it once, then go to **System Settings → Privacy & Security** and click **Open Anyway**. Or run:
    ```sh
    xattr -dr com.apple.quarantine /Applications/Çentik.app
    ```
 3. Hover over the notch, or press **⌃⌥N**.
+
+The first launch is blocked the same way when you install with Homebrew. Update with `brew upgrade --cask centik`.
 
 Requires macOS 14 Sonoma or later, on Apple Silicon or Intel.
 
