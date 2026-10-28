@@ -13,7 +13,7 @@ body:
     id: version
     attributes:
       label: Çentik version
-      description: Settings → Hakkında
+      description: "Settings → About (Hakkında)"
       placeholder: "1.0.0"
     validations:
       required: true
