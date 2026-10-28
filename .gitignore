@@ -1,0 +1,6 @@
+.build/
+dist/
+*.profraw
+.DS_Store
+.swiftpm/
+.signing/

@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Questions and ideas
+    url: https://github.com/YusufEmreYazici/Centik/discussions
+    about: Ask questions and share ideas in Discussions.
+  - name: Security issue
+    url: https://github.com/YusufEmreYazici/Centik/security/advisories/new
+    about: Report vulnerabilities privately.

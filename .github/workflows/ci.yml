@@ -1,0 +1,21 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build (debug)
+        run: swift build
+      - name: Build app bundle (release, ad-hoc signed)
+        run: CENTIK_SIGN_ID=- ./build.sh
+      - name: Verify signature
+        run: codesign --verify --deep --strict --verbose=2 "dist/Çentik.app"

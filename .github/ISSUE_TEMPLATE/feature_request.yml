@@ -1,0 +1,15 @@
+name: Feature request
+description: An idea to make the notch more useful
+labels: [enhancement]
+body:
+  - type: textarea
+    id: idea
+    attributes:
+      label: What would you like Çentik to do?
+      description: Describe the moment you'd use it, not only the feature.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: How do you handle this today?
