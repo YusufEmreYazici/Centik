@@ -16,7 +16,7 @@ final class KeepAwake: ObservableObject {
 
     func start(for duration: TimeInterval? = nil) {
         if !isOn {
-            let reason = "Çentik: Uyanık tut" as CFString
+            let reason = String(localized: "Çentik: Uyanık tut") as CFString
             guard IOPMAssertionCreateWithName(kIOPMAssertionTypePreventUserIdleDisplaySleep as CFString,
                                               IOPMAssertionLevel(kIOPMAssertionLevelOn), reason, &assertion) == kIOReturnSuccess
             else { return }
@@ -44,11 +44,11 @@ enum PermissionState: Equatable {
 
     var label: String {
         switch self {
-        case .granted: return "İzin verildi"
-        case .denied: return "Reddedildi"
-        case .notAsked: return "Henüz sorulmadı"
-        case .appNotRunning: return "Uygulama kapalı"
-        case .unavailable: return "Yüklü değil"
+        case .granted: return String(localized: "İzin verildi")
+        case .denied: return String(localized: "Reddedildi")
+        case .notAsked: return String(localized: "Henüz sorulmadı")
+        case .appNotRunning: return String(localized: "Uygulama kapalı")
+        case .unavailable: return String(localized: "Yüklü değil")
         }
     }
 }

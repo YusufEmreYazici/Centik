@@ -1,0 +1,532 @@
+/* English strings for Çentik. Keys are the Turkish source text.
+   tools/check-localization.sh lists keys that are missing here. */
+
+
+/* AIProviders */
+"Otomatik" = "Automatic";
+"Asistan" = "Assistant";
+"Önce kurulu araçlara, sonra kayıtlı anahtarlara bakar." = "Tries installed tools first, then saved keys.";
+"Bilgisayardaki Claude Code oturumu. Claude aboneliği ya da API kredisi kullanır." = "Your Claude Code sign-in on this Mac. Uses your Claude subscription or API credits.";
+"Bilgisayardaki Gemini CLI. Google hesabıyla giriş ücretsizdir." = "Gemini CLI on this Mac. Signing in with a Google account is free.";
+"Anthropic API anahtarı. Kullandıkça ücretlendirilir." = "An Anthropic API key. Billed by usage.";
+"Google AI Studio anahtarı. Ücretsiz katmanı vardır." = "A Google AI Studio key. Has a free tier.";
+"Bilgisayarda çalışan yerel modeller. Ücretsiz, internete bir şey gitmez." = "Local models running on this Mac. Free, and nothing leaves your computer.";
+"Yanıt gelmedi (çıkış kodu %d)." = "No reply (exit code %d).";
+"%@ başlatılamadı: %@" = "Couldn't start %1$@: %2$@";
+"Durduruldu." = "Stopped.";
+"Claude Code varsayılanı" = "Claude Code default";
+"Opus (en güçlü)" = "Opus (most capable)";
+"Sonnet (hızlı)" = "Sonnet (fast)";
+"Haiku (en hızlı)" = "Haiku (fastest)";
+"Claude bir hata döndürdü." = "Claude returned an error.";
+"Claude Code'a giriş yapılmamış. Terminalde claude yazıp bir kez giriş yap." = "You're not signed in to Claude Code. Run claude in Terminal and sign in once.";
+"Otomatik (önerilen)" = "Auto (recommended)";
+"Pro (en güçlü)" = "Pro (most capable)";
+"Flash (hızlı)" = "Flash (fast)";
+"Flash-Lite (en hızlı)" = "Flash-Lite (fastest)";
+"Gemini bir hata döndürdü." = "Gemini returned an error.";
+"Gemini CLI'ya giriş yapılmamış. Terminalde gemini yazıp Google hesabınla giriş yap." = "You're not signed in to Gemini CLI. Run gemini in Terminal and sign in with your Google account.";
+"Gemini CLI için Node.js bulunamadı." = "Node.js, which Gemini CLI needs, wasn't found.";
+"Sunucu %lld hatası döndürdü." = "The server returned error %lld.";
+"Bağlanılamadı: %@" = "Couldn't connect: %@";
+"Anahtar geçersiz ya da yetkisiz." = "The key is invalid or not authorized.";
+"Claude API anahtarı kayıtlı değil." = "No Claude API key is saved.";
+"Claude bu isteği yanıtlamadı." = "Claude declined this request.";
+"Claude API bir hata döndürdü." = "The Claude API returned an error.";
+"Claude API anahtarı geçersiz." = "The Claude API key is invalid.";
+"Geçersiz model adı: %@" = "Invalid model name: %@";
+"Gemini API anahtarı kayıtlı değil." = "No Gemini API key is saved.";
+"Gemini bu isteği yanıtlamadı (%@)." = "Gemini declined this request (%@).";
+"Gemini API bir hata döndürdü." = "The Gemini API returned an error.";
+"Gemini API anahtarı geçersiz." = "The Gemini API key is invalid.";
+"Gemini kullanım sınırına ulaşıldı. Biraz sonra tekrar dene." = "Gemini's usage limit was reached. Try again in a little while.";
+"Ollama'da kurulu model yok. Terminalde ollama pull llama3.2 gibi bir model indir." = "Ollama has no models installed. Download one in Terminal, for example ollama pull llama3.2.";
+"Ollama çalışmıyor. Ollama uygulamasını aç ya da terminalde ollama serve çalıştır." = "Ollama isn't running. Open the Ollama app or run ollama serve in Terminal.";
+
+/* AgentService */
+"%@ işini bitirdi" = "%@ finished";
+"%@ geçerli bir JSON nesnesi değil; dosyaya dokunulmadı." = "%@ isn't a valid JSON object; the file wasn't changed.";
+"config.toml içinde zaten başka bir `notify` tanımlı; dosyaya dokunulmadı." = "config.toml already defines another `notify`; the file wasn't changed.";
+
+/* AppDelegate */
+"Çentik Ayarları" = "Çentik Settings";
+"Çentiği Aç  (⌃⌥N)" = "Open Çentik  (⌃⌥N)";
+"Rafı Aç" = "Open Shelf";
+"Ayarlar…" = "Settings…";
+"Çentik'ten Çık" = "Quit Çentik";
+
+/* AssistantService */
+"Şu an %@ kullanılıyor." = "Currently using %@.";
+"Hazır bir sağlayıcı yok. Aşağıdan birini bağla." = "No provider is ready. Connect one below.";
+"Claude Code kurulu değil." = "Claude Code isn't installed.";
+"Bulundu ve giriş yapılmış: %@" = "Found and signed in: %@";
+"Bulundu ama giriş yapılmamış. Terminalde gemini yazıp Google ile giriş yap." = "Found, but not signed in. Run gemini in Terminal and sign in with Google.";
+"Gemini CLI kurulu değil." = "Gemini CLI isn't installed.";
+"Anahtar Anahtar Zinciri'nde kayıtlı." = "The key is saved in your Keychain.";
+"Anahtar girilmedi." = "No key entered.";
+"Çalışıyor." = "Running.";
+"Çalışmıyor ya da kurulu değil." = "Not running or not installed.";
+"Henüz bir yapay zekâ bağlı değil. Ayarlar > Yapay Zekâ'dan Claude, Gemini ya da Ollama'yı bağla." = "No AI is connected yet. Connect Claude, Gemini or Ollama in Settings > AI.";
+"%@ hazır değil: %@ Ayarlar > Yapay Zekâ'dan kontrol edebilirsin." = "%1$@ isn't ready: %2$@ You can check it in Settings > AI.";
+"Şu an: %@ (%@)" = "Now: %1$@ (%2$@)";
+", bugün en yüksek %lld° en düşük %lld°" = ", today's high %1$lld°, low %2$lld°";
+", yağış ihtimali %%%lld" = ", %lld%% chance of rain";
+"[Bağlam: " = "[Context: ";
+"%@ başlatılamadı." = "Couldn't start %@.";
+"Yalnızca şunu yaz: Bağlantı tamam" = "Reply with exactly: Connection OK";
+"Yanıt boş geldi." = "The reply was empty.";
+"Bunu araç kullanmadan yanıtlayamadı. Soruyu biraz farklı sormayı dene." = "It couldn't answer this without tools. Try asking a little differently.";
+"\n\n…(yanıt kısaltıldı)" = "\n\n…(reply shortened)";
+
+/* AssistantSettings */
+"Kurulu araçlar · anahtar gerekmez" = "Installed tools · no key needed";
+"API anahtarı" = "API key";
+"Sohbet sekmesini yanıtlayan" = "Chat tab answered by";
+"Sağlayıcı" = "Provider";
+"Herkes kendi hesabını kullanır; Çentik kimseye ücret ödemez ya da veri toplamaz. Sohbet yalnızca konuşmadır: dosyalarına erişilmez, komut çalıştırılmaz. Her mesajla yalnızca saat, tarih ve seçtiğin şehrin havası gider." = "Everyone uses their own account; Çentik doesn't pay anyone or collect data. The chat is only a conversation: it can't read your files or run commands. Each message carries only the time, the date and the weather in your city.";
+"Bu Mac'te" = "On this Mac";
+"API anahtarları macOS Anahtar Zinciri'nde saklanır, yalnızca ilgili servise gönderilir." = "API keys are stored in the macOS Keychain and sent only to their own service.";
+"Anahtar al" = "Get a key";
+"Nasıl kurulur" = "How to install";
+"Kullanılıyor" = "In use";
+"Hazır" = "Ready";
+"Bağlı değil" = "Not connected";
+"gemini" = "gemini";
+"komutunu terminalde bir kez çalıştırıp Google ile giriş yap." = "— run it once in Terminal and sign in with Google.";
+"Kontrol et" = "Check";
+"Yeniden kontrol et" = "Check again";
+"Model" = "Model";
+"Bağlantıyı test et" = "Test connection";
+"Önerilen (%@)" = "Recommended (%@)";
+"Varsayılan" = "Default";
+"Model listesi alınamadı: %@" = "Couldn't load the model list: %@";
+"İlk model (%@)" = "First model (%@)";
+"Kurulu model yok" = "No models installed";
+"Kayıtlı anahtarı değiştirmek için yenisini yapıştır" = "Paste a new key to replace the saved one";
+"API anahtarını yapıştır" = "Paste your API key";
+"Kaydet" = "Save";
+"Sil" = "Delete";
+
+/* AssistantViews */
+"Bir yapay zekâ bağla" = "Connect an AI";
+"Claude ya da Gemini hesabını, bir API anahtarını veya Ollama'yı bağla. Ücretsiz seçenekler de var." = "Connect your Claude or Gemini account, an API key or Ollama. There are free options too.";
+"Ayarlar'da bağla" = "Connect in Settings";
+"Yalnızca sohbet" = "Chat only";
+"Burada dosyalara erişilmez ve komut çalıştırılmaz. Sağlayıcıyı Ayarlar > Yapay Zekâ'dan değiştirebilirsin." = "No file access and no commands here. You can change the provider in Settings > AI.";
+"Son kopyaladığın metni sorunun önüne ekler" = "Adds the text you last copied in front of your question";
+"Yanıtlıyor" = "Answering";
+"Panodan ekle" = "Add clipboard";
+"Yeni" = "New";
+"Ne sormak istersin?" = "What would you like to ask?";
+"Kopyaladığım metni kısaca özetle" = "Summarize the text I copied";
+"Kopyaladığım e-postayı daha kibar yaz" = "Make the email I copied more polite";
+"Kopyaladığım kodu açıkla" = "Explain the code I copied";
+"Kopyaladığım metni İngilizceye çevir" = "Translate the text I copied into English";
+"%@ ile konuş… (Enter ile gönder)" = "Ask %@… (Enter to send)";
+"Durdur" = "Stop";
+"Gönder" = "Send";
+
+/* CaptureService */
+"Ekran görüntüsü alındı" = "Screenshot taken";
+"Ekran kaydı hazır" = "Screen recording ready";
+"İndirme tamamlandı" = "Download finished";
+
+/* ClipboardService */
+"Metin" = "Text";
+"Bağlantı" = "Link";
+"Kod" = "Code";
+"Renk" = "Color";
+"Görsel" = "Image";
+"Dosya" = "File";
+"Görsel · %lld×%lld" = "Image · %1$lld×%2$lld";
+"Uygulama" = "App";
+
+/* ClipboardViews */
+"Pano geçmişi kapalı" = "Clipboard history is off";
+"Ayarlar → Aktiviteler'den açabilirsin." = "You can turn it on in Settings → Tools.";
+"Henüz bir şey kopyalanmadı" = "Nothing copied yet";
+"Metin, bağlantı, renk, görsel ve dosyalar burada birikir." = "Text, links, colors, images and files collect here.";
+"Bu filtrede öğe yok" = "Nothing in this filter";
+"Başka bir tür seç." = "Pick another type.";
+"Tümü" = "All";
+"Bellekte" = "In memory";
+"Geçmiş yalnızca bellekte tutulur; sabitlenenler hariç diske yazılmaz. Şifre yöneticisi öğeleri kaydedilmez." = "History is kept in memory only; nothing but pinned items is written to disk. Password manager items are never saved.";
+"Sabitlenmemiş her şeyi temizle" = "Clear everything that isn't pinned";
+"%lld" = "%lld";
+"Kopyala" = "Copy";
+"Kopyalandı" = "Copied";
+"%@ · %@" = "%1$@ · %2$@";
+"az önce" = "just now";
+"Düz Metin Olarak Kopyala" = "Copy as Plain Text";
+"Sabitlemeyi Kaldır" = "Unpin";
+"Sabitle" = "Pin";
+"Rafa Ekle" = "Add to Shelf";
+"İndirilenler'e Kaydet" = "Save to Downloads";
+"· %@" = "· %@";
+"Sabitlemeyi kaldır" = "Unpin";
+"Sabitle; yeniden başlatınca da kalır" = "Pin; stays after a restart";
+"Boyut" = "Size";
+"Veri" = "Data";
+"+%lld dosya daha" = "+%lld more files";
+" · biçimli" = " · formatted";
+"%lld karakter · %lld kelime · %lld satır" = "%1$lld characters · %2$lld words · %3$lld lines";
+"Rafa ekle" = "Add to shelf";
+"Aç" = "Open";
+"Göster" = "Show";
+"RGB kopyala" = "Copy RGB";
+"Düz metin" = "Plain text";
+
+/* ExpandedView */
+"Ayna" = "Mirror";
+"Ayarlar" = "Settings";
+"%%%lld" = "%lld%%";
+"Etkinliklerini görmek için takvim erişimi ver." = "Allow calendar access to see your events.";
+"Sistem Ayarları" = "System Settings";
+"İzin Ver" = "Allow";
+"Bugün takvimin boş" = "Nothing on your calendar today";
+"+%lld etkinlik daha" = "+%lld more events";
+"ŞİMDİ" = "NOW";
+"%@ toplantısına katıl" = "Join %@";
+"Tüm gün" = "All day";
+"Katıl" = "Join";
+"Raf" = "Shelf";
+"%lld öğe" = "%lld items";
+"AirDrop" = "AirDrop";
+"Temizle" = "Clear";
+"Bırak, rafa ekleyeyim" = "Drop to add to the shelf";
+"Dosyaları buraya bırak" = "Drop files here";
+"Finder'dan ya da herhangi bir yerden çentiğe sürükle." = "Drag them onto the notch from Finder or anywhere else.";
+"AirDrop ile paylaş" = "Share with AirDrop";
+"Geri sürükle" = "Drag back out";
+"Dosyalar yerinde kalır" = "Files stay where they are";
+"Sürükle\nbırak" = "Drag\nand drop";
+"Klasör" = "Folder";
+"Finder'da Göster" = "Show in Finder";
+"AirDrop ile Gönder" = "Send with AirDrop";
+"Raftan Kaldır" = "Remove from Shelf";
+"Hızlı başlat" = "Quick start";
+"Bitiş %@" = "Ends %@";
+"Bir süre seç. Çalışırken geri sayım çentiğin yanında görünür." = "Pick a duration. While it runs, the countdown shows beside the notch.";
+"Çalışıyor" = "Running";
+"Duraklatıldı" = "Paused";
+"dk" = "min";
+"HAZIR" = "READY";
+"KALAN" = "LEFT";
+"DURAKLATILDI" = "PAUSED";
+"Kodlama ajanları" = "Coding agents";
+"Onay beklediğinde ve işi bitince haber verir." = "Lets you know when it needs approval and when it's done.";
+"Her tur tamamlandığında haber verir." = "Lets you know when each turn is done.";
+"BEKLİYOR" = "WAITING";
+"Tek tıkla bağla" = "Connect in one click";
+"Bağlı" = "Connected";
+
+/* HomeIdle */
+"Günaydın" = "Good morning";
+"İyi günler" = "Good afternoon";
+"İyi akşamlar" = "Good evening";
+"İyi geceler" = "Good night";
+"Uyanık" = "Awake";
+"Uyanık tut" = "Keep awake";
+"Uykuyu engelle" = "Prevent sleep";
+"25 dk odak" = "25 min focus";
+"Zamanlayıcı" = "Timer";
+"Kamera önizleme" = "Camera preview";
+"Ekran" = "Display";
+"Boş" = "Empty";
+"30 dakika" = "30 minutes";
+"1 saat" = "1 hour";
+"2 saat" = "2 hours";
+"Süresiz" = "Indefinitely";
+"Kapat" = "Turn Off";
+"Müzik çalmıyor" = "Nothing playing";
+"Son çalan · %@" = "Last played · %@";
+"%@ — %@" = "%1$@ — %2$@";
+"Devam et" = "Resume";
+"Hava durumu alınamadı" = "Couldn't get the weather";
+"Yükleniyor" = "Loading";
+"Hava durumu ekle" = "Add weather";
+"%lld°" = "%lld°";
+
+/* IslandModel */
+"Ana" = "Home";
+"Sistem" = "System";
+"Notlar" = "Notes";
+"Pano" = "Clipboard";
+"Ajanlar" = "Agents";
+
+/* IslandView */
+"Süre doldu" = "Time's up";
+"Zamanlayıcı tamamlandı" = "Timer finished";
+"%@ — katılmak için çentiği aç" = "%@ — open the notch to join";
+"Şimdi" = "Now";
+"Rafa eklemek için tıkla, paylaşmak için sürükle" = "Click to add to the shelf, drag to share";
+
+/* KeepAwake */
+"Çentik: Uyanık tut" = "Çentik: Keep awake";
+"İzin verildi" = "Allowed";
+"Reddedildi" = "Denied";
+"Henüz sorulmadı" = "Not asked yet";
+"Uygulama kapalı" = "App not running";
+"Yüklü değil" = "Not installed";
+
+/* Localization */
+"Sistem dili" = "System language";
+
+/* MirrorView */
+"Kamera bulunamadı" = "No camera found";
+"Bu Mac'te kullanılabilir kamera yok." = "This Mac has no camera available.";
+"Kamera izni yok" = "No camera access";
+"Ayna için Sistem Ayarları'nda Çentik'e kamera izni ver." = "Allow Çentik to use the camera in System Settings to use the mirror.";
+"Sistem Ayarları'nı Aç" = "Open System Settings";
+
+/* NotesViews */
+"Henüz not yok" = "No notes yet";
+"Aklına geleni hızla yaz; işaretleyince yapıldı olur." = "Jot things down fast; check them off when they're done.";
+"%lld açık" = "%lld open";
+"Bitenleri sil" = "Delete done";
+"Not ya da yapılacak yaz, Enter ile ekle" = "Type a note or to-do, press Enter to add";
+"Yapılmadı olarak işaretle" = "Mark as Not Done";
+"Yapıldı olarak işaretle" = "Mark as Done";
+
+/* ProcessViews */
+"Genel" = "General";
+"Uygulamalar" = "Apps";
+"Grafikler" = "Charts";
+"Müzik çalmıyorken çentiğin iki yanında canlı ölçümleri göster" = "Show live readings beside the notch when no music is playing";
+"Kanatlarda" = "In the wings";
+"Kanatlara ekle" = "Show beside notch";
+"Uygulamalar (yardımcılarıyla)" = "Apps (with their helpers)";
+"Tüm işlemlerim" = "All my processes";
+"UYGULAMA" = "APP";
+"İŞLEM" = "PROCESS";
+"%lld işlem" = "%lld processes";
+"PID %d" = "PID %d";
+"Sistem için gerekli; buradan kapatılamaz" = "Needed by the system; can't be quit from here";
+"Emin misin?" = "Are you sure?";
+"Kaydedilmemiş değişiklikler kaybolur" = "Unsaved changes will be lost";
+"Uygulamadan kapanmasını ister (⌘Q gibi). Zorla kapatmak için sağ tıkla." = "Asks the app to quit, like ⌘Q. Right-click to force quit.";
+"Zorla Kapat…" = "Force Quit…";
+"PID'yi Kopyala" = "Copy PID";
+"Son 60 saniye" = "Last 60 seconds";
+"Ağ" = "Network";
+"%@ %%%lld" = "%1$@ %2$lld%%";
+
+/* SettingsView */
+"Etkileşim" = "Interaction";
+"Görünüm" = "Appearance";
+"Canlı Etkinlikler" = "Live Activities";
+"Araçlar" = "Tools";
+"Yapay Zekâ" = "AI";
+"Kodlama Ajanları" = "Coding Agents";
+"İzinler" = "Permissions";
+"Hakkında" = "About";
+"Başlangıç, ekran ve kısayol" = "Startup, display and shortcut";
+"Sekmeler, açılma, kapanma ve dokunsal geri bildirim" = "Tabs, opening, closing and haptic feedback";
+"Tema, vurgu rengi, efektler ve boyutlar" = "Theme, accent color, effects and sizes";
+"Çentikte beliren müzik, ses, pil ve ağ bildirimleri" = "Music, volume, battery and network notices in the notch";
+"Pano, takvim, raf ve uyanık tut" = "Clipboard, calendar, shelf and keep awake";
+"Sohbet sekmesi için Claude, Gemini ya da Ollama bağlantısı" = "Connect Claude, Gemini or Ollama for the chat tab";
+"Claude Code ve Codex uyarıları" = "Claude Code and Codex alerts";
+"Çentik'in kullandığı izinlerin durumu" = "Status of the permissions Çentik uses";
+"Sürüm ve kısayollar" = "Version and shortcuts";
+"Başlangıç" = "Startup";
+"Kısayol" = "Shortcut";
+"Arayüz dili" = "Interface language";
+"Yeni dil Çentik yeniden başlayınca görünür." = "The new language appears after Çentik restarts.";
+"Şimdi yeniden başlat" = "Restart Now";
+"Dil" = "Language";
+"Oturum açınca başlat" = "Open at login";
+"Menü çubuğu simgesi" = "Menu bar icon";
+"Kapatırsan ayarlara adadaki dişliden ya da ⌃⌥N ile ulaşırsın." = "If you turn it off, reach Settings from the gear in the island or with ⌃⌥N.";
+"Mac açıldığında Çentik kendiliğinden çalışır." = "Çentik starts on its own when you log in.";
+"Sistem Ayarları → Genel → Giriş Öğeleri'nden onay ver." = "Approve it in System Settings → General → Login Items.";
+"Ayarlanamadı: %@" = "Couldn't change it: %@";
+"Tam ekranda gizle" = "Hide in full screen";
+"Video ya da oyun tam ekrandayken ada çekilir." = "The island steps aside while a video or game is full screen.";
+"Adanın göründüğü ekran" = "Show the island on";
+"MacBook ekranı (çentikli)" = "MacBook display (with notch)";
+"Etkin ekran" = "Active display";
+"⌃⌥N ile aç / kapat" = "Open / close with ⌃⌥N";
+"Her uygulamadan çalışır, Erişilebilirlik izni gerektirmez." = "Works from any app and needs no Accessibility permission.";
+"Tüm ayarları varsayılana döndür…" = "Reset All Settings…";
+"Tüm ayarlar varsayılana dönsün mü?" = "Reset all settings to their defaults?";
+"Varsayılana Döndür" = "Reset";
+"Raf, pano ve sabitlenen öğeler korunur." = "The shelf, clipboard and pinned items are kept.";
+"Açılma" = "Opening";
+"Kapanma" = "Closing";
+"Geri bildirim" = "Feedback";
+"Üzerine gelince aç" = "Open on hover";
+"Kapalıyken adaya tıklayarak açarsın." = "When off, click the island to open it.";
+"Açılma gecikmesi" = "Open delay";
+"İmleç bu kadar beklerse açılır; kazara açılmayı önler." = "Opens after the pointer rests this long, so it doesn't open by accident.";
+"Açılınca gösterilecek sekme" = "Tab to show when opened";
+"En son açık olan" = "Last one used";
+"Kapanma gecikmesi" = "Close delay";
+"İmleç adadan çıktıktan sonra bu kadar bekler." = "Waits this long after the pointer leaves the island.";
+"Sekmeler" = "Tabs";
+"Kapattığın sekmeler çentikte görünmez; sırayı oklarla değiştir. En az bir sekme açık kalır." = "Tabs you turn off don't appear in the notch; reorder them with the arrows. At least one tab stays on.";
+"Dokunsal titreşim" = "Haptic feedback";
+"Force Touch trackpad'de adanın üzerine gelince hafif tık." = "A light tap on a Force Touch trackpad when you hover the island.";
+"Üzerine gelince büyüme" = "Grow on hover";
+"%@ sn" = "%@ s";
+"Vurgu rengi" = "Accent color";
+"Efektler" = "Effects";
+"Boyutlar" = "Sizes";
+"Tema" = "Theme";
+"Müzik çalmıyorken bu renk kullanılır." = "Used when no music is playing.";
+"Kaynak" = "Source";
+"Çalan şarkının kapağı" = "Album art of the playing song";
+"Kendi rengim" = "My own color";
+"Animasyonlar" = "Animations";
+"Kapatınca ada anında açılıp kapanır; en az işlemci kullanır." = "When off, the island opens and closes instantly and uses the least CPU.";
+"Hız" = "Speed";
+"Hareket" = "Motion";
+"Kanat genişliği" = "Wing width";
+"Müzik ve göstergelerin çentiğin yanında kapladığı yer." = "How much room music and indicators take beside the notch.";
+"Ses/parlaklık çizgisi" = "Volume/brightness bar";
+"+%lld pt" = "+%lld pt";
+"%lld pt" = "%lld pt";
+"Çentiğin yanında" = "Beside the notch";
+"Toplantılar" = "Meetings";
+"Dosyalar" = "Files";
+"Müzik" = "Music";
+"Ses ve parlaklık" = "Volume and brightness";
+"Pil ve ağ" = "Battery and network";
+"Kilit açma" = "Unlock";
+"Sol kanat" = "Left wing";
+"Sağ kanat" = "Right wing";
+"Yalnızca müzik" = "Music only";
+"Müzik; çalmıyorsa sistem" = "Music, or system when nothing plays";
+"Her zaman sistem" = "Always system";
+"Hiçbiri" = "None";
+"Toplantı geri sayımı" = "Meeting countdown";
+"Takvimdeki etkinlik yaklaşınca çentikte geri sayım ve Zoom/Meet/Teams için Katıl düğmesi." = "A countdown in the notch as an event approaches, with a Join button for Zoom, Meet and Teams.";
+"Ne kadar önce" = "How early";
+"%lld dk" = "%lld min";
+"Ekran görüntüleri" = "Screenshots";
+"Yeni ekran görüntüsü ve kaydı gösterir; tıkla rafa ekle, sürükle paylaş." = "Shows new screenshots and recordings; click to add to the shelf, drag to share.";
+"Biten indirmeler" = "Finished downloads";
+"İndirilenler klasörüne yeni dosya inince gösterir." = "Shows new files as they land in Downloads.";
+"Spotify ve Apple Music" = "Spotify and Apple Music";
+"Çalan şarkıyı gösterir ve kontrol eder." = "Shows and controls what's playing.";
+"Şarkı değişince önizleme" = "Preview when the song changes";
+"Parlaklık değişince göster" = "Show when brightness changes";
+"Otomatik parlaklığın küçük adımları gösterilmez." = "Small steps from auto-brightness aren't shown.";
+"Ekranda kalma" = "Stays on screen";
+"Gösterim" = "Style";
+"Çizgi" = "Bar";
+"Yüzde" = "Percent";
+"Düşük pil uyarısı" = "Low battery warning";
+"Şarjda değilken bu seviyeye inince bir kez uyarır." = "Warns once when the battery drops to this level while unplugged.";
+"İnternet ve Wi-Fi değişiklikleri" = "Internet and Wi-Fi changes";
+"Kısa kopmalar gösterilmez." = "Short drops aren't shown.";
+"Ses" = "Sound";
+"Takvim" = "Calendar";
+"Pano geçmişi" = "Clipboard history";
+"Metin, bağlantı, renk, görsel ve dosyalar. Yalnızca bellekte; şifreler kaydedilmez." = "Text, links, colors, images and files. Memory only; passwords are never saved.";
+"%lld öğe, %lld sabit" = "%1$lld items, %2$lld pinned";
+"Geçmişi temizle" = "Clear History";
+"Hava durumu" = "Weather";
+"Open-Meteo kullanılır; hesap ya da konum izni gerekmez, yalnızca seçtiğin şehrin koordinatları gönderilir." = "Uses Open-Meteo; no account or location permission is needed, only your chosen city's coordinates are sent.";
+"Raf boş" = "Shelf is empty";
+"Rafta %lld öğe" = "%lld items on the shelf";
+"Rafı boşalt" = "Empty Shelf";
+"Mac'i ve ekranı uyanık tut" = "Keep the Mac and display awake";
+"%@'e kadar açık" = "On until %@";
+"Ana sekmedeki kısayoldan da açılır; sağ tıkla süre seç." = "Also on the Home tab; right-click it to pick a duration.";
+"Bağlantılar" = "Connections";
+"Başka araçlardan" = "From other tools";
+"Hook'lar yalnızca yerel bir dosyaya küçük bir olay satırı yazar; hiçbir şey internete gönderilmez. Değiştirilen dosyanın yanına .centik-backup yedeği bırakılır." = "Hooks only write a short event line to a local file; nothing is sent online. A .centik-backup copy is left next to each changed file.";
+"Onay beklediğinde ve işi bitince" = "When it needs approval and when it's done";
+"Her tur tamamlandığında" = "When each turn is done";
+"\"%@\" kaynak tür '{\"message\":\"…\"}'" = "\"%@\" source type '{\"message\":\"…\"}'";
+"Kaldır" = "Remove";
+"Bağla" = "Connect";
+"Spotify kontrolü" = "Spotify control";
+"Müzik kontrolü" = "Music control";
+"Çentik Erişilebilirlik, Ekran Kaydı ya da Tam Disk Erişimi istemez. Otomasyon izni, ilgili uygulama açıkken sorulabilir. Uygulama kalıcı bir imzayla imzalandığı için izinler güncellemelerden sonra da hatırlanır." = "Çentik never asks for Accessibility, Screen Recording or Full Disk Access. Automation permission can only be asked while that app is open. The app keeps the same signature across builds, so permissions are remembered after updates.";
+"Uygulama açılınca kontrol edilir" = "Checked when the app is open";
+"İzin İste" = "Request Access";
+"Kısayollar" = "Shortcuts";
+"Çentik" = "Çentik";
+"Sürüm %@" = "Version %@";
+"Tamamen ücretsiz; hesap, reklam ya da veri toplama yok." = "Completely free; no account, ads or data collection.";
+"Çentiği aç / kapat" = "Open / close Çentik";
+"Panodan kopyala" = "Copy from clipboard";
+"Uyanık tut süresi" = "Keep-awake duration";
+"%lld° · %@" = "%1$lld° · %2$@";
+"Şehir ara (ör. İstanbul)" = "Search for a city (e.g. London)";
+"Başka şehir ara" = "Search for another city";
+"Ara" = "Search";
+"Varsayılan sıra ve tüm sekmeler" = "Default order, all tabs";
+
+/* SystemMonitor */
+"Bellek" = "Memory";
+
+/* SystemServices */
+"Kişisel Erişim Noktası bağlandı" = "Personal Hotspot connected";
+"İnternet geri geldi · Wi-Fi" = "Back online · Wi-Fi";
+"İnternet geri geldi · Ethernet" = "Back online · Ethernet";
+"İnternet geri geldi" = "Back online";
+"İnternet bağlantısı yok" = "No internet connection";
+"Wi-Fi açıldı" = "Wi-Fi turned on";
+"Wi-Fi kapatıldı" = "Wi-Fi turned off";
+
+/* SystemViews */
+"%lld çekirdek · sistem %%%lld" = "%1$lld cores · system %2$lld%%";
+"%@ içinden · sıkışt. %@" = "of %1$@ · compressed %2$@";
+"Sürücü kullanım bildirmiyor" = "The driver doesn't report usage";
+"Grafik işlemci kullanımı" = "Graphics processor usage";
+"%@ boş" = "%@ free";
+"Açık kalma süresi" = "Uptime";
+"Kritik" = "Critical";
+"Baskı var" = "Under pressure";
+"Ilık" = "Warm";
+"Sıcak" = "Hot";
+"Çok sıcak" = "Very hot";
+"Bilinmiyor" = "Unknown";
+
+/* Theme */
+"Gece" = "Night";
+"Cam" = "Glass";
+"Sade" = "Minimal";
+"Saf siyah, çentikle bütünleşir" = "Pure black, blends with the notch";
+"Arkadaki masaüstünü buzlu camla gösterir" = "Shows the desktop behind through frosted glass";
+"Vurgu renginde yavaşça akan ışık" = "Light that slowly flows in the accent color";
+"Kenarında dönen parlak çizgi" = "A bright line circling the edge";
+"Gölgesiz, sakin, dikkat dağıtmaz" = "No shadows, calm, never distracting";
+"Akıcı" = "Fluid";
+"Zıplayan" = "Bouncy";
+"Sakin" = "Calm";
+
+/* ToolServices */
+"Toplantı" = "Meeting";
+"Etkinlik" = "Event";
+
+/* WeatherService */
+"Çoğunlukla açık" = "Mostly clear";
+"Parçalı bulutlu" = "Partly cloudy";
+"Sisli" = "Foggy";
+"Çisenti" = "Drizzle";
+"Yağmurlu" = "Rain";
+"Karlı" = "Snow";
+"Sağanak" = "Showers";
+"Kar sağanağı" = "Snow showers";
+"Gök gürültülü" = "Thunderstorm";
+"Bulutlu" = "Cloudy";
+"awake.on" = "On";
+"action.screenshot.title" = "Screen";
+"action.screenshot.subtitle" = "shot";
+"system.overview" = "Overview";
+"weather.clear" = "Clear";
+"weather.overcast" = "Overcast";
+"%@'e kadar" = "Until %@";
+
+/* Added */
+"%@ onay bekliyor" = "%@ needs approval";
+"%@ seni bekliyor" = "%@ is waiting for you";
+"Bulundu: %@" = "Found: %@";
+"Pano %@.png" = "Clipboard %@.png";
+"%lld bitti" = "%lld done";
+"Hava (%@): %lld°C, %@" = "Weather (%1$@): %2$lld°C, %3$@";
+", hissedilen %lld°C" = ", feels like %lld°C";

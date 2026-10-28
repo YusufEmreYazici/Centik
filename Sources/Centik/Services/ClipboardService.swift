@@ -8,12 +8,12 @@ enum ClipKind: String, CaseIterable, Identifiable {
 
     var title: String {
         switch self {
-        case .text: return "Metin"
-        case .link: return "Bağlantı"
-        case .code: return "Kod"
-        case .color: return "Renk"
-        case .image: return "Görsel"
-        case .file: return "Dosya"
+        case .text: return String(localized: "Metin")
+        case .link: return String(localized: "Bağlantı")
+        case .code: return String(localized: "Kod")
+        case .color: return String(localized: "Renk")
+        case .image: return String(localized: "Görsel")
+        case .file: return String(localized: "Dosya")
         }
     }
 
@@ -91,10 +91,10 @@ struct ClipItem: Identifiable, Equatable {
     var title: String {
         switch kind {
         case .image:
-            if let s = pixelSize { return "Görsel · \(Int(s.width))×\(Int(s.height))" }
-            return "Görsel"
+            if let s = pixelSize { return String(localized: "Görsel · \(Int(s.width))×\(Int(s.height))") }
+            return String(localized: "Görsel")
         case .file:
-            guard let first = files.first else { return "Dosya" }
+            guard let first = files.first else { return String(localized: "Dosya") }
             return files.count == 1 ? first.lastPathComponent : "\(first.lastPathComponent) +\(files.count - 1)"
         default:
             return (text ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
@@ -192,7 +192,7 @@ final class ClipboardService: ObservableObject {
 
     private static func capture(_ pb: NSPasteboard) -> ClipItem? {
         let app = NSWorkspace.shared.frontmostApplication
-        let source = app.map { ClipSource(name: $0.localizedName ?? "Uygulama", bundleID: $0.bundleIdentifier) }
+        let source = app.map { ClipSource(name: $0.localizedName ?? String(localized: "Uygulama"), bundleID: $0.bundleIdentifier) }
 
         // Files first: copying a file in Finder also puts its icon on the pasteboard as an image.
         if let urls = pb.readObjects(forClasses: [NSURL.self], options: [.urlReadingFileURLsOnly: true]) as? [URL],
@@ -305,7 +305,7 @@ final class ClipboardService: ObservableObject {
         let dir = folder ?? FileManager.default.urls(for: .downloadsDirectory, in: .userDomainMask)[0]
         let stamp = item.date.formatted(.dateTime.year().month(.twoDigits).day(.twoDigits).hour().minute().second())
             .replacingOccurrences(of: "/", with: "-").replacingOccurrences(of: ":", with: ".")
-        let url = dir.appendingPathComponent("Pano \(stamp).png")
+        let url = dir.appendingPathComponent(String(localized: "Pano \(stamp).png"))
         guard (try? png.write(to: url)) != nil else { return nil }
         if reveal { NSWorkspace.shared.activateFileViewerSelecting([url]) }
         return url
@@ -321,7 +321,7 @@ final class ClipboardService: ObservableObject {
         case .image:
             if let url = saveImage(item, to: dir, reveal: false) { ShelfStore.shared.add([url]) }
         default:
-            let name = String((item.text ?? "Metin").prefix(28)).replacingOccurrences(of: "/", with: "-")
+            let name = String((item.text ?? String(localized: "Metin")).prefix(28)).replacingOccurrences(of: "/", with: "-")
                 .trimmingCharacters(in: .whitespacesAndNewlines)
             let url = dir.appendingPathComponent("\(name.isEmpty ? "Metin" : name).txt")
             if (try? (item.text ?? "").write(to: url, atomically: true, encoding: .utf8)) != nil {

@@ -29,7 +29,9 @@ final class DemoRecorder: NSObject, NSApplicationDelegate {
         let args = CommandLine.arguments
         guard let i = args.firstIndex(of: "--demo"), i + 1 < args.count else { exit(2) }
         let dir = URL(fileURLWithPath: args[i + 1])
-        let wanted = Array(args.dropFirst(i + 2))
+        // Scene names follow the folder; anything else (like -AppleLanguages) is for the system.
+        let names = Set(Self.scenes.map(\.name))
+        let wanted = args.dropFirst(i + 2).filter(names.contains)
         let scenes = Self.scenes.filter { wanted.isEmpty || wanted.contains($0.name) }
 
         Pref.register()
@@ -143,7 +145,7 @@ final class DemoRecorder: NSObject, NSApplicationDelegate {
         d.set("overview", forKey: Pref.systemView)
         d.set("bar", forKey: Pref.hudStyle)
         d.set(false, forKey: Pref.meetingAlerts)
-        MusicService.shared.loadPreview(title: "Gece Yarısı Sürüşü", artist: "Neon Sahil", artwork: Self.artwork(0))
+        MusicService.shared.loadPreview(title: Self.t("Gece Yarısı Sürüşü", "Midnight Drive"), artist: Self.t("Neon Sahil", "Neon Coast"), artwork: Self.artwork(0))
         AssistantService.shared.loadPreview([], running: false, provider: .claudeCode)
         AssistantService.shared.draft = ""
     }
@@ -151,21 +153,21 @@ final class DemoRecorder: NSObject, NSApplicationDelegate {
     private func setUpSampleData() {
         let d = UserDefaults.standard
         d.set(true, forKey: Pref.hoverGrow)
-        d.set("İstanbul", forKey: Pref.weatherCity)
+        d.set(Self.t("İstanbul", "London"), forKey: Pref.weatherCity)
         d.set("", forKey: Pref.hiddenTabs)
         d.set("", forKey: Pref.tabOrder)
         model.geometry = NotchGeometry(notchWidth: 185, notchHeight: 32, hasNotch: true,
                                        screenFrame: NSRect(origin: .zero, size: Self.stageSize))
         WeatherService.shared.loadPreview(temperature: 18, code: 2, high: 21, low: 13, rain: 20)
         CalendarService.shared.loadPreview([
-            CalEvent(id: "d1", title: "Tasarım incelemesi", start: Date().addingTimeInterval(3 * 3600),
+            CalEvent(id: "d1", title: Self.t("Tasarım incelemesi", "Design review"), start: Date().addingTimeInterval(3 * 3600),
                      end: Date().addingTimeInterval(4 * 3600), allDay: false, color: .systemPurple,
                      joinURL: URL(string: "https://meet.google.com/abc-defg-hij")),
         ])
         NotesService.shared.loadPreview([
-            QuickNote(text: "Lansman sunumunu bitir"),
-            QuickNote(text: "Deniz'e beta için dön", date: Date().addingTimeInterval(-3600)),
-            QuickNote(text: "Çalma listesini paylaş", done: true, date: Date().addingTimeInterval(-7200)),
+            QuickNote(text: Self.t("Lansman sunumunu bitir", "Finish the launch slides")),
+            QuickNote(text: Self.t("Deniz'e beta için dön", "Get back to Sam about the beta"), date: Date().addingTimeInterval(-3600)),
+            QuickNote(text: Self.t("Çalma listesini paylaş", "Share the playlist"), done: true, date: Date().addingTimeInterval(-7200)),
         ])
         let safari = ClipSource(name: "Safari", bundleID: "com.apple.Safari")
         let notes = ClipSource(name: "Notlar", bundleID: "com.apple.Notes")
@@ -177,16 +179,19 @@ final class DemoRecorder: NSObject, NSApplicationDelegate {
                      source: xcode, date: Date().addingTimeInterval(-120)),
             ClipItem(kind: .link, text: "https://github.com/YusufEmreYazici/Centik", source: safari, date: Date().addingTimeInterval(-300)),
             ClipItem(kind: .color, text: "#A97CFF", source: notes, date: Date().addingTimeInterval(-600), pinned: true),
-            ClipItem(kind: .text, text: "Lansman listesi: simgeler, sürüm notları, duyuru.", source: notes,
+            ClipItem(kind: .text, text: Self.t("Lansman listesi: simgeler, sürüm notları, duyuru.", "Launch checklist: icons, release notes, announcement."), source: notes,
                      date: Date().addingTimeInterval(-1200)),
         ].compactMap { $0 })
         AgentService.shared.loadPreview([
             #"{"source":"claude","type":"notification","payload":{"message":"Claude needs your permission to use Bash","cwd":"/Users/demo/Projects/Centik"}}"#,
-            #"{"source":"codex","type":"notify","payload":{"type":"agent-turn-complete","last-assistant-message":"Tüm testler geçti, PR hazır.","cwd":"/Users/demo/Projects/Atlas"}}"#,
+            #"{"source":"codex","type":"notify","payload":{"type":"agent-turn-complete","last-assistant-message":"\#(Self.t("Tüm testler geçti, PR hazır.", "All tests pass, the PR is ready."))","cwd":"/Users/demo/Projects/Atlas"}}"#,
         ])
         ShelfStore.shared.clear()
         SystemMonitor.shared.startPreview()
     }
+
+    /// Sample content in the interface language, so English GIFs don't show Turkish notes.
+    static func t(_ turkish: String, _ english: String) -> String { AppLanguage.active == "en" ? english : turkish }
 
     /// Album art drawn in code, so no real covers end up in the repo.
     static func artwork(_ variant: Int) -> NSImage {
@@ -230,11 +235,11 @@ final class DemoRecorder: NSObject, NSApplicationDelegate {
         ]),
         Scene(name: "music", duration: 9, setup: { _ in }, steps: [
             (1.6, { _ in
-                MusicService.shared.previewSkip(title: "Cam Bahçeler", artist: "Kuzey Işığı", artwork: DemoRecorder.artwork(1))
+                MusicService.shared.previewSkip(title: DemoRecorder.t("Cam Bahçeler", "Glass Gardens"), artist: DemoRecorder.t("Kuzey Işığı", "Aurora Lane"), artwork: DemoRecorder.artwork(1))
                 IslandModel.shared.show(.track, for: 2.6)
             }),
             (4.8, { $0.open(.home) }),
-            (6.4, { _ in MusicService.shared.previewSkip(title: "Gün Batımı", artist: "Mavi Gri", artwork: DemoRecorder.artwork(2)) }),
+            (6.4, { _ in MusicService.shared.previewSkip(title: DemoRecorder.t("Gün Batımı", "Sunset Static"), artist: "Mavi Gri", artwork: DemoRecorder.artwork(2)) }),
             (8.1, { $0.close() }),
         ]),
         Scene(name: "hud", duration: 8, setup: { _ in MusicService.shared.previewPlaying(false) }, steps: hudSteps()),
@@ -263,10 +268,10 @@ final class DemoRecorder: NSObject, NSApplicationDelegate {
             }),
             (3.6, { _ in
                 // A filled symbol: outline symbols like "wifi" don't reach the recorder's renderer.
-                IslandModel.shared.show(.network(title: "İnternet geri geldi · Wi-Fi", symbol: "checkmark.circle.fill", ok: true), for: 2.2)
+                IslandModel.shared.show(.network(title: String(localized: "İnternet geri geldi · Wi-Fi"), symbol: "checkmark.circle.fill", ok: true), for: 2.2)
             }),
             (6.2, { _ in
-                let meeting = CalEvent(id: "d2", title: "Tasarım incelemesi", start: Date().addingTimeInterval(5 * 60),
+                let meeting = CalEvent(id: "d2", title: DemoRecorder.t("Tasarım incelemesi", "Design review"), start: Date().addingTimeInterval(5 * 60),
                                        end: Date().addingTimeInterval(35 * 60), allDay: false, color: .systemPurple,
                                        joinURL: URL(string: "https://meet.google.com/abc-defg-hij"))
                 IslandModel.shared.show(.meetingSoon(meeting), for: 2.6)
@@ -288,8 +293,13 @@ final class DemoRecorder: NSObject, NSApplicationDelegate {
         return steps
     }
 
-    private static let question = "Son git commit'imi değişiklikler kalacak şekilde nasıl geri alırım?"
-    private static let answer = "**`git reset --soft HEAD~1`** çalıştır. Commit geri alınır, değişiklikler hazırlık alanında kalır; düzenleyip yeniden commit'leyebilirsin. Hazırlıktan da çıkarmak istersen `--mixed` kullan."
+    private static var question: String {
+        t("Son git commit'imi değişiklikler kalacak şekilde nasıl geri alırım?", "How do I undo my last git commit but keep the changes?")
+    }
+    private static var answer: String {
+        t("**`git reset --soft HEAD~1`** çalıştır. Commit geri alınır, değişiklikler hazırlık alanında kalır; düzenleyip yeniden commit'leyebilirsin. Hazırlıktan da çıkarmak istersen `--mixed` kullan.",
+          "Run **`git reset --soft HEAD~1`**. The commit is undone and its changes stay staged, so you can edit them and commit again. Use `--mixed` to unstage them too.")
+    }
 
     private static func assistantSteps() -> [Step] {
         var steps = typeSteps(question, from: 0.6, perChar: 0.035)
@@ -361,8 +371,8 @@ struct DemoMenuBar: View {
     /// The recording's own time, so it matches the clock in the island's header.
     static let clock: String = {
         let f = DateFormatter()
-        f.locale = Locale(identifier: "tr_TR")
-        f.dateFormat = "EEE d MMM  HH:mm"
+        f.locale = AppLanguage.locale
+        f.setLocalizedDateFormatFromTemplate("EEEdMMMHHmm")
         return f.string(from: Date())
     }()
 
@@ -370,7 +380,7 @@ struct DemoMenuBar: View {
         HStack(spacing: 18) {
             Image(systemName: "apple.logo").font(.system(size: 14, weight: .semibold))
             Text("Finder").font(.system(size: 13, weight: .bold))
-            ForEach(["Dosya", "Düzen", "Görüntü", "Git", "Pencere", "Yardım"], id: \.self) { Text($0).font(.system(size: 13)) }
+            ForEach(DemoRecorder.t("Dosya Düzen Görüntü Git Pencere Yardım", "File Edit View Go Window Help").split(separator: " ").map(String.init), id: \.self) { Text($0).font(.system(size: 13)) }
             Spacer()
             Image(systemName: "battery.75percent").font(.system(size: 14))
             Image(systemName: "wifi").font(.system(size: 13, weight: .semibold))

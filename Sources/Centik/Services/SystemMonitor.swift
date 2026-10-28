@@ -9,9 +9,9 @@ enum Metric: String, CaseIterable, Identifiable {
     var title: String {
         switch self {
         case .cpu: return "CPU"
-        case .memory: return "Bellek"
+        case .memory: return String(localized: "Bellek")
         case .gpu: return "GPU"
-        case .network: return "Ağ"
+        case .network: return String(localized: "Ağ")
         }
     }
     var symbol: String {

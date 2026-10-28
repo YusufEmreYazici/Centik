@@ -120,13 +120,13 @@ struct MirrorPanel: View {
                     CameraPreview(session: camera.session)
                 case .denied:
                     VStack(spacing: 8) {
-                        EmptyState(symbol: "video.slash.fill", title: "Kamera izni yok",
-                                   subtitle: "Ayna için Sistem Ayarları'nda Çentik'e kamera izni ver.", tint: .orange)
+                        EmptyState(symbol: "video.slash.fill", title: String(localized: "Kamera izni yok"),
+                                   subtitle: String(localized: "Ayna için Sistem Ayarları'nda Çentik'e kamera izni ver."), tint: .orange)
                             .fixedSize(horizontal: false, vertical: true)
                         Button("Sistem Ayarları'nı Aç") { Permissions.openSettings("Privacy_Camera") }.buttonStyle(.pill(.orange))
                     }
                 case .noCamera:
-                    EmptyState(symbol: "video.slash", title: "Kamera bulunamadı", subtitle: "Bu Mac'te kullanılabilir kamera yok.", tint: .gray)
+                    EmptyState(symbol: "video.slash", title: String(localized: "Kamera bulunamadı"), subtitle: String(localized: "Bu Mac'te kullanılabilir kamera yok."), tint: .gray)
                 }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)

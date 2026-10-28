@@ -159,12 +159,12 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             item.button?.image = NSImage(systemSymbolName: "capsule.portrait.tophalf.filled", accessibilityDescription: "Çentik")
                 ?? NSImage(systemSymbolName: "rectangle.topthird.inset.filled", accessibilityDescription: "Çentik")
             let menu = NSMenu()
-            menu.addItem(withTitle: "Çentiği Aç  (⌃⌥N)", action: #selector(openIsland), keyEquivalent: "").target = self
-            menu.addItem(withTitle: "Rafı Aç", action: #selector(openShelf), keyEquivalent: "").target = self
+            menu.addItem(withTitle: String(localized: "Çentiği Aç  (⌃⌥N)"), action: #selector(openIsland), keyEquivalent: "").target = self
+            menu.addItem(withTitle: String(localized: "Rafı Aç"), action: #selector(openShelf), keyEquivalent: "").target = self
             menu.addItem(.separator())
-            menu.addItem(withTitle: "Ayarlar…", action: #selector(openSettings), keyEquivalent: ",").target = self
+            menu.addItem(withTitle: String(localized: "Ayarlar…"), action: #selector(openSettings), keyEquivalent: ",").target = self
             menu.addItem(.separator())
-            menu.addItem(withTitle: "Çentik'ten Çık", action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q")
+            menu.addItem(withTitle: String(localized: "Çentik'ten Çık"), action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q")
             item.menu = menu
             statusItem = item
         } else if !wanted, let item = statusItem {
@@ -209,7 +209,7 @@ final class SettingsWindow {
         if let page { SettingsRouter.shared.page = page }
         if window == nil {
             let w = NSWindow(contentViewController: NSHostingController(rootView: SettingsView()))
-            w.title = "Çentik Ayarları"
+            w.title = String(localized: "Çentik Ayarları")
             w.styleMask = [.titled, .closable, .miniaturizable]
             w.isReleasedWhenClosed = false
             w.center()

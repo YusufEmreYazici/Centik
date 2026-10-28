@@ -66,22 +66,22 @@ final class AssistantService: ObservableObject {
         func short(_ url: URL) -> String { url.path.replacingOccurrences(of: home, with: "~") }
         switch provider {
         case .auto:
-            guard let resolved = resolve() else { return ProviderStatus(ready: false, text: "Hazır bir sağlayıcı yok. Aşağıdan birini bağla.") }
-            return ProviderStatus(ready: true, text: "Şu an \(resolved.title) kullanılıyor.")
+            guard let resolved = resolve() else { return ProviderStatus(ready: false, text: String(localized: "Hazır bir sağlayıcı yok. Aşağıdan birini bağla.")) }
+            return ProviderStatus(ready: true, text: String(localized: "Şu an \(resolved.title) kullanılıyor."))
         case .claudeCode:
-            guard let url = ClaudeCodeBackend.executable else { return ProviderStatus(ready: false, text: "Claude Code kurulu değil.") }
-            return ProviderStatus(ready: true, text: "Bulundu: \(short(url))")
+            guard let url = ClaudeCodeBackend.executable else { return ProviderStatus(ready: false, text: String(localized: "Claude Code kurulu değil.")) }
+            return ProviderStatus(ready: true, text: String(localized: "Bulundu: \(short(url))"))
         case .geminiCLI:
-            guard let url = GeminiCLIBackend.executable else { return ProviderStatus(ready: false, text: "Gemini CLI kurulu değil.") }
+            guard let url = GeminiCLIBackend.executable else { return ProviderStatus(ready: false, text: String(localized: "Gemini CLI kurulu değil.")) }
             guard GeminiCLIBackend.signedIn else {
-                return ProviderStatus(ready: false, text: "Bulundu ama giriş yapılmamış. Terminalde gemini yazıp Google ile giriş yap.")
+                return ProviderStatus(ready: false, text: String(localized: "Bulundu ama giriş yapılmamış. Terminalde gemini yazıp Google ile giriş yap."))
             }
-            return ProviderStatus(ready: true, text: "Bulundu ve giriş yapılmış: \(short(url))")
+            return ProviderStatus(ready: true, text: String(localized: "Bulundu ve giriş yapılmış: \(short(url))"))
         case .anthropicAPI, .geminiAPI:
             let saved = provider.keyAccount.flatMap(Keychain.get) != nil
-            return ProviderStatus(ready: saved, text: saved ? "Anahtar Anahtar Zinciri'nde kayıtlı." : "Anahtar girilmedi.")
+            return ProviderStatus(ready: saved, text: saved ? String(localized: "Anahtar Anahtar Zinciri'nde kayıtlı.") : String(localized: "Anahtar girilmedi."))
         case .ollama:
-            return ProviderStatus(ready: ollamaRunning, text: ollamaRunning ? "Çalışıyor." : "Çalışmıyor ya da kurulu değil.")
+            return ProviderStatus(ready: ollamaRunning, text: ollamaRunning ? String(localized: "Çalışıyor.") : String(localized: "Çalışmıyor ya da kurulu değil."))
         }
     }
 
@@ -172,7 +172,7 @@ final class AssistantService: ObservableObject {
             let model = await defaultModel(for: provider)
             let request = ChatRequest(history: history, prompt: prompt, model: model, system: Self.systemPrompt, sessionID: sessionID)
             guard isRunning, let backend = makeBackend(provider) else {
-                if isRunning { fail("\(provider.title) başlatılamadı.") }
+                if isRunning { fail(String(localized: "\(provider.title) başlatılamadı.")) }
                 return
             }
             self.backend = backend
@@ -192,7 +192,7 @@ final class AssistantService: ObservableObject {
             guard let backend = makeBackend(provider) else { completion(false, status(provider).text); return }
             tests[provider] = backend
             var reply = ""
-            let request = ChatRequest(history: [], prompt: "Yalnızca şunu yaz: Bağlantı tamam", model: model,
+            let request = ChatRequest(history: [], prompt: String(localized: "Yalnızca şunu yaz: Bağlantı tamam"), model: model,
                                       system: Self.systemPrompt, sessionID: nil)
             backend.start(request) { event in
                 switch event {
@@ -204,15 +204,15 @@ final class AssistantService: ObservableObject {
                 case .finished:
                     self.tests[provider] = nil
                     let answer = reply.trimmingCharacters(in: .whitespacesAndNewlines)
-                    completion(!answer.isEmpty, answer.isEmpty ? "Yanıt boş geldi." : "\(model.isEmpty ? "" : model + ": ")\(answer.prefix(80))")
+                    completion(!answer.isEmpty, answer.isEmpty ? String(localized: "Yanıt boş geldi.") : "\(model.isEmpty ? "" : model + ": ")\(answer.prefix(80))")
                 }
             }
         }
     }
 
     private func notReadyMessage() -> String {
-        if chosen == .auto { return "Henüz bir yapay zekâ bağlı değil. Ayarlar > Yapay Zekâ'dan Claude, Gemini ya da Ollama'yı bağla." }
-        return "\(chosen.title) hazır değil: \(status(chosen).text) Ayarlar > Yapay Zekâ'dan kontrol edebilirsin."
+        if chosen == .auto { return String(localized: "Henüz bir yapay zekâ bağlı değil. Ayarlar > Yapay Zekâ'dan Claude, Gemini ya da Ollama'yı bağla.") }
+        return String(localized: "\(chosen.title) hazır değil: \(status(chosen).text) Ayarlar > Yapay Zekâ'dan kontrol edebilirsin.")
     }
 
     private func makeBackend(_ provider: AIProvider) -> ChatBackend? {
@@ -263,18 +263,19 @@ final class AssistantService: ObservableObject {
     /// so "what's the weather" or "what day is it" can be answered without tools.
     private static func context() -> String {
         let f = DateFormatter()
-        f.locale = Locale(identifier: "tr_TR")
-        f.dateFormat = "d MMMM yyyy EEEE, HH:mm"
-        var parts = ["Şu an: \(f.string(from: Date())) (\(TimeZone.current.identifier))"]
+        f.locale = AppLanguage.locale
+        f.setLocalizedDateFormatFromTemplate("EEEEdMMMMyyyyHHmm")
+        var parts = [String(localized: "Şu an: \(f.string(from: Date())) (\(TimeZone.current.identifier))")]
         let weather = WeatherService.shared
         if let city = weather.city, let temp = weather.temperature {
-            var line = "Hava (\(city)): \(Int(temp.rounded()))°C, \(WeatherService.describe(weather.code, isDay: weather.isDay).text)"
-            if let feels = weather.feelsLike { line += ", hissedilen \(Int(feels.rounded()))°C" }
-            if let high = weather.high, let low = weather.low { line += ", bugün en yüksek \(Int(high.rounded()))° en düşük \(Int(low.rounded()))°" }
-            if let rain = weather.rainChance { line += ", yağış ihtimali %\(rain)" }
+            let sky = WeatherService.describe(weather.code, isDay: weather.isDay).text
+            var line = String(localized: "Hava (\(city)): \(Int(temp.rounded()))°C, \(sky)")
+            if let feels = weather.feelsLike { line += String(localized: ", hissedilen \(Int(feels.rounded()))°C") }
+            if let high = weather.high, let low = weather.low { line += String(localized: ", bugün en yüksek \(Int(high.rounded()))° en düşük \(Int(low.rounded()))°") }
+            if let rain = weather.rainChance { line += String(localized: ", yağış ihtimali %\(rain)") }
             parts.append(line)
         }
-        return "[Bağlam: " + parts.joined(separator: ". ") + "]"
+        return String(localized: "[Bağlam: ") + parts.joined(separator: ". ") + "]"
     }
 
     private func appendToAnswer(_ text: String) {
@@ -285,10 +286,10 @@ final class AssistantService: ObservableObject {
         if answer.contains("<invoke") || answer.contains("<function_calls") {
             // The model tried to call a tool it doesn't have; stop it before it loops.
             backend?.cancel()
-            fail("Bunu araç kullanmadan yanıtlayamadı. Soruyu biraz farklı sormayı dene.")
+            fail(String(localized: "Bunu araç kullanmadan yanıtlayamadı. Soruyu biraz farklı sormayı dene."))
         } else if answer.count > Self.answerLimit {
             backend?.cancel()
-            messages[last].text += "\n\n…(yanıt kısaltıldı)"
+            messages[last].text += String(localized: "\n\n…(yanıt kısaltıldı)")
             finish()
         }
     }
@@ -297,7 +298,7 @@ final class AssistantService: ObservableObject {
         isRunning = false
         backend = nil
         if let last = messages.indices.last, messages[last].role == .assistant, messages[last].text.isEmpty {
-            messages[last].text = "Yanıt boş geldi."
+            messages[last].text = String(localized: "Yanıt boş geldi.")
             messages[last].isError = true
         }
         save()
@@ -307,7 +308,7 @@ final class AssistantService: ObservableObject {
         isRunning = false
         backend = nil
         if let last = messages.indices.last, messages[last].role == .assistant {
-            if message == "Durduruldu.", !messages[last].text.isEmpty {
+            if message == String(localized: "Durduruldu."), !messages[last].text.isEmpty {
                 // Keep what already arrived.
             } else {
                 messages[last].text = message

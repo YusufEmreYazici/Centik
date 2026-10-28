@@ -8,9 +8,9 @@ struct SystemTab: View {
 
     private var inWings: Bool { liveActivity == "musicThenSystem" || liveActivity == "system" }
     private let views: [(id: String, title: String, symbol: String)] = [
-        ("overview", "Genel", "square.grid.2x2.fill"),
-        ("apps", "Uygulamalar", "list.bullet.rectangle.fill"),
-        ("charts", "Grafikler", "chart.xyaxis.line"),
+        ("overview", String(localized: "system.overview", defaultValue: "Genel"), "square.grid.2x2.fill"),
+        ("apps", String(localized: "Uygulamalar"), "list.bullet.rectangle.fill"),
+        ("charts", String(localized: "Grafikler"), "chart.xyaxis.line"),
     ]
 
     var body: some View {
@@ -225,7 +225,7 @@ struct SystemCharts: View {
             Card(padding: 10) {
                 VStack(alignment: .leading, spacing: 6) {
                     HStack(spacing: 6) {
-                        SectionLabel(title: "Son 60 saniye", symbol: "chart.xyaxis.line")
+                        SectionLabel(title: String(localized: "Son 60 saniye"), symbol: "chart.xyaxis.line")
                         Spacer()
                         legend(.cpu, monitor.cpu)
                         legend(.memory, monitor.memoryFraction)
@@ -241,7 +241,7 @@ struct SystemCharts: View {
             }
             Card(padding: 10, tint: Metric.network.tint) {
                 VStack(alignment: .leading, spacing: 4) {
-                    SectionLabel(title: "Ağ", symbol: "arrow.up.arrow.down")
+                    SectionLabel(title: String(localized: "Ağ"), symbol: "arrow.up.arrow.down")
                     HStack(spacing: 10) {
                         rate("arrow.down", monitor.downBytesPerSec)
                         rate("arrow.up", monitor.upBytesPerSec)

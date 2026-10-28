@@ -40,8 +40,8 @@ struct IdleDashboard: View {
     private var actions: some View {
         HStack(spacing: 8) {
             QuickAction(symbol: awake.isOn ? "cup.and.saucer.fill" : "cup.and.saucer",
-                        title: awake.isOn ? "Uyanık" : "Uyanık tut",
-                        subtitle: awake.isOn ? (awake.until.map { "\($0.formatted(date: .omitted, time: .shortened))'e kadar" } ?? "Açık") : "Uykuyu engelle",
+                        title: awake.isOn ? String(localized: "Uyanık") : String(localized: "Uyanık tut"),
+                        subtitle: awake.isOn ? (awake.until.map { String(localized: "\($0.formatted(date: .omitted, time: .shortened))'e kadar") } ?? String(localized: "awake.on", defaultValue: "Açık")) : String(localized: "Uykuyu engelle"),
                         tint: .orange, active: awake.isOn) { awake.toggle() }
                 .contextMenu {
                     Button("30 dakika") { awake.start(for: 1800) }
@@ -50,15 +50,15 @@ struct IdleDashboard: View {
                     Button("Süresiz") { awake.start() }
                     if awake.isOn { Divider(); Button("Kapat") { awake.stop() } }
                 }
-            QuickAction(symbol: "timer", title: timer.isActive ? TimerService.format(timer.remaining) : "25 dk odak",
-                        subtitle: timer.isActive ? (timer.isRunning ? "Çalışıyor" : "Duraklatıldı") : "Zamanlayıcı",
+            QuickAction(symbol: "timer", title: timer.isActive ? TimerService.format(timer.remaining) : String(localized: "25 dk odak"),
+                        subtitle: timer.isActive ? (timer.isRunning ? String(localized: "Çalışıyor") : String(localized: "Duraklatıldı")) : String(localized: "Zamanlayıcı"),
                         tint: .pink, active: timer.isActive) {
                 if timer.isActive { IslandModel.shared.tab = .timer } else { timer.start(minutes: 25) }
             }
-            QuickAction(symbol: "person.crop.square", title: "Ayna", subtitle: "Kamera önizleme", tint: .blue, active: false) {
+            QuickAction(symbol: "person.crop.square", title: String(localized: "Ayna"), subtitle: String(localized: "Kamera önizleme"), tint: .blue, active: false) {
                 withAnimation(Motion.content) { IslandModel.shared.mirrorOn = true }
             }
-            QuickAction(symbol: "camera.viewfinder", title: "Ekran", subtitle: "görüntüsü", tint: .teal, active: false) {
+            QuickAction(symbol: "camera.viewfinder", title: String(localized: "action.screenshot.title", defaultValue: "Ekran"), subtitle: String(localized: "action.screenshot.subtitle", defaultValue: "görüntüsü"), tint: .teal, active: false) {
                 IslandModel.shared.collapse()
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                     if let url = NSWorkspace.shared.urlForApplication(withBundleIdentifier: "com.apple.screenshot.launcher") {
@@ -66,7 +66,7 @@ struct IdleDashboard: View {
                     }
                 }
             }
-            QuickAction(symbol: "tray.full.fill", title: "Raf", subtitle: shelf.urls.isEmpty ? "Boş" : "\(shelf.urls.count) öğe",
+            QuickAction(symbol: "tray.full.fill", title: String(localized: "Raf"), subtitle: shelf.urls.isEmpty ? String(localized: "Boş") : String(localized: "\(shelf.urls.count) öğe"),
                         tint: .yellow, active: !shelf.urls.isEmpty) {
                 withAnimation(Motion.content) { IslandModel.shared.tab = .shelf }
             }
@@ -100,10 +100,10 @@ struct IdleDashboard: View {
 
     static func greeting(_ date: Date) -> String {
         switch Calendar.current.component(.hour, from: date) {
-        case 5..<12: return "Günaydın"
-        case 12..<17: return "İyi günler"
-        case 17..<22: return "İyi akşamlar"
-        default: return "İyi geceler"
+        case 5..<12: return String(localized: "Günaydın")
+        case 12..<17: return String(localized: "İyi günler")
+        case 17..<22: return String(localized: "İyi akşamlar")
+        default: return String(localized: "İyi geceler")
         }
     }
 }
@@ -199,7 +199,7 @@ struct WeatherBadge: View {
     private var detail: String {
         var parts = [city]
         if let h = weather.high, let l = weather.low { parts.append("↑\(Int(h.rounded()))° ↓\(Int(l.rounded()))°") }
-        if let rain = weather.rainChance, rain >= 20 { parts.append("☂︎ %\(rain)") }
+        if let rain = weather.rainChance, rain >= 20 { parts.append("☂︎ " + AppLanguage.percent(rain)) }
         return parts.joined(separator: " · ")
     }
 }

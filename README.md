@@ -25,8 +25,8 @@ and coding-agent alerts, living right where the notch is. Free, open source, no 
 
 <br>
 
-> [!NOTE]
-> The interface is in Turkish for now (*çentik* means "notch"). English is next on the [roadmap](#roadmap); the GIFs show the app exactly as it is today.
+> [!TIP]
+> Çentik speaks **English** and **Turkish** (*çentik* is Turkish for "notch"). It follows your Mac's language, or pick one in Settings → General → Language.
 
 ## Features
 
@@ -101,6 +101,7 @@ Night, Aurora, Glass, Neon and Minimal. The accent follows the album art or your
 | ⛅ **Weather** | Current conditions for a city you pick, from Open-Meteo, with no location permission. |
 | ☕ **Keep awake** | Stop the Mac from sleeping for a set time. |
 | ⌨️ **Everywhere** | ⌃⌥N to open from any app. Hides in full-screen. Works on Macs without a notch too. Tabs can be hidden and reordered. |
+| 🌍 **Languages** | English and Turkish, following your Mac or chosen in Settings. |
 
 ## Install
 
@@ -157,7 +158,8 @@ Any tool can raise an alert through the hook script:
 
 ## Roadmap
 
-- [ ] English interface
+- [x] English and Turkish interface
+- [ ] More languages (help wanted, see [CONTRIBUTING.md](CONTRIBUTING.md#translations))
 - [ ] Notarized releases and a Homebrew cask
 - [ ] Browser media (YouTube and others)
 - [ ] More widgets, such as focus stats and quick shortcuts

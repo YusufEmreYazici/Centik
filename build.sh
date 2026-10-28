@@ -20,6 +20,7 @@ mkdir -p "$APP/Contents/MacOS" "$APP/Contents/Resources"
 cp "$BIN/Centik" "$APP/Contents/MacOS/Centik"
 cp Resources/Info.plist "$APP/Contents/Info.plist"
 cp Resources/AppIcon.icns "$APP/Contents/Resources/AppIcon.icns"
+cp -R Resources/*.lproj "$APP/Contents/Resources/"
 # The hardened runtime stops other processes from injecting code that would inherit Çentik's
 # camera, calendar and automation permissions.
 SIGN=(codesign --force --options runtime --entitlements Resources/Centik.entitlements --timestamp=none)

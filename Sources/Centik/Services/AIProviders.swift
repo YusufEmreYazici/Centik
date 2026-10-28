@@ -14,7 +14,7 @@ enum AIProvider: String, CaseIterable, Identifiable {
 
     var title: String {
         switch self {
-        case .auto: return "Otomatik"
+        case .auto: return String(localized: "Otomatik")
         case .claudeCode: return "Claude Code"
         case .geminiCLI: return "Gemini CLI"
         case .anthropicAPI: return "Claude API"
@@ -26,7 +26,7 @@ enum AIProvider: String, CaseIterable, Identifiable {
     /// The name shown on the tab and in the chat.
     var assistantName: String {
         switch self {
-        case .auto: return "Asistan"
+        case .auto: return String(localized: "Asistan")
         case .claudeCode, .anthropicAPI: return "Claude"
         case .geminiCLI, .geminiAPI: return "Gemini"
         case .ollama: return "Ollama"
@@ -45,12 +45,12 @@ enum AIProvider: String, CaseIterable, Identifiable {
 
     var summary: String {
         switch self {
-        case .auto: return "Önce kurulu araçlara, sonra kayıtlı anahtarlara bakar."
-        case .claudeCode: return "Bilgisayardaki Claude Code oturumu. Claude aboneliği ya da API kredisi kullanır."
-        case .geminiCLI: return "Bilgisayardaki Gemini CLI. Google hesabıyla giriş ücretsizdir."
-        case .anthropicAPI: return "Anthropic API anahtarı. Kullandıkça ücretlendirilir."
-        case .geminiAPI: return "Google AI Studio anahtarı. Ücretsiz katmanı vardır."
-        case .ollama: return "Bilgisayarda çalışan yerel modeller. Ücretsiz, internete bir şey gitmez."
+        case .auto: return String(localized: "Önce kurulu araçlara, sonra kayıtlı anahtarlara bakar.")
+        case .claudeCode: return String(localized: "Bilgisayardaki Claude Code oturumu. Claude aboneliği ya da API kredisi kullanır.")
+        case .geminiCLI: return String(localized: "Bilgisayardaki Gemini CLI. Google hesabıyla giriş ücretsizdir.")
+        case .anthropicAPI: return String(localized: "Anthropic API anahtarı. Kullandıkça ücretlendirilir.")
+        case .geminiAPI: return String(localized: "Google AI Studio anahtarı. Ücretsiz katmanı vardır.")
+        case .ollama: return String(localized: "Bilgisayarda çalışan yerel modeller. Ücretsiz, internete bir şey gitmez.")
         }
     }
 
@@ -211,7 +211,7 @@ class CLIBackend: ChatBackend {
     func handle(_ event: [String: Any]) {}
     /// Turns the tool's error output into something a person can act on.
     func explain(stderr: String, status: Int32) -> String {
-        stderr.isEmpty ? "Yanıt gelmedi (çıkış kodu \(status))." : String(stderr.suffix(400))
+        stderr.isEmpty ? String(localized: "Yanıt gelmedi (çıkış kodu \(status)).") : String(stderr.suffix(400))
     }
 
     func send(_ event: BackendEvent) {
@@ -254,7 +254,7 @@ class CLIBackend: ChatBackend {
             try task.run()
             process = task
         } catch {
-            send(.failed("\(executable.lastPathComponent) başlatılamadı: \(error.localizedDescription)"))
+            send(.failed(String(localized: "\(executable.lastPathComponent) başlatılamadı: \(error.localizedDescription)")))
         }
     }
 
@@ -277,7 +277,7 @@ class CLIBackend: ChatBackend {
         consume(Data("\n".utf8))
         process = nil
         if cancelled {
-            send(.failed("Durduruldu."))
+            send(.failed(String(localized: "Durduruldu.")))
         } else if status != 0 && !gotText {
             let detail = String(decoding: errorOutput, as: UTF8.self).trimmingCharacters(in: .whitespacesAndNewlines)
             send(.failed(explain(stderr: detail, status: status)))
@@ -294,8 +294,8 @@ final class ClaudeCodeBackend: CLIBackend {
         ShellEnvironment.find("claude", extra: ["~/.local/bin", "~/.claude/local", "/opt/homebrew/bin", "/usr/local/bin"])
     }
 
-    static let models = [ModelOption(id: "", name: "Claude Code varsayılanı"), ModelOption(id: "opus", name: "Opus (en güçlü)"),
-                         ModelOption(id: "sonnet", name: "Sonnet (hızlı)"), ModelOption(id: "haiku", name: "Haiku (en hızlı)")]
+    static let models = [ModelOption(id: "", name: String(localized: "Claude Code varsayılanı")), ModelOption(id: "opus", name: String(localized: "Opus (en güçlü)")),
+                         ModelOption(id: "sonnet", name: String(localized: "Sonnet (hızlı)")), ModelOption(id: "haiku", name: String(localized: "Haiku (en hızlı)"))]
 
     override func arguments(for request: ChatRequest) -> [String] {
         // Only project settings load, so the user's hooks (Çentik's own included) don't fire.
@@ -325,7 +325,7 @@ final class ClaudeCodeBackend: CLIBackend {
         case "result":
             if let id = event["session_id"] as? String { send(.session(id)) }
             if event["is_error"] as? Bool == true {
-                send(.failed(event["result"] as? String ?? "Claude bir hata döndürdü."))
+                send(.failed(event["result"] as? String ?? String(localized: "Claude bir hata döndürdü.")))
             } else if !gotText, let full = event["result"] as? String {
                 send(.text(full))   // some runs only report the final text
             }
@@ -336,7 +336,7 @@ final class ClaudeCodeBackend: CLIBackend {
 
     override func explain(stderr: String, status: Int32) -> String {
         if stderr.localizedCaseInsensitiveContains("login") || stderr.localizedCaseInsensitiveContains("auth") {
-            return "Claude Code'a giriş yapılmamış. Terminalde claude yazıp bir kez giriş yap."
+            return String(localized: "Claude Code'a giriş yapılmamış. Terminalde claude yazıp bir kez giriş yap.")
         }
         return super.explain(stderr: stderr, status: status)
     }
@@ -362,8 +362,8 @@ final class GeminiCLIBackend: CLIBackend {
     }
 
     /// Gemini CLI's own aliases, so new model versions are picked up without a Çentik update.
-    static let models = [ModelOption(id: "", name: "Otomatik (önerilen)"), ModelOption(id: "pro", name: "Pro (en güçlü)"),
-                         ModelOption(id: "flash", name: "Flash (hızlı)"), ModelOption(id: "flash-lite", name: "Flash-Lite (en hızlı)")]
+    static let models = [ModelOption(id: "", name: String(localized: "Otomatik (önerilen)")), ModelOption(id: "pro", name: String(localized: "Pro (en güçlü)")),
+                         ModelOption(id: "flash", name: String(localized: "Flash (hızlı)")), ModelOption(id: "flash-lite", name: String(localized: "Flash-Lite (en hızlı)"))]
 
     /// Denies every tool except web search. Denied tools aren't shown to the model at all; the
     /// `tools.core` setting alone still leaves the read-only file tools on.
@@ -423,7 +423,7 @@ final class GeminiCLIBackend: CLIBackend {
         case "result":
             if event["status"] as? String == "error" || event["error"] != nil {
                 let error = event["error"] as? [String: Any]
-                send(.failed(error?["message"] as? String ?? "Gemini bir hata döndürdü."))
+                send(.failed(error?["message"] as? String ?? String(localized: "Gemini bir hata döndürdü.")))
             }
         default:
             break
@@ -432,10 +432,10 @@ final class GeminiCLIBackend: CLIBackend {
 
     override func explain(stderr: String, status: Int32) -> String {
         if stderr.localizedCaseInsensitiveContains("auth") || stderr.localizedCaseInsensitiveContains("login") {
-            return "Gemini CLI'ya giriş yapılmamış. Terminalde gemini yazıp Google hesabınla giriş yap."
+            return String(localized: "Gemini CLI'ya giriş yapılmamış. Terminalde gemini yazıp Google hesabınla giriş yap.")
         }
         if stderr.contains("env: node") || stderr.localizedCaseInsensitiveContains("node: No such file") {
-            return "Gemini CLI için Node.js bulunamadı."
+            return String(localized: "Gemini CLI için Node.js bulunamadı.")
         }
         return super.explain(stderr: stderr, status: status)
     }
@@ -451,7 +451,7 @@ class HTTPBackend: ChatBackend {
     func makeRequest(_ request: ChatRequest) throws -> URLRequest { fatalError("override") }
     func handle(line: String) {}
     func errorMessage(status: Int, body: Data) -> String {
-        Self.apiError(body) ?? "Sunucu \(status) hatası döndürdü."
+        Self.apiError(body) ?? String(localized: "Sunucu \(status) hatası döndürdü.")
     }
 
     static func apiError(_ body: Data) -> String? {
@@ -494,18 +494,18 @@ class HTTPBackend: ChatBackend {
                     if Task.isCancelled { break }
                     self?.handle(line: line)
                 }
-                self?.send(Task.isCancelled ? .failed("Durduruldu.") : .finished)
+                self?.send(Task.isCancelled ? .failed(String(localized: "Durduruldu.")) : .finished)
             } catch is CancellationError {
-                self?.send(.failed("Durduruldu."))
+                self?.send(.failed(String(localized: "Durduruldu.")))
             } catch let error as URLError where error.code == .cancelled {
-                self?.send(.failed("Durduruldu."))
+                self?.send(.failed(String(localized: "Durduruldu.")))
             } catch {
                 self?.send(.failed(self?.connectionError(error) ?? error.localizedDescription))
             }
         }
     }
 
-    func connectionError(_ error: Error) -> String { "Bağlanılamadı: \(error.localizedDescription)" }
+    func connectionError(_ error: Error) -> String { String(localized: "Bağlanılamadı: \(error.localizedDescription)") }
 
     func cancel() { task?.cancel() }
 
@@ -547,7 +547,7 @@ final class AnthropicBackend: HTTPBackend {
     }
 
     override func makeRequest(_ request: ChatRequest) throws -> URLRequest {
-        guard let key = Keychain.get("anthropic") else { throw ProviderError("Claude API anahtarı kayıtlı değil.") }
+        guard let key = Keychain.get("anthropic") else { throw ProviderError(String(localized: "Claude API anahtarı kayıtlı değil.")) }
         let model = request.model.isEmpty ? Self.defaultModel : request.model
         var messages: [[String: Any]] = Self.turns(request.history).map { ["role": $0.role.rawValue, "content": $0.text] }
         messages.append(["role": "user", "content": request.prompt])
@@ -577,18 +577,18 @@ final class AnthropicBackend: HTTPBackend {
         case "message_delta":
             let delta = event["delta"] as? [String: Any]
             if delta?["stop_reason"] as? String == "refusal" {
-                send(.failed("Claude bu isteği yanıtlamadı."))
+                send(.failed(String(localized: "Claude bu isteği yanıtlamadı.")))
             }
         case "error":
             let error = event["error"] as? [String: Any]
-            send(.failed(error?["message"] as? String ?? "Claude API bir hata döndürdü."))
+            send(.failed(error?["message"] as? String ?? String(localized: "Claude API bir hata döndürdü.")))
         default:
             break
         }
     }
 
     override func errorMessage(status: Int, body: Data) -> String {
-        if status == 401 { return "Claude API anahtarı geçersiz." }
+        if status == 401 { return String(localized: "Claude API anahtarı geçersiz.") }
         return super.errorMessage(status: status, body: body)
     }
 
@@ -624,7 +624,7 @@ final class GeminiAPIBackend: HTTPBackend {
     }
 
     override func makeRequest(_ request: ChatRequest) throws -> URLRequest {
-        guard let key = Keychain.get("gemini") else { throw ProviderError("Gemini API anahtarı kayıtlı değil.") }
+        guard let key = Keychain.get("gemini") else { throw ProviderError(String(localized: "Gemini API anahtarı kayıtlı değil.")) }
         let model = request.model.isEmpty ? "gemini-2.5-flash" : request.model
         var contents: [[String: Any]] = Self.turns(request.history).map {
             ["role": $0.role == .user ? "user" : "model", "parts": [["text": $0.text]]]
@@ -633,7 +633,7 @@ final class GeminiAPIBackend: HTTPBackend {
         let body: [String: Any] = ["systemInstruction": ["parts": [["text": request.system]]], "contents": contents]
         let name = model.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? model
         guard let endpoint = URL(string: "\(Self.base)/models/\(name):streamGenerateContent?alt=sse") else {
-            throw ProviderError("Geçersiz model adı: \(model)")
+            throw ProviderError(String(localized: "Geçersiz model adı: \(model)"))
         }
         var url = URLRequest(url: endpoint)
         url.httpMethod = "POST"
@@ -646,7 +646,7 @@ final class GeminiAPIBackend: HTTPBackend {
     override func handle(line: String) {
         guard line.hasPrefix("data:"), let event = AnthropicBackend.json(line.dropFirst(5)) else { return }
         if let error = event["error"] as? [String: Any] {
-            send(.failed(error["message"] as? String ?? "Gemini API bir hata döndürdü."))
+            send(.failed(error["message"] as? String ?? String(localized: "Gemini API bir hata döndürdü.")))
             return
         }
         let candidate = (event["candidates"] as? [[String: Any]])?.first
@@ -655,15 +655,15 @@ final class GeminiAPIBackend: HTTPBackend {
         let text = parts.filter { $0["thought"] as? Bool != true }.compactMap { $0["text"] as? String }.joined()
         if !text.isEmpty { send(.text(text)) }
         if let blocked = (event["promptFeedback"] as? [String: Any])?["blockReason"] as? String {
-            send(.failed("Gemini bu isteği yanıtlamadı (\(blocked))."))
+            send(.failed(String(localized: "Gemini bu isteği yanıtlamadı (\(blocked)).")))
         }
     }
 
     override func errorMessage(status: Int, body: Data) -> String {
         if status == 400 || status == 403, String(decoding: body, as: UTF8.self).contains("API_KEY") {
-            return "Gemini API anahtarı geçersiz."
+            return String(localized: "Gemini API anahtarı geçersiz.")
         }
-        if status == 429 { return "Gemini kullanım sınırına ulaşıldı. Biraz sonra tekrar dene." }
+        if status == 429 { return String(localized: "Gemini kullanım sınırına ulaşıldı. Biraz sonra tekrar dene.") }
         return super.errorMessage(status: status, body: body)
     }
 }
@@ -682,7 +682,7 @@ final class OllamaBackend: HTTPBackend {
     }
 
     override func makeRequest(_ request: ChatRequest) throws -> URLRequest {
-        guard !request.model.isEmpty else { throw ProviderError("Ollama'da kurulu model yok. Terminalde ollama pull llama3.2 gibi bir model indir.") }
+        guard !request.model.isEmpty else { throw ProviderError(String(localized: "Ollama'da kurulu model yok. Terminalde ollama pull llama3.2 gibi bir model indir.")) }
         var messages: [[String: Any]] = [["role": "system", "content": request.system]]
         messages += Self.turns(request.history).map { ["role": $0.role.rawValue, "content": $0.text] }
         messages.append(["role": "user", "content": request.prompt])
@@ -703,7 +703,7 @@ final class OllamaBackend: HTTPBackend {
     }
 
     override func connectionError(_ error: Error) -> String {
-        "Ollama çalışmıyor. Ollama uygulamasını aç ya da terminalde ollama serve çalıştır."
+        String(localized: "Ollama çalışmıyor. Ollama uygulamasını aç ya da terminalde ollama serve çalıştır.")
     }
 }
 
@@ -729,7 +729,7 @@ struct ProviderError: LocalizedError {
 private func check(_ response: URLResponse, _ data: Data) throws {
     let status = (response as? HTTPURLResponse)?.statusCode ?? 0
     guard status == 200 else {
-        if status == 401 || status == 403 { throw ProviderError("Anahtar geçersiz ya da yetkisiz.") }
-        throw ProviderError(HTTPBackend.apiError(data) ?? "Sunucu \(status) hatası döndürdü.")
+        if status == 401 || status == 403 { throw ProviderError(String(localized: "Anahtar geçersiz ya da yetkisiz.")) }
+        throw ProviderError(HTTPBackend.apiError(data) ?? String(localized: "Sunucu \(status) hatası döndürdü."))
     }
 }

@@ -41,11 +41,11 @@ struct ClipboardTab: View {
         VStack(alignment: .leading, spacing: 8) {
             header
             if !enabled {
-                EmptyState(symbol: "pause.circle.fill", title: "Pano geçmişi kapalı",
-                           subtitle: "Ayarlar → Aktiviteler'den açabilirsin.", tint: .gray)
+                EmptyState(symbol: "pause.circle.fill", title: String(localized: "Pano geçmişi kapalı"),
+                           subtitle: String(localized: "Ayarlar → Aktiviteler'den açabilirsin."), tint: .gray)
             } else if clipboard.items.isEmpty {
-                EmptyState(symbol: "doc.on.clipboard", title: "Henüz bir şey kopyalanmadı",
-                           subtitle: "Metin, bağlantı, renk, görsel ve dosyalar burada birikir.", tint: accent)
+                EmptyState(symbol: "doc.on.clipboard", title: String(localized: "Henüz bir şey kopyalanmadı"),
+                           subtitle: String(localized: "Metin, bağlantı, renk, görsel ve dosyalar burada birikir."), tint: accent)
             } else {
                 HStack(alignment: .top, spacing: 10) {
                     list.frame(width: 286)
@@ -53,8 +53,8 @@ struct ClipboardTab: View {
                         ClipPreview(item: selected).id(selected.id)
                             .transition(.opacity)
                     } else {
-                        EmptyState(symbol: "line.3.horizontal.decrease.circle", title: "Bu filtrede öğe yok",
-                                   subtitle: "Başka bir tür seç.", tint: .gray)
+                        EmptyState(symbol: "line.3.horizontal.decrease.circle", title: String(localized: "Bu filtrede öğe yok"),
+                                   subtitle: String(localized: "Başka bir tür seç."), tint: .gray)
                     }
                 }
                 .animation(Motion.quick, value: selected?.id)
@@ -64,7 +64,7 @@ struct ClipboardTab: View {
 
     private var header: some View {
         HStack(spacing: 5) {
-            FilterChip(title: "Tümü", count: clipboard.items.count, symbol: "square.grid.2x2.fill",
+            FilterChip(title: String(localized: "Tümü"), count: clipboard.items.count, symbol: "square.grid.2x2.fill",
                        selected: filter == .all, tint: accent) { filter = .all }
             let pinnedCount = clipboard.items.filter(\.pinned).count
             if pinnedCount > 0 {
@@ -81,7 +81,7 @@ struct ClipboardTab: View {
                 }
             }
             Spacer(minLength: 4)
-            Chip(text: "Bellekte", symbol: "lock.fill", tint: .green)
+            Chip(text: String(localized: "Bellekte"), symbol: "lock.fill", tint: .green)
                 .help("Geçmiş yalnızca bellekte tutulur; sabitlenenler hariç diske yazılmaz. Şifre yöneticisi öğeleri kaydedilmez.")
             if clipboard.items.contains(where: { !$0.pinned }) {
                 Button { clipboard.clear() } label: { Image(systemName: "trash") }
@@ -291,8 +291,8 @@ struct ClipPreview: View {
                         .shadow(color: .black.opacity(0.4), radius: 5, y: 2)
                 }
                 VStack(alignment: .leading, spacing: 3) {
-                    if let s = item.pixelSize { stat("Boyut", "\(Int(s.width)) × \(Int(s.height))") }
-                    stat("Veri", ByteCountFormatter.string(fromByteCount: Int64(item.byteCount), countStyle: .file))
+                    if let s = item.pixelSize { stat(String(localized: "Boyut"), "\(Int(s.width)) × \(Int(s.height))") }
+                    stat(String(localized: "Veri"), ByteCountFormatter.string(fromByteCount: Int64(item.byteCount), countStyle: .file))
                 }
                 .fixedSize()
             }
@@ -328,7 +328,7 @@ struct ClipPreview: View {
         case .link:
             let url = item.text.flatMap(URL.init(string:))
             VStack(alignment: .leading, spacing: 3) {
-                Text(url?.host() ?? "Bağlantı").font(.system(size: 14, weight: .bold)).lineLimit(1)
+                Text(url?.host() ?? String(localized: "Bağlantı")).font(.system(size: 14, weight: .bold)).lineLimit(1)
                 Text(item.text ?? "").font(.system(size: 10)).foregroundStyle(.blue.opacity(0.9))
                     .lineLimit(3).truncationMode(.middle)
             }
@@ -339,7 +339,7 @@ struct ClipPreview: View {
                     .foregroundStyle(.white.opacity(0.9))
                     .lineLimit(item.kind == .code ? 6 : 5)
                 Spacer(minLength: 0)
-                Text(TextStats.describe(item.text ?? "") + (item.rtf != nil ? " · biçimli" : ""))
+                Text(TextStats.describe(item.text ?? "") + (item.rtf != nil ? String(localized: " · biçimli") : ""))
                     .font(.system(size: 9, weight: .medium)).foregroundStyle(Color.subtleText)
             }
         }
@@ -392,7 +392,7 @@ struct ClipPreview: View {
 
 enum ClipAge {
     static func text(_ date: Date) -> String {
-        Date.now.timeIntervalSince(date) < 60 ? "az önce" : date.formatted(.relative(presentation: .numeric))
+        Date.now.timeIntervalSince(date) < 60 ? String(localized: "az önce") : date.formatted(.relative(presentation: .numeric))
     }
 }
 
@@ -400,7 +400,7 @@ enum TextStats {
     static func describe(_ text: String) -> String {
         let words = text.split { $0.isWhitespace || $0.isNewline }.count
         let lines = text.split(separator: "\n", omittingEmptySubsequences: false).count
-        return "\(text.count) karakter · \(words) kelime · \(lines) satır"
+        return String(localized: "\(text.count) karakter · \(words) kelime · \(lines) satır")
     }
 }
 

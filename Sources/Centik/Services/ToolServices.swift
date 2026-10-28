@@ -155,7 +155,7 @@ struct CalEvent: Identifiable, Equatable {
         if host.contains("teams") { return "Teams" }
         if host.contains("webex") { return "Webex" }
         if host.contains("facetime") { return "FaceTime" }
-        return "Toplantı"
+        return String(localized: "Toplantı")
     }
 }
 
@@ -233,7 +233,7 @@ final class CalendarService: ObservableObject {
             .sorted { ($0.isAllDay ? 0 : 1, $0.startDate) < ($1.isAllDay ? 0 : 1, $1.startDate) }
             .map {
                 CalEvent(id: $0.calendarItemIdentifier + "\($0.startDate.timeIntervalSince1970)",
-                         title: $0.title ?? "Etkinlik", start: $0.startDate, end: $0.endDate,
+                         title: $0.title ?? String(localized: "Etkinlik"), start: $0.startDate, end: $0.endDate,
                          allDay: $0.isAllDay, color: $0.calendar.color ?? .systemBlue,
                          joinURL: CalEvent.meetingLink(in: [$0.url?.absoluteString, $0.location, $0.notes]))
             }

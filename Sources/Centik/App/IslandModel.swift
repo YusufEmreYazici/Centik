@@ -66,14 +66,14 @@ enum IslandTab: String, CaseIterable, Identifiable {
     }
     var title: String {
         switch self {
-        case .home: return "Ana"
-        case .system: return "Sistem"
-        case .notes: return "Notlar"
+        case .home: return String(localized: "Ana")
+        case .system: return String(localized: "Sistem")
+        case .notes: return String(localized: "Notlar")
         case .assistant: return AssistantService.shared.name
-        case .shelf: return "Raf"
-        case .clipboard: return "Pano"
-        case .timer: return "Zamanlayıcı"
-        case .agents: return "Ajanlar"
+        case .shelf: return String(localized: "Raf")
+        case .clipboard: return String(localized: "Pano")
+        case .timer: return String(localized: "Zamanlayıcı")
+        case .agents: return String(localized: "Ajanlar")
         }
     }
 }

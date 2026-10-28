@@ -23,7 +23,7 @@ extension Metric {
     func shortValue(_ m: SystemMonitor) -> String {
         if self == .network { return SystemMonitor.shortRate(m.downBytesPerSec) }
         guard let f = fraction(m) else { return "–" }
-        return "%\(Int((f * 100).rounded()))"
+        return AppLanguage.percent(Int((f * 100).rounded()))
     }
 }
 
@@ -138,15 +138,15 @@ struct SystemOverview: View {
         VStack(spacing: 8) {
             HStack(spacing: 8) {
                 MetricCard(metric: .cpu, value: percent(monitor.cpu),
-                           detail: "\(monitor.coreCount) çekirdek · sistem %\(Int(monitor.cpuSystem * 100))") {
+                           detail: String(localized: "\(monitor.coreCount) çekirdek · sistem %\(Int(monitor.cpuSystem * 100))")) {
                     CoreBars(cores: monitor.cores, tint: Metric.cpu.tint)
                 }
                 MetricCard(metric: .memory, value: SystemMonitor.gigabytes(monitor.memoryUsed),
-                           detail: "\(SystemMonitor.gigabytes(monitor.memoryTotal)) içinden · sıkışt. \(SystemMonitor.gigabytes(monitor.memoryCompressed))") {
+                           detail: String(localized: "\(SystemMonitor.gigabytes(monitor.memoryTotal)) içinden · sıkışt. \(SystemMonitor.gigabytes(monitor.memoryCompressed))")) {
                     PressureBar(pressure: monitor.memoryPressure, fraction: monitor.memoryFraction)
                 }
                 MetricCard(metric: .gpu, value: monitor.gpu.map(percent) ?? "–",
-                           detail: monitor.gpu == nil ? "Sürücü kullanım bildirmiyor" : "Grafik işlemci kullanımı") {
+                           detail: monitor.gpu == nil ? String(localized: "Sürücü kullanım bildirmiyor") : String(localized: "Grafik işlemci kullanımı")) {
                     EmptyView()
                 }
                 MetricCard(metric: .network, value: SystemMonitor.rate(monitor.downBytesPerSec),
@@ -156,25 +156,30 @@ struct SystemOverview: View {
             }
             HStack(spacing: 6) {
                 if monitor.diskTotal > 0 {
-                    Chip(text: "\(ByteCountFormatter.string(fromByteCount: monitor.diskFree, countStyle: .file)) boş",
+                    Chip(text: String(localized: "\(ByteCountFormatter.string(fromByteCount: monitor.diskFree, countStyle: .file)) boş"),
                          symbol: "internaldrive.fill", tint: monitor.diskFree < 20_000_000_000 ? .orange : .white)
                 }
                 ThermalChip()
                 Chip(text: uptime, symbol: "clock.fill", tint: .white).help("Açık kalma süresi")
                 Spacer(minLength: 0)
                 ForEach(monitor.topProcesses.prefix(1), id: \.name) { p in
-                    Chip(text: "\(p.name) %\(Int(p.cpu))", symbol: "flame.fill", tint: loadColor(.white, p.cpu / 100))
+                    Chip(text: String(localized: "\(p.name) %\(Int(p.cpu))"), symbol: "flame.fill", tint: loadColor(.white, p.cpu / 100))
                 }
             }
         }
     }
 
-    private func percent(_ v: Double) -> String { "%\(Int((v * 100).rounded()))" }
+    private func percent(_ v: Double) -> String { AppLanguage.percent(Int((v * 100).rounded())) }
 
     private var uptime: String {
-        let s = Int(ProcessInfo.processInfo.systemUptime)
-        let d = s / 86_400, h = s / 3_600 % 24, m = s / 60 % 60
-        return d > 0 ? "\(d)g \(h)s" : h > 0 ? "\(h)s \(m)dk" : "\(m)dk"
+        let uptime = ProcessInfo.processInfo.systemUptime
+        let f = DateComponentsFormatter()
+        f.unitsStyle = .abbreviated
+        f.allowedUnits = uptime >= 86_400 ? [.day, .hour] : [.hour, .minute]
+        var calendar = Calendar.current
+        calendar.locale = AppLanguage.locale
+        f.calendar = calendar
+        return f.string(from: uptime) ?? ""
     }
 }
 
@@ -240,7 +245,7 @@ struct PressureBar: View {
     var fraction: Double
 
     var body: some View {
-        let (label, color): (String, Color) = pressure >= 4 ? ("Kritik", .red) : pressure >= 2 ? ("Baskı var", .orange) : ("Normal", .green)
+        let (label, color): (String, Color) = pressure >= 4 ? (String(localized: "Kritik"), .red) : pressure >= 2 ? (String(localized: "Baskı var"), .orange) : ("Normal", .green)
         HStack(spacing: 6) {
             LevelBar(value: fraction, tint: color, height: 4)
             Text(label).font(.system(size: 8.5, weight: .bold)).foregroundStyle(color).fixedSize()
@@ -255,10 +260,10 @@ struct ThermalChip: View {
     var body: some View {
         let (text, color): (String, Color) = switch state {
         case .nominal: ("Normal", .green)
-        case .fair: ("Ilık", .yellow)
-        case .serious: ("Sıcak", .orange)
-        case .critical: ("Çok sıcak", .red)
-        @unknown default: ("Bilinmiyor", .gray)
+        case .fair: (String(localized: "Ilık"), .yellow)
+        case .serious: (String(localized: "Sıcak"), .orange)
+        case .critical: (String(localized: "Çok sıcak"), .red)
+        @unknown default: (String(localized: "Bilinmiyor"), .gray)
         }
         Chip(text: text, symbol: "thermometer.medium", tint: color)
             .onReceive(NotificationCenter.default.publisher(for: ProcessInfo.thermalStateDidChangeNotification)) { _ in

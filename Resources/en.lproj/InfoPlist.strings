@@ -1,0 +1,7 @@
+/* Permission prompts, in English. */
+"NSAppleEventsUsageDescription" = "Çentik asks for permission to show and control what's playing in Spotify and Music.";
+"NSCalendarsFullAccessUsageDescription" = "Çentik reads your calendar to show today's events in the notch.";
+"NSCalendarsUsageDescription" = "Çentik reads your calendar to show today's events in the notch.";
+"NSCameraUsageDescription" = "Çentik's Mirror uses the camera so you can check yourself before a video call. Nothing is recorded.";
+"NSDesktopFolderUsageDescription" = "Çentik watches your Desktop for new screenshots to show them in the notch.";
+"NSDownloadsFolderUsageDescription" = "Çentik watches your Downloads folder to show finished downloads in the notch.";

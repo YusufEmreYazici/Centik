@@ -224,14 +224,14 @@ struct TransientView: View {
         case .track:
             TrackPeek(notchWidth: notchWidth, height: height)
         case .timerDone:
-            peek(left: Image(systemName: "timer").foregroundStyle(.orange), title: "Süre doldu", subtitle: "Zamanlayıcı tamamlandı")
+            peek(left: Image(systemName: "timer").foregroundStyle(.orange), title: String(localized: "Süre doldu"), subtitle: String(localized: "Zamanlayıcı tamamlandı"))
         case .capture(let event):
             CapturePeek(event: event, notchWidth: notchWidth, height: height)
         case .meetingSoon(let event):
             peek(left: Image(systemName: event.joinURL == nil ? "calendar" : "video.fill").foregroundStyle(Color(nsColor: event.color)),
                  title: "\(event.title) · \(MeetingCompact.countdown(to: event.start))",
                  subtitle: [event.start.formatted(date: .omitted, time: .shortened),
-                            event.joinURL == nil ? nil : "\(event.joinServiceName) — katılmak için çentiği aç"]
+                            event.joinURL == nil ? nil : String(localized: "\(event.joinServiceName) — katılmak için çentiği aç")]
                     .compactMap { $0 }.joined(separator: " · "))
         }
     }
@@ -337,8 +337,8 @@ struct MeetingCompact: View {
 
     static func countdown(to start: Date, now: Date = .now) -> String {
         let minutes = Int(ceil(start.timeIntervalSince(now) / 60))
-        if minutes <= 0 { return "Şimdi" }
-        return "\(minutes) dk"
+        if minutes <= 0 { return String(localized: "Şimdi") }
+        return String(localized: "\(minutes) dk")
     }
 }
 

@@ -130,10 +130,12 @@ struct ProviderRow: View {
 
     private var defaultName: String {
         switch provider {
-        case .anthropicAPI: return "Önerilen (\(AnthropicBackend.defaultModel))"
-        case .geminiAPI: return "Önerilen (\(GeminiAPIBackend.preferred(models) ?? "Flash"))"
-        case .ollama: return models.first.map { "İlk model (\($0.id))" } ?? "Kurulu model yok"
-        default: return "Varsayılan"
+        case .anthropicAPI: return String(localized: "Önerilen (\(AnthropicBackend.defaultModel))")
+        case .geminiAPI:
+            let name = GeminiAPIBackend.preferred(models) ?? "Flash"
+            return String(localized: "Önerilen (\(name))")
+        case .ollama: return models.first.map { String(localized: "İlk model (\($0.id))") } ?? String(localized: "Kurulu model yok")
+        default: return String(localized: "Varsayılan")
         }
     }
 
@@ -179,7 +181,7 @@ struct ProviderRow: View {
             loadError = nil
         } catch {
             models = []
-            loadError = "Model listesi alınamadı: \(error.localizedDescription)"
+            loadError = String(localized: "Model listesi alınamadı: \(error.localizedDescription)")
         }
     }
 

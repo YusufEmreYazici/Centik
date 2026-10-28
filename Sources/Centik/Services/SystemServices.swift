@@ -254,19 +254,19 @@ final class NetworkService: NSObject, ObservableObject, CWEventDelegate {
             guard offlineReported else { return }
             offlineReported = false
             if path.usesInterfaceType(.wifi) && path.isExpensive {
-                onEvent?("Kişisel Erişim Noktası bağlandı", "personalhotspot", true)
+                onEvent?(String(localized: "Kişisel Erişim Noktası bağlandı"), "personalhotspot", true)
             } else if path.usesInterfaceType(.wifi) {
-                onEvent?("İnternet geri geldi · Wi-Fi", "wifi", true)
+                onEvent?(String(localized: "İnternet geri geldi · Wi-Fi"), "wifi", true)
             } else if path.usesInterfaceType(.wiredEthernet) {
-                onEvent?("İnternet geri geldi · Ethernet", "cable.connector", true)
+                onEvent?(String(localized: "İnternet geri geldi · Ethernet"), "cable.connector", true)
             } else {
-                onEvent?("İnternet geri geldi", "network", true)
+                onEvent?(String(localized: "İnternet geri geldi"), "network", true)
             }
         } else {
             let work = DispatchWorkItem { [weak self] in
                 guard let self, !self.isOnline else { return }
                 self.offlineReported = true
-                self.onEvent?("İnternet bağlantısı yok", "wifi.exclamationmark", false)
+                self.onEvent?(String(localized: "İnternet bağlantısı yok"), "wifi.exclamationmark", false)
             }
             offlineWork = work
             DispatchQueue.main.asyncAfter(deadline: .now() + 2.5, execute: work)
@@ -276,7 +276,7 @@ final class NetworkService: NSObject, ObservableObject, CWEventDelegate {
     func powerStateDidChangeForWiFiInterface(withName interfaceName: String) {
         DispatchQueue.main.async {
             let on = CWWiFiClient.shared().interface(withName: interfaceName)?.powerOn() ?? false
-            self.onEvent?(on ? "Wi-Fi açıldı" : "Wi-Fi kapatıldı", on ? "wifi" : "wifi.slash", on)
+            self.onEvent?(on ? String(localized: "Wi-Fi açıldı") : String(localized: "Wi-Fi kapatıldı"), on ? "wifi" : "wifi.slash", on)
         }
     }
 }

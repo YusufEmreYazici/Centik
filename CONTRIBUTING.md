@@ -30,4 +30,18 @@ log stream --level debug --predicate 'subsystem == "com.emre.centik"'
 
 ## Translations
 
-The interface is Turkish today and an English version is planned. If you'd like to help with localization, open an issue first so we can agree on the approach.
+Çentik is available in Turkish and English. The keys in the code are the Turkish text, and each language has a folder in `Resources/`:
+
+- `en.lproj/Localizable.strings`: one line per string, `"Turkish key" = "Translation";`
+- `en.lproj/Localizable.stringsdict`: plural forms, such as "1 item" and "2 items"
+- `en.lproj/InfoPlist.strings`: the permission prompts macOS shows
+
+When you add or change text in the interface, run:
+
+```sh
+tools/check-localization.sh
+```
+
+It lists every string without a translation and every translation that's no longer used. CI runs it too.
+
+**Adding a language:** copy `en.lproj` to `<code>.lproj` (for example `de.lproj`), translate the values, add the code to `CFBundleLocalizations` in `Resources/Info.plist`, add it to `AppLanguage` in `Sources/Centik/App/Localization.swift`, and open a pull request.

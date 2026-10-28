@@ -17,7 +17,7 @@ ve kodlama ajanı uyarıları, hepsi çentiğin olduğu yerde. Ücretsiz, açık
 
 <br>
 
-<img src="docs/assets/hero.gif" width="880" alt="Ada çentikten açılıyor ve Ana, Sistem, Pano ve Notlar sekmeleri arasında geçiyor">
+<img src="docs/assets/tr/hero.gif" width="880" alt="Ada çentikten açılıyor ve Ana, Sistem, Pano ve Notlar sekmeleri arasında geçiyor">
 
 </div>
 
@@ -36,10 +36,11 @@ ve kodlama ajanı uyarıları, hepsi çentiğin olduğu yerde. Ücretsiz, açık
 | 🗓️ **Takvim** | Bugünün etkinlikleri ve toplantı geri sayımı. |
 | ⏱️ **Zamanlayıcı, 📝 Notlar, 🪞 Ayna, ⛅ Hava, ☕ Uyanık tut** | Hepsi bir hareket uzağında. |
 | ⌨️ **Her yerde** | Her uygulamadan ⌃⌥N. Tam ekranda gizlenir, çentiksiz Mac'lerde de çalışır. Sekmeler gizlenip sıralanabilir. |
+| 🌍 **Dil** | Türkçe ve İngilizce. Mac'inin dilini izler ya da Ayarlar → Genel → Dil'den seçilir. |
 
 <div align="center">
-<img src="docs/assets/music.gif" width="430" alt="Müzik"> <img src="docs/assets/assistant.gif" width="430" alt="Yapay zekâ sohbeti">
-<img src="docs/assets/system.gif" width="430" alt="Sistem"> <img src="docs/assets/themes.gif" width="430" alt="Temalar">
+<img src="docs/assets/tr/music.gif" width="430" alt="Müzik"> <img src="docs/assets/tr/assistant.gif" width="430" alt="Yapay zekâ sohbeti">
+<img src="docs/assets/tr/system.gif" width="430" alt="Sistem"> <img src="docs/assets/tr/themes.gif" width="430" alt="Temalar">
 </div>
 
 ## Kurulum

@@ -9,10 +9,10 @@ struct NotesTab: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             HStack(spacing: 8) {
-                SectionLabel(title: "Notlar", symbol: "checklist")
-                if notes.openCount > 0 { Chip(text: "\(notes.openCount) açık", tint: accent) }
+                SectionLabel(title: String(localized: "Notlar"), symbol: "checklist")
+                if notes.openCount > 0 { Chip(text: String(localized: "\(notes.openCount) açık"), tint: accent) }
                 let done = notes.notes.count - notes.openCount
-                if done > 0 { Chip(text: "\(done) bitti", symbol: "checkmark", tint: .green) }
+                if done > 0 { Chip(text: String(localized: "\(done) bitti"), symbol: "checkmark", tint: .green) }
                 Spacer()
                 if done > 0 {
                     Button { withAnimation(Motion.content) { notes.clearDone() } } label: { Label("Bitenleri sil", systemImage: "trash") }
@@ -33,8 +33,8 @@ struct NotesTab: View {
             .onTapGesture { typing = true }
 
             if notes.notes.isEmpty {
-                EmptyState(symbol: "checklist", title: "Henüz not yok",
-                           subtitle: "Aklına geleni hızla yaz; işaretleyince yapıldı olur.", tint: accent)
+                EmptyState(symbol: "checklist", title: String(localized: "Henüz not yok"),
+                           subtitle: String(localized: "Aklına geleni hızla yaz; işaretleyince yapıldı olur."), tint: accent)
             } else if notes.notes.count <= 3 {
                 rows
             } else {

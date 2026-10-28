@@ -8,21 +8,21 @@ enum ThemeKind: String, CaseIterable, Identifiable {
 
     var title: String {
         switch self {
-        case .night: return "Gece"
-        case .glass: return "Cam"
+        case .night: return String(localized: "Gece")
+        case .glass: return String(localized: "Cam")
         case .aurora: return "Aurora"
         case .neon: return "Neon"
-        case .minimal: return "Sade"
+        case .minimal: return String(localized: "Sade")
         }
     }
 
     var subtitle: String {
         switch self {
-        case .night: return "Saf siyah, çentikle bütünleşir"
-        case .glass: return "Arkadaki masaüstünü buzlu camla gösterir"
-        case .aurora: return "Vurgu renginde yavaşça akan ışık"
-        case .neon: return "Kenarında dönen parlak çizgi"
-        case .minimal: return "Gölgesiz, sakin, dikkat dağıtmaz"
+        case .night: return String(localized: "Saf siyah, çentikle bütünleşir")
+        case .glass: return String(localized: "Arkadaki masaüstünü buzlu camla gösterir")
+        case .aurora: return String(localized: "Vurgu renginde yavaşça akan ışık")
+        case .neon: return String(localized: "Kenarında dönen parlak çizgi")
+        case .minimal: return String(localized: "Gölgesiz, sakin, dikkat dağıtmaz")
         }
     }
 
@@ -35,9 +35,9 @@ enum AnimationStyle: String, CaseIterable, Identifiable {
     var id: String { rawValue }
     var title: String {
         switch self {
-        case .fluid: return "Akıcı"
-        case .bouncy: return "Zıplayan"
-        case .calm: return "Sakin"
+        case .fluid: return String(localized: "Akıcı")
+        case .bouncy: return String(localized: "Zıplayan")
+        case .calm: return String(localized: "Sakin")
         }
     }
     var damping: Double {

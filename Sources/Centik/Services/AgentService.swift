@@ -101,9 +101,9 @@ final class AgentService: ObservableObject {
         if let custom = obj["title"] as? String, !custom.isEmpty {
             title = custom
         } else if attention {
-            title = message.localizedCaseInsensitiveContains("permission") ? "\(name) onay bekliyor" : "\(name) seni bekliyor"
+            title = message.localizedCaseInsensitiveContains("permission") ? String(localized: "\(name) onay bekliyor") : String(localized: "\(name) seni bekliyor")
         } else if type == "stop" || type == "agent-turn-complete" || type == "notify" {
-            title = "\(name) işini bitirdi"
+            title = String(localized: "\(name) işini bitirdi")
         } else {
             title = name
         }
@@ -147,8 +147,8 @@ enum HookError: LocalizedError {
 
     var errorDescription: String? {
         switch self {
-        case .invalidFile(let path): return "\(path) geçerli bir JSON nesnesi değil; dosyaya dokunulmadı."
-        case .notifyInUse: return "config.toml içinde zaten başka bir `notify` tanımlı; dosyaya dokunulmadı."
+        case .invalidFile(let path): return String(localized: "\(path) geçerli bir JSON nesnesi değil; dosyaya dokunulmadı.")
+        case .notifyInUse: return String(localized: "config.toml içinde zaten başka bir `notify` tanımlı; dosyaya dokunulmadı.")
         }
     }
 }

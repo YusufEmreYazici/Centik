@@ -106,18 +106,18 @@ final class WeatherService: ObservableObject {
 
     static func describe(_ code: Int, isDay: Bool) -> (symbol: String, text: String) {
         switch code {
-        case 0: return (isDay ? "sun.max.fill" : "moon.stars.fill", "Açık")
-        case 1: return (isDay ? "sun.min.fill" : "moon.fill", "Çoğunlukla açık")
-        case 2: return (isDay ? "cloud.sun.fill" : "cloud.moon.fill", "Parçalı bulutlu")
-        case 3: return ("cloud.fill", "Kapalı")
-        case 45, 48: return ("cloud.fog.fill", "Sisli")
-        case 51, 53, 55, 56, 57: return ("cloud.drizzle.fill", "Çisenti")
-        case 61, 63, 65, 66, 67: return ("cloud.rain.fill", "Yağmurlu")
-        case 71, 73, 75, 77: return ("cloud.snow.fill", "Karlı")
-        case 80, 81, 82: return ("cloud.heavyrain.fill", "Sağanak")
-        case 85, 86: return ("cloud.snow.fill", "Kar sağanağı")
-        case 95, 96, 99: return ("cloud.bolt.rain.fill", "Gök gürültülü")
-        default: return ("cloud.fill", "Bulutlu")
+        case 0: return (isDay ? "sun.max.fill" : "moon.stars.fill", String(localized: "weather.clear", defaultValue: "Açık"))
+        case 1: return (isDay ? "sun.min.fill" : "moon.fill", String(localized: "Çoğunlukla açık"))
+        case 2: return (isDay ? "cloud.sun.fill" : "cloud.moon.fill", String(localized: "Parçalı bulutlu"))
+        case 3: return ("cloud.fill", String(localized: "weather.overcast", defaultValue: "Kapalı"))
+        case 45, 48: return ("cloud.fog.fill", String(localized: "Sisli"))
+        case 51, 53, 55, 56, 57: return ("cloud.drizzle.fill", String(localized: "Çisenti"))
+        case 61, 63, 65, 66, 67: return ("cloud.rain.fill", String(localized: "Yağmurlu"))
+        case 71, 73, 75, 77: return ("cloud.snow.fill", String(localized: "Karlı"))
+        case 80, 81, 82: return ("cloud.heavyrain.fill", String(localized: "Sağanak"))
+        case 85, 86: return ("cloud.snow.fill", String(localized: "Kar sağanağı"))
+        case 95, 96, 99: return ("cloud.bolt.rain.fill", String(localized: "Gök gürültülü"))
+        default: return ("cloud.fill", String(localized: "Bulutlu"))
         }
     }
 }

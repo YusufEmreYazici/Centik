@@ -13,8 +13,8 @@ struct AssistantTab: View {
             header
             if claude.active == nil && claude.messages.isEmpty {
                 VStack(spacing: 8) {
-                    EmptyState(symbol: "sparkles", title: "Bir yapay zekâ bağla",
-                               subtitle: "Claude ya da Gemini hesabını, bir API anahtarını veya Ollama'yı bağla. Ücretsiz seçenekler de var.",
+                    EmptyState(symbol: "sparkles", title: String(localized: "Bir yapay zekâ bağla"),
+                               subtitle: String(localized: "Claude ya da Gemini hesabını, bir API anahtarını veya Ollama'yı bağla. Ücretsiz seçenekler de var."),
                                tint: tint)
                     Button { SettingsWindow.shared.show(page: .assistant) } label: { Label("Ayarlar'da bağla", systemImage: "link") }
                         .buttonStyle(.pill(tint))
@@ -41,7 +41,7 @@ struct AssistantTab: View {
                     Text("Yanıtlıyor").font(.system(size: 10, weight: .medium)).foregroundStyle(tint)
                 }
             } else {
-                Chip(text: provider == .auto ? "Yalnızca sohbet" : provider.title, symbol: "lock.fill", tint: .white)
+                Chip(text: provider == .auto ? String(localized: "Yalnızca sohbet") : provider.title, symbol: "lock.fill", tint: .white)
                     .help("Burada dosyalara erişilmez ve komut çalıştırılmaz. Sağlayıcıyı Ayarlar > Yapay Zekâ'dan değiştirebilirsin.")
             }
             Spacer()
@@ -59,10 +59,10 @@ struct AssistantTab: View {
         VStack(alignment: .leading, spacing: 6) {
             Text("Ne sormak istersin?").font(.system(size: 13, weight: .semibold))
             let ideas: [(String, String)] = [
-                ("text.redaction", "Kopyaladığım metni kısaca özetle"),
-                ("envelope", "Kopyaladığım e-postayı daha kibar yaz"),
-                ("chevron.left.forwardslash.chevron.right", "Kopyaladığım kodu açıkla"),
-                ("globe", "Kopyaladığım metni İngilizceye çevir"),
+                ("text.redaction", String(localized: "Kopyaladığım metni kısaca özetle")),
+                ("envelope", String(localized: "Kopyaladığım e-postayı daha kibar yaz")),
+                ("chevron.left.forwardslash.chevron.right", String(localized: "Kopyaladığım kodu açıkla")),
+                ("globe", String(localized: "Kopyaladığım metni İngilizceye çevir")),
             ]
             LazyVGrid(columns: [GridItem(.flexible(), spacing: 6), GridItem(.flexible(), spacing: 6)], spacing: 6) {
                 ForEach(ideas, id: \.1) { symbol, text in

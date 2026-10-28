@@ -432,13 +432,13 @@ struct EventRow: View {
                     .buttonStyle(.pill(ongoing ? .green : Color(nsColor: event.color)))
                     .help("\(event.joinServiceName) toplantısına katıl")
             } else if ongoing {
-                Chip(text: "ŞİMDİ", tint: Color(nsColor: event.color))
+                Chip(text: String(localized: "ŞİMDİ"), tint: Color(nsColor: event.color))
             }
         }
     }
 
     private var timeText: String {
-        if event.allDay { return "Tüm gün" }
+        if event.allDay { return String(localized: "Tüm gün") }
         let f = Date.FormatStyle.dateTime.hour().minute()
         return "\(event.start.formatted(f)) – \(event.end.formatted(f))"
     }
@@ -454,8 +454,8 @@ struct ShelfTab: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 9) {
             HStack(spacing: 8) {
-                SectionLabel(title: "Raf", symbol: "tray.full.fill")
-                if !shelf.urls.isEmpty { Chip(text: "\(shelf.urls.count) öğe", tint: accent) }
+                SectionLabel(title: String(localized: "Raf"), symbol: "tray.full.fill")
+                if !shelf.urls.isEmpty { Chip(text: String(localized: "\(shelf.urls.count) öğe"), tint: accent) }
                 Spacer()
                 if !shelf.urls.isEmpty {
                     Button { shelf.airDrop() } label: { Label("AirDrop", systemImage: "dot.radiowaves.left.and.right") }
@@ -496,14 +496,14 @@ struct DropZone: View {
                 .foregroundStyle(targeted ? accent : .white.opacity(0.22))
             VStack(spacing: 10) {
                 EmptyState(symbol: targeted ? "arrow.down.circle.fill" : "tray.and.arrow.down.fill",
-                           title: targeted ? "Bırak, rafa ekleyeyim" : "Dosyaları buraya bırak",
-                           subtitle: "Finder'dan ya da herhangi bir yerden çentiğe sürükle.",
+                           title: targeted ? String(localized: "Bırak, rafa ekleyeyim") : String(localized: "Dosyaları buraya bırak"),
+                           subtitle: String(localized: "Finder'dan ya da herhangi bir yerden çentiğe sürükle."),
                            tint: accent)
                     .fixedSize(horizontal: false, vertical: true)
                 HStack(spacing: 6) {
-                    Chip(text: "AirDrop ile paylaş", symbol: "dot.radiowaves.left.and.right", tint: .blue)
-                    Chip(text: "Geri sürükle", symbol: "hand.draw.fill", tint: .white)
-                    Chip(text: "Dosyalar yerinde kalır", symbol: "lock.fill", tint: .green)
+                    Chip(text: String(localized: "AirDrop ile paylaş"), symbol: "dot.radiowaves.left.and.right", tint: .blue)
+                    Chip(text: String(localized: "Geri sürükle"), symbol: "hand.draw.fill", tint: .white)
+                    Chip(text: String(localized: "Dosyalar yerinde kalır"), symbol: "lock.fill", tint: .green)
                 }
             }
         }
@@ -592,8 +592,8 @@ struct ShelfItem: View {
 
     private var detail: String {
         let values = try? url.resourceValues(forKeys: [.isDirectoryKey, .fileSizeKey, .isPackageKey])
-        if values?.isDirectory == true && values?.isPackage != true { return "Klasör" }
-        if url.pathExtension == "app" { return "Uygulama" }
+        if values?.isDirectory == true && values?.isPackage != true { return String(localized: "Klasör") }
+        if url.pathExtension == "app" { return String(localized: "Uygulama") }
         guard let size = values?.fileSize else { return url.pathExtension.uppercased() }
         return ByteCountFormatter.string(fromByteCount: Int64(size), countStyle: .file)
     }
@@ -613,10 +613,10 @@ struct TimerTab: View {
 
             VStack(alignment: .leading, spacing: 10) {
                 HStack {
-                    SectionLabel(title: "Hızlı başlat", symbol: "bolt.fill")
+                    SectionLabel(title: String(localized: "Hızlı başlat"), symbol: "bolt.fill")
                     Spacer()
                     if timer.isActive, timer.isRunning {
-                        Chip(text: "Bitiş \(Date.now.addingTimeInterval(timer.remaining).formatted(date: .omitted, time: .shortened))",
+                        Chip(text: String(localized: "Bitiş \(Date.now.addingTimeInterval(timer.remaining).formatted(date: .omitted, time: .shortened))"),
                              symbol: "flag.checkered", tint: .orange)
                     }
                 }
@@ -716,7 +716,7 @@ struct AgentsTab: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 9) {
             HStack(spacing: 8) {
-                SectionLabel(title: "Kodlama ajanları", symbol: "sparkles")
+                SectionLabel(title: String(localized: "Kodlama ajanları"), symbol: "sparkles")
                 Spacer()
                 HookBadge(name: "Claude Code", installed: HookInstaller.claudeInstalled)
                 HookBadge(name: "Codex", installed: HookInstaller.codexInstalled)
@@ -727,9 +727,9 @@ struct AgentsTab: View {
             if agents.events.isEmpty {
                 HStack(spacing: 10) {
                     AgentIntegrationCard(source: "claude", name: "Claude Code", installed: HookInstaller.claudeInstalled,
-                                         detail: "Onay beklediğinde ve işi bitince haber verir.")
+                                         detail: String(localized: "Onay beklediğinde ve işi bitince haber verir."))
                     AgentIntegrationCard(source: "codex", name: "Codex", installed: HookInstaller.codexInstalled,
-                                         detail: "Her tur tamamlandığında haber verir.")
+                                         detail: String(localized: "Her tur tamamlandığında haber verir."))
                 }
             } else {
                 if agents.events.count <= 2 {
@@ -786,7 +786,7 @@ struct AgentRow: View {
             VStack(alignment: .leading, spacing: 3) {
                 HStack(spacing: 6) {
                     Text(event.title).font(.system(size: 12, weight: .semibold)).lineLimit(1)
-                    if event.needsAttention { Chip(text: "BEKLİYOR", symbol: "hand.raised.fill", tint: .orange) }
+                    if event.needsAttention { Chip(text: String(localized: "BEKLİYOR"), symbol: "hand.raised.fill", tint: .orange) }
                     Spacer(minLength: 0)
                     Text(event.date.formatted(date: .omitted, time: .shortened))
                         .font(.system(size: 9.5, weight: .medium).monospacedDigit()).foregroundStyle(Color.subtleText)

@@ -8,29 +8,29 @@ enum SettingsPage: String, CaseIterable, Identifiable {
 
     var title: String {
         switch self {
-        case .general: return "Genel"
-        case .interaction: return "Etkileşim"
-        case .appearance: return "Görünüm"
-        case .activities: return "Canlı Etkinlikler"
-        case .tools: return "Araçlar"
-        case .assistant: return "Yapay Zekâ"
-        case .agents: return "Kodlama Ajanları"
-        case .permissions: return "İzinler"
-        case .about: return "Hakkında"
+        case .general: return String(localized: "Genel")
+        case .interaction: return String(localized: "Etkileşim")
+        case .appearance: return String(localized: "Görünüm")
+        case .activities: return String(localized: "Canlı Etkinlikler")
+        case .tools: return String(localized: "Araçlar")
+        case .assistant: return String(localized: "Yapay Zekâ")
+        case .agents: return String(localized: "Kodlama Ajanları")
+        case .permissions: return String(localized: "İzinler")
+        case .about: return String(localized: "Hakkında")
         }
     }
 
     var subtitle: String {
         switch self {
-        case .general: return "Başlangıç, ekran ve kısayol"
-        case .interaction: return "Sekmeler, açılma, kapanma ve dokunsal geri bildirim"
-        case .appearance: return "Tema, vurgu rengi, efektler ve boyutlar"
-        case .activities: return "Çentikte beliren müzik, ses, pil ve ağ bildirimleri"
-        case .tools: return "Pano, takvim, raf ve uyanık tut"
-        case .assistant: return "Sohbet sekmesi için Claude, Gemini ya da Ollama bağlantısı"
-        case .agents: return "Claude Code ve Codex uyarıları"
-        case .permissions: return "Çentik'in kullandığı izinlerin durumu"
-        case .about: return "Sürüm ve kısayollar"
+        case .general: return String(localized: "Başlangıç, ekran ve kısayol")
+        case .interaction: return String(localized: "Sekmeler, açılma, kapanma ve dokunsal geri bildirim")
+        case .appearance: return String(localized: "Tema, vurgu rengi, efektler ve boyutlar")
+        case .activities: return String(localized: "Çentikte beliren müzik, ses, pil ve ağ bildirimleri")
+        case .tools: return String(localized: "Pano, takvim, raf ve uyanık tut")
+        case .assistant: return String(localized: "Sohbet sekmesi için Claude, Gemini ya da Ollama bağlantısı")
+        case .agents: return String(localized: "Claude Code ve Codex uyarıları")
+        case .permissions: return String(localized: "Çentik'in kullandığı izinlerin durumu")
+        case .about: return String(localized: "Sürüm ve kısayollar")
         }
     }
 
@@ -174,13 +174,30 @@ struct GeneralSettings: View {
     @State private var launchAtLogin = SMAppService.mainApp.status == .enabled
     @State private var loginError: String?
     @State private var confirmReset = false
+    @State private var language = AppLanguage.chosen
+    private let launchedWith = AppLanguage.chosen
 
     var body: some View {
+        Section {
+            Picker("Arayüz dili", selection: $language) {
+                ForEach(AppLanguage.allCases) { Text($0.title).tag($0) }
+            }
+            .onChange(of: language) { _, new in AppLanguage.choose(new) }
+            if language != launchedWith {
+                HStack {
+                    Text("Yeni dil Çentik yeniden başlayınca görünür.").font(.callout).foregroundStyle(.secondary)
+                    Spacer()
+                    Button("Şimdi yeniden başlat") { AppLanguage.relaunch() }
+                }
+            }
+        } header: {
+            Text("Dil")
+        }
         Section("Başlangıç") {
-            SettingRow(title: "Oturum açınca başlat", detail: loginError ?? "Mac açıldığında Çentik kendiliğinden çalışır.") {
+            SettingRow(title: String(localized: "Oturum açınca başlat"), detail: loginError ?? String(localized: "Mac açıldığında Çentik kendiliğinden çalışır.")) {
                 Toggle("", isOn: Binding(get: { launchAtLogin }, set: setLaunchAtLogin)).labelsHidden()
             }
-            SettingRow(title: "Menü çubuğu simgesi", detail: "Kapatırsan ayarlara adadaki dişliden ya da ⌃⌥N ile ulaşırsın.") {
+            SettingRow(title: String(localized: "Menü çubuğu simgesi"), detail: String(localized: "Kapatırsan ayarlara adadaki dişliden ya da ⌃⌥N ile ulaşırsın.")) {
                 Toggle("", isOn: $showMenuBarIcon).labelsHidden()
             }
         }
@@ -189,12 +206,12 @@ struct GeneralSettings: View {
                 Text("MacBook ekranı (çentikli)").tag("builtin")
                 Text("Etkin ekran").tag("main")
             }
-            SettingRow(title: "Tam ekranda gizle", detail: "Video ya da oyun tam ekrandayken ada çekilir.") {
+            SettingRow(title: String(localized: "Tam ekranda gizle"), detail: String(localized: "Video ya da oyun tam ekrandayken ada çekilir.")) {
                 Toggle("", isOn: $hideInFullscreen).labelsHidden()
             }
         }
         Section("Kısayol") {
-            SettingRow(title: "⌃⌥N ile aç / kapat", detail: "Her uygulamadan çalışır, Erişilebilirlik izni gerektirmez.") {
+            SettingRow(title: String(localized: "⌃⌥N ile aç / kapat"), detail: String(localized: "Her uygulamadan çalışır, Erişilebilirlik izni gerektirmez.")) {
                 Toggle("", isOn: $hotKeyEnabled).labelsHidden()
             }
         }
@@ -213,11 +230,11 @@ struct GeneralSettings: View {
             if on { try SMAppService.mainApp.register() } else { try SMAppService.mainApp.unregister() }
             loginError = nil
         } catch {
-            loginError = "Ayarlanamadı: \(error.localizedDescription)"
+            loginError = String(localized: "Ayarlanamadı: \(error.localizedDescription)")
         }
         launchAtLogin = SMAppService.mainApp.status == .enabled
         if on && SMAppService.mainApp.status == .requiresApproval {
-            loginError = "Sistem Ayarları → Genel → Giriş Öğeleri'nden onay ver."
+            loginError = String(localized: "Sistem Ayarları → Genel → Giriş Öğeleri'nden onay ver.")
             SMAppService.openSystemSettingsLoginItems()
         }
     }
@@ -243,10 +260,10 @@ struct InteractionSettings: View {
 
     var body: some View {
         Section("Açılma") {
-            SettingRow(title: "Üzerine gelince aç", detail: "Kapalıyken adaya tıklayarak açarsın.") {
+            SettingRow(title: String(localized: "Üzerine gelince aç"), detail: String(localized: "Kapalıyken adaya tıklayarak açarsın.")) {
                 Toggle("", isOn: $expandOnHover).labelsHidden()
             }
-            SettingRow(title: "Açılma gecikmesi", detail: "İmleç bu kadar beklerse açılır; kazara açılmayı önler.") {
+            SettingRow(title: String(localized: "Açılma gecikmesi"), detail: String(localized: "İmleç bu kadar beklerse açılır; kazara açılmayı önler.")) {
                 DelaySlider(value: $hoverDelay, range: 0...1)
             }
             .disabled(!expandOnHover)
@@ -256,7 +273,7 @@ struct InteractionSettings: View {
             }
         }
         Section("Kapanma") {
-            SettingRow(title: "Kapanma gecikmesi", detail: "İmleç adadan çıktıktan sonra bu kadar bekler.") {
+            SettingRow(title: String(localized: "Kapanma gecikmesi"), detail: String(localized: "İmleç adadan çıktıktan sonra bu kadar bekler.")) {
                 DelaySlider(value: $collapseDelay, range: 0...2)
             }
         }
@@ -269,10 +286,10 @@ struct InteractionSettings: View {
                 .font(.caption).foregroundStyle(.secondary)
         }
         Section("Geri bildirim") {
-            SettingRow(title: "Dokunsal titreşim", detail: "Force Touch trackpad'de adanın üzerine gelince hafif tık.") {
+            SettingRow(title: String(localized: "Dokunsal titreşim"), detail: String(localized: "Force Touch trackpad'de adanın üzerine gelince hafif tık.")) {
                 Toggle("", isOn: $haptics).labelsHidden()
             }
-            SettingRow(title: "Üzerine gelince büyüme", detail: nil) {
+            SettingRow(title: String(localized: "Üzerine gelince büyüme"), detail: nil) {
                 Toggle("", isOn: $hoverGrow).labelsHidden()
             }
         }
@@ -286,7 +303,7 @@ struct DelaySlider: View {
     var body: some View {
         HStack(spacing: 8) {
             Slider(value: $value, in: range, step: 0.05).frame(width: 160)
-            Text(String(format: "%.2f sn", value)).monospacedDigit().foregroundStyle(.secondary).frame(width: 52, alignment: .trailing)
+            Text("\(String(format: "%.2f", value)) sn").monospacedDigit().foregroundStyle(.secondary).frame(width: 52, alignment: .trailing)
         }
     }
 }
@@ -324,7 +341,7 @@ struct AppearanceSettings: View {
                 Text("Kendi rengim").tag("custom")
             }
             .pickerStyle(.segmented)
-            SettingRow(title: "Renk", detail: accentMode == "artwork" ? "Müzik çalmıyorken bu renk kullanılır." : nil) {
+            SettingRow(title: String(localized: "Renk"), detail: accentMode == "artwork" ? String(localized: "Müzik çalmıyorken bu renk kullanılır.") : nil) {
                 HStack(spacing: 8) {
                     ForEach(swatches, id: \.self) { hex in
                         Circle().fill(Color(hex: hex) ?? .purple)
@@ -340,7 +357,7 @@ struct AppearanceSettings: View {
             }
         }
         Section("Efektler") {
-            SettingRow(title: "Animasyonlar", detail: "Kapatınca ada anında açılıp kapanır; en az işlemci kullanır.") {
+            SettingRow(title: String(localized: "Animasyonlar"), detail: String(localized: "Kapatınca ada anında açılıp kapanır; en az işlemci kullanır.")) {
                 Toggle("", isOn: $animations).labelsHidden()
             }
             Picker("Hareket", selection: $animationStyle) {
@@ -348,7 +365,7 @@ struct AppearanceSettings: View {
             }
             .pickerStyle(.segmented)
             .disabled(!animations)
-            SettingRow(title: "Hız", detail: nil) {
+            SettingRow(title: String(localized: "Hız"), detail: nil) {
                 HStack(spacing: 8) {
                     Slider(value: $animationSpeed, in: 0.6...1.6, step: 0.1).frame(width: 160)
                     Text(String(format: "%.1f×", animationSpeed)).monospacedDigit().foregroundStyle(.secondary).frame(width: 36)
@@ -357,13 +374,13 @@ struct AppearanceSettings: View {
             .disabled(!animations)
         }
         Section("Boyutlar") {
-            SettingRow(title: "Kanat genişliği", detail: "Müzik ve göstergelerin çentiğin yanında kapladığı yer.") {
+            SettingRow(title: String(localized: "Kanat genişliği"), detail: String(localized: "Müzik ve göstergelerin çentiğin yanında kapladığı yer.")) {
                 HStack(spacing: 8) {
                     Slider(value: $extraWidth, in: 0...80, step: 4).frame(width: 160)
                     Text("+\(Int(extraWidth)) pt").monospacedDigit().foregroundStyle(.secondary).frame(width: 44)
                 }
             }
-            SettingRow(title: "Ses/parlaklık çizgisi", detail: nil) {
+            SettingRow(title: String(localized: "Ses/parlaklık çizgisi"), detail: nil) {
                 HStack(spacing: 8) {
                     Slider(value: $hudBarWidth, in: 24...60, step: 2).frame(width: 160)
                     Text("\(Int(hudBarWidth)) pt").monospacedDigit().foregroundStyle(.secondary).frame(width: 44)
@@ -456,10 +473,10 @@ struct ActivitySettings: View {
             }
         }
         Section("Toplantılar") {
-            SettingRow(title: "Toplantı geri sayımı", detail: "Takvimdeki etkinlik yaklaşınca çentikte geri sayım ve Zoom/Meet/Teams için Katıl düğmesi.") {
+            SettingRow(title: String(localized: "Toplantı geri sayımı"), detail: String(localized: "Takvimdeki etkinlik yaklaşınca çentikte geri sayım ve Zoom/Meet/Teams için Katıl düğmesi.")) {
                 Toggle("", isOn: $meetings).labelsHidden()
             }
-            SettingRow(title: "Ne kadar önce", detail: nil) {
+            SettingRow(title: String(localized: "Ne kadar önce"), detail: nil) {
                 HStack(spacing: 8) {
                     Slider(value: $meetingLead, in: 1...30, step: 1).frame(width: 160)
                     Text("\(Int(meetingLead)) dk").monospacedDigit().foregroundStyle(.secondary).frame(width: 44)
@@ -468,25 +485,25 @@ struct ActivitySettings: View {
             .disabled(!meetings)
         }
         Section("Dosyalar") {
-            SettingRow(title: "Ekran görüntüleri", detail: "Yeni ekran görüntüsü ve kaydı gösterir; tıkla rafa ekle, sürükle paylaş.") {
+            SettingRow(title: String(localized: "Ekran görüntüleri"), detail: String(localized: "Yeni ekran görüntüsü ve kaydı gösterir; tıkla rafa ekle, sürükle paylaş.")) {
                 Toggle("", isOn: $screenshots).labelsHidden()
             }
-            SettingRow(title: "Biten indirmeler", detail: "İndirilenler klasörüne yeni dosya inince gösterir.") {
+            SettingRow(title: String(localized: "Biten indirmeler"), detail: String(localized: "İndirilenler klasörüne yeni dosya inince gösterir.")) {
                 Toggle("", isOn: $downloads).labelsHidden()
             }
         }
         Section("Müzik") {
-            SettingRow(title: "Spotify ve Apple Music", detail: "Çalan şarkıyı gösterir ve kontrol eder.") {
+            SettingRow(title: String(localized: "Spotify ve Apple Music"), detail: String(localized: "Çalan şarkıyı gösterir ve kontrol eder.")) {
                 Toggle("", isOn: $music).labelsHidden()
             }
-            SettingRow(title: "Şarkı değişince önizleme", detail: nil) {
+            SettingRow(title: String(localized: "Şarkı değişince önizleme"), detail: nil) {
                 Toggle("", isOn: $trackPreview).labelsHidden()
             }
             .disabled(!music)
         }
         Section("Ses ve parlaklık") {
             SettingRow(title: "Ses değişince göster", detail: nil) { Toggle("", isOn: $volumeHUD).labelsHidden() }
-            SettingRow(title: "Parlaklık değişince göster", detail: "Otomatik parlaklığın küçük adımları gösterilmez.") {
+            SettingRow(title: String(localized: "Parlaklık değişince göster"), detail: String(localized: "Otomatik parlaklığın küçük adımları gösterilmez.")) {
                 Toggle("", isOn: $brightnessHUD).labelsHidden()
             }
             Picker("Gösterim", selection: $hudStyle) {
@@ -494,23 +511,23 @@ struct ActivitySettings: View {
                 Text("Yüzde").tag("percent")
             }
             .pickerStyle(.segmented)
-            SettingRow(title: "Ekranda kalma", detail: nil) {
+            SettingRow(title: String(localized: "Ekranda kalma"), detail: nil) {
                 HStack(spacing: 8) {
                     Slider(value: $hudDuration, in: 0.8...4, step: 0.2).frame(width: 160)
-                    Text(String(format: "%.1f sn", hudDuration)).monospacedDigit().foregroundStyle(.secondary).frame(width: 44)
+                    Text("\(String(format: "%.1f", hudDuration)) sn").monospacedDigit().foregroundStyle(.secondary).frame(width: 44)
                 }
             }
         }
         Section("Pil ve ağ") {
             SettingRow(title: "Şarj takılınca / çıkınca", detail: nil) { Toggle("", isOn: $battery).labelsHidden() }
-            SettingRow(title: "Düşük pil uyarısı", detail: "Şarjda değilken bu seviyeye inince bir kez uyarır.") {
+            SettingRow(title: String(localized: "Düşük pil uyarısı"), detail: String(localized: "Şarjda değilken bu seviyeye inince bir kez uyarır.")) {
                 HStack(spacing: 8) {
                     Slider(value: $lowThreshold, in: 5...50, step: 5).frame(width: 160)
                     Text("%\(Int(lowThreshold))").monospacedDigit().foregroundStyle(.secondary).frame(width: 36)
                 }
             }
             .disabled(!battery)
-            SettingRow(title: "İnternet ve Wi-Fi değişiklikleri", detail: "Kısa kopmalar gösterilmez.") {
+            SettingRow(title: String(localized: "İnternet ve Wi-Fi değişiklikleri"), detail: String(localized: "Kısa kopmalar gösterilmez.")) {
                 Toggle("", isOn: $network).labelsHidden()
             }
         }
@@ -539,7 +556,7 @@ struct ToolSettings: View {
 
     var body: some View {
         Section("Pano") {
-            SettingRow(title: "Pano geçmişi", detail: "Metin, bağlantı, renk, görsel ve dosyalar. Yalnızca bellekte; şifreler kaydedilmez.") {
+            SettingRow(title: String(localized: "Pano geçmişi"), detail: String(localized: "Metin, bağlantı, renk, görsel ve dosyalar. Yalnızca bellekte; şifreler kaydedilmez.")) {
                 Toggle("", isOn: $clipboard).labelsHidden()
             }
             LabeledContent("\(clips.items.count) öğe, \(clips.items.filter(\.pinned).count) sabit") {
@@ -563,8 +580,8 @@ struct ToolSettings: View {
             }
         }
         Section("Uyanık tut") {
-            SettingRow(title: "Mac'i ve ekranı uyanık tut",
-                       detail: awake.until.map { "\($0.formatted(date: .omitted, time: .shortened))'e kadar açık" } ?? "Ana sekmedeki kısayoldan da açılır; sağ tıkla süre seç.") {
+            SettingRow(title: String(localized: "Mac'i ve ekranı uyanık tut"),
+                       detail: awake.until.map { String(localized: "\($0.formatted(date: .omitted, time: .shortened))'e kadar açık") } ?? String(localized: "Ana sekmedeki kısayoldan da açılır; sağ tıkla süre seç.")) {
                 Toggle("", isOn: Binding(get: { awake.isOn }, set: { $0 ? awake.start() : awake.stop() })).labelsHidden()
             }
         }
@@ -590,9 +607,9 @@ struct AgentSettings: View {
         }
         Section("Bağlantılar") {
             hookRow(name: "Claude Code", source: "claude", installed: claudeInstalled, path: HookInstaller.claudeSettings.path,
-                    detail: "Onay beklediğinde ve işi bitince", install: HookInstaller.installClaude, uninstall: HookInstaller.uninstallClaude)
+                    detail: String(localized: "Onay beklediğinde ve işi bitince"), install: HookInstaller.installClaude, uninstall: HookInstaller.uninstallClaude)
             hookRow(name: "Codex", source: "codex", installed: codexInstalled, path: HookInstaller.codexConfig.path,
-                    detail: "Her tur tamamlandığında", install: HookInstaller.installCodex, uninstall: HookInstaller.uninstallCodex)
+                    detail: String(localized: "Her tur tamamlandığında"), install: HookInstaller.installCodex, uninstall: HookInstaller.uninstallCodex)
             if let message { Text(message).font(.caption).foregroundStyle(.orange) }
         }
         Section("Başka araçlardan") {
@@ -639,13 +656,13 @@ struct PermissionSettings: View {
 
     var body: some View {
         Section {
-            permissionRow(title: "Spotify kontrolü", symbol: "music.note", state: spotify, pane: "Privacy_Automation") {
+            permissionRow(title: String(localized: "Spotify kontrolü"), symbol: "music.note", state: spotify, pane: "Privacy_Automation") {
                 Permissions.automation(PlayerApp.spotify.rawValue, ask: true) { spotify = $0 }
             }
-            permissionRow(title: "Müzik kontrolü", symbol: "music.note.list", state: music, pane: "Privacy_Automation") {
+            permissionRow(title: String(localized: "Müzik kontrolü"), symbol: "music.note.list", state: music, pane: "Privacy_Automation") {
                 Permissions.automation(PlayerApp.music.rawValue, ask: true) { music = $0 }
             }
-            permissionRow(title: "Takvim", symbol: "calendar", state: calendar, pane: "Privacy_Calendars") {
+            permissionRow(title: String(localized: "Takvim"), symbol: "calendar", state: calendar, pane: "Privacy_Calendars") {
                 CalendarService.shared.requestAccess()
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) { refresh() }
             }

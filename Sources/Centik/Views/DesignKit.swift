@@ -42,7 +42,7 @@ struct SectionLabel: View {
     var body: some View {
         HStack(spacing: 5) {
             if let symbol { Image(systemName: symbol).font(.system(size: 9, weight: .bold)) }
-            Text(title.uppercased(with: Locale(identifier: "tr_TR")))
+            Text(title.uppercased(with: AppLanguage.locale))
                 .font(.system(size: 9.5, weight: .bold))
                 .tracking(0.9)
         }

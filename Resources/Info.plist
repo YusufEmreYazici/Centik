@@ -2,43 +2,48 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-    <key>CFBundleDevelopmentRegion</key>
-    <string>tr</string>
-    <key>CFBundleExecutable</key>
-    <string>Centik</string>
-    <key>CFBundleIdentifier</key>
-    <string>com.emre.centik</string>
-    <key>CFBundleName</key>
-    <string>Çentik</string>
-    <key>CFBundleDisplayName</key>
-    <string>Çentik</string>
-    <key>CFBundleIconFile</key>
-    <string>AppIcon</string>
-    <key>CFBundlePackageType</key>
-    <string>APPL</string>
-    <key>CFBundleShortVersionString</key>
-    <string>1.0.0</string>
-    <key>CFBundleVersion</key>
-    <string>1</string>
-    <key>LSMinimumSystemVersion</key>
-    <string>14.0</string>
-    <key>LSUIElement</key>
-    <true/>
-    <key>LSApplicationCategoryType</key>
-    <string>public.app-category.utilities</string>
-    <key>NSHighResolutionCapable</key>
-    <true/>
-    <key>NSAppleEventsUsageDescription</key>
-    <string>Çentik, Spotify ve Müzik uygulamasında çalan şarkıyı göstermek ve kontrol etmek için izin ister.</string>
-    <key>NSCalendarsFullAccessUsageDescription</key>
-    <string>Çentik, bugünkü etkinliklerinizi çentikte göstermek için takviminizi okur.</string>
-    <key>NSCameraUsageDescription</key>
-    <string>Çentik'in Ayna özelliği, görüntülü görüşmeden önce kendini görebilmen için kamerayı kullanır. Görüntü kaydedilmez.</string>
-    <key>NSDesktopFolderUsageDescription</key>
-    <string>Çentik, yeni ekran görüntülerini çentikte göstermek için Masaüstü'ndeki yeni dosyaları izler.</string>
-    <key>NSDownloadsFolderUsageDescription</key>
-    <string>Çentik, biten indirmeleri çentikte göstermek için İndirilenler klasörünü izler.</string>
-    <key>NSCalendarsUsageDescription</key>
-    <string>Çentik, bugünkü etkinliklerinizi çentikte göstermek için takviminizi okur.</string>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>tr</string>
+	<key>CFBundleDisplayName</key>
+	<string>Çentik</string>
+	<key>CFBundleExecutable</key>
+	<string>Centik</string>
+	<key>CFBundleIconFile</key>
+	<string>AppIcon</string>
+	<key>CFBundleIdentifier</key>
+	<string>com.emre.centik</string>
+	<key>CFBundleLocalizations</key>
+	<array>
+		<string>tr</string>
+		<string>en</string>
+	</array>
+	<key>CFBundleName</key>
+	<string>Çentik</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleShortVersionString</key>
+	<string>1.1.0</string>
+	<key>CFBundleVersion</key>
+	<string>2</string>
+	<key>LSApplicationCategoryType</key>
+	<string>public.app-category.utilities</string>
+	<key>LSMinimumSystemVersion</key>
+	<string>14.0</string>
+	<key>LSUIElement</key>
+	<true/>
+	<key>NSAppleEventsUsageDescription</key>
+	<string>Çentik, Spotify ve Müzik uygulamasında çalan şarkıyı göstermek ve kontrol etmek için izin ister.</string>
+	<key>NSCalendarsFullAccessUsageDescription</key>
+	<string>Çentik, bugünkü etkinliklerinizi çentikte göstermek için takviminizi okur.</string>
+	<key>NSCalendarsUsageDescription</key>
+	<string>Çentik, bugünkü etkinliklerinizi çentikte göstermek için takviminizi okur.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Çentik'in Ayna özelliği, görüntülü görüşmeden önce kendini görebilmen için kamerayı kullanır. Görüntü kaydedilmez.</string>
+	<key>NSDesktopFolderUsageDescription</key>
+	<string>Çentik, yeni ekran görüntülerini çentikte göstermek için Masaüstü'ndeki yeni dosyaları izler.</string>
+	<key>NSDownloadsFolderUsageDescription</key>
+	<string>Çentik, biten indirmeleri çentikte göstermek için İndirilenler klasörünü izler.</string>
+	<key>NSHighResolutionCapable</key>
+	<true/>
 </dict>
 </plist>

@@ -12,9 +12,9 @@ struct CaptureEvent: Equatable {
 
     var title: String {
         switch kind {
-        case .screenshot: return "Ekran görüntüsü alındı"
-        case .recording: return "Ekran kaydı hazır"
-        case .download: return "İndirme tamamlandı"
+        case .screenshot: return String(localized: "Ekran görüntüsü alındı")
+        case .recording: return String(localized: "Ekran kaydı hazır")
+        case .download: return String(localized: "İndirme tamamlandı")
         }
     }
 
