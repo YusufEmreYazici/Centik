@@ -39,7 +39,8 @@ final class ProcessMonitor: ObservableObject {
     @Published private(set) var apps: [ProcessGroup] = []
     @Published private(set) var processes: [ProcessGroup] = []
 
-    private var previous: [pid_t: (cpuTime: UInt64, date: Date)] = [:]
+    /// Recent CPU-time readings, so %CPU covers Activity Monitor's update period.
+    private var history: [(times: [pid_t: UInt64], date: Date)] = []
     private var timer: Timer?
     private var demands = 0
     private let queue = DispatchQueue(label: "centik.processes", qos: .utility)
@@ -81,7 +82,9 @@ final class ProcessMonitor: ObservableObject {
         let filled = proc_listallpids(&pids, Int32(pids.count * MemoryLayout<pid_t>.size))
         let now = Date()
         let uid = getuid()
-        var next: [pid_t: (cpuTime: UInt64, date: Date)] = [:]
+        var next: [pid_t: UInt64] = [:]
+        history.removeAll { now.timeIntervalSince($0.date) > Double(SystemMonitor.window) + 1 }
+        let oldest = history.first
         var singles: [ProcessGroup] = []
         var byApp: [String: (pids: [pid_t], cpu: Double, memory: UInt64)] = [:]
 
@@ -95,11 +98,11 @@ final class ProcessMonitor: ObservableObject {
             }
             guard ok == 0 else { continue }
             let cpuTime = (usage.ri_user_time + usage.ri_system_time) * timebase.numer / timebase.denom
-            next[pid] = (cpuTime, now)
+            next[pid] = cpuTime
             var cpu = 0.0
-            if let before = previous[pid], cpuTime >= before.cpuTime {
-                let wall = now.timeIntervalSince(before.date)
-                if wall > 0 { cpu = Double(cpuTime - before.cpuTime) / 1e9 / wall * 100 }
+            if let oldest, let before = oldest.times[pid], cpuTime >= before {
+                let wall = now.timeIntervalSince(oldest.date)
+                if wall > 0 { cpu = Double(cpuTime - before) / 1e9 / wall * 100 }
             }
             let memory = usage.ri_phys_footprint
             let path = Self.path(of: pid)
@@ -114,7 +117,7 @@ final class ProcessMonitor: ObservableObject {
                 byApp[app] = entry
             }
         }
-        previous = next
+        history.append((next, now))
         let apps = byApp.map { path, e in
             ProcessGroup(id: path, name: FileManager.default.displayName(atPath: path).replacingOccurrences(of: ".app", with: ""),
                          bundlePath: path, pids: e.pids.sorted(), cpu: e.cpu, memory: e.memory)

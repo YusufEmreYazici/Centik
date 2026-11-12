@@ -138,7 +138,7 @@ struct SystemOverview: View {
         VStack(spacing: 8) {
             HStack(spacing: 8) {
                 MetricCard(metric: .cpu, value: percent(monitor.cpu),
-                           detail: String(localized: "\(monitor.coreCount) çekirdek · sistem %\(Int(monitor.cpuSystem * 100))")) {
+                           detail: String(localized: "kullanıcı %\(Int((monitor.cpuUser * 100).rounded())) · sistem %\(Int((monitor.cpuSystem * 100).rounded()))")) {
                     CoreBars(cores: monitor.cores, tint: Metric.cpu.tint)
                 }
                 MetricCard(metric: .memory, value: SystemMonitor.gigabytes(monitor.memoryUsed),
@@ -172,9 +172,15 @@ struct SystemOverview: View {
     private func percent(_ v: Double) -> String { AppLanguage.percent(Int((v * 100).rounded())) }
 
     private var uptime: String {
-        let uptime = ProcessInfo.processInfo.systemUptime
+        // Time since boot, like `uptime`. ProcessInfo.systemUptime stops while the Mac sleeps.
+        var boot = timeval()
+        var size = MemoryLayout<timeval>.size
+        let uptime = sysctlbyname("kern.boottime", &boot, &size, nil, 0) == 0
+            ? Date().timeIntervalSince1970 - Double(boot.tv_sec)
+            : ProcessInfo.processInfo.systemUptime
         let f = DateComponentsFormatter()
-        f.unitsStyle = .abbreviated
+        // Turkish abbreviations are ambiguous ("6d" reads as days); "6 dk." is not.
+        f.unitsStyle = AppLanguage.active.hasPrefix("tr") ? .short : .abbreviated
         f.allowedUnits = uptime >= 86_400 ? [.day, .hour] : [.hour, .minute]
         var calendar = Calendar.current
         calendar.locale = AppLanguage.locale

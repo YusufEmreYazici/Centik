@@ -182,9 +182,12 @@ enum SysProbe {
     static func runIfRequested() {
         guard CommandLine.arguments.contains("--sysprobe") else { return }
         let m = SystemMonitor.shared
-        m.demand("probe", true)
-        for _ in 0..<3 { RunLoop.main.run(until: Date().addingTimeInterval(1.05)) }
-        print(String(format: "cpu %.1f%% (sys %.1f%%) cores %d", m.cpu * 100, m.cpuSystem * 100, m.cores.count))
+        m.demand("tab", true)
+        // One full Activity Monitor period plus the first reading.
+        for _ in 0...SystemMonitor.window { RunLoop.main.run(until: Date().addingTimeInterval(1.0)) }
+        print(String(format: "cpu %.1f%% (user %.1f%%, sys %.1f%%) cores %d over %ds", m.cpu * 100, m.cpuUser * 100,
+                     m.cpuSystem * 100, m.cores.count, SystemMonitor.window))
+        for p in m.topProcesses { print(String(format: "top %.1f%% %@", p.cpu, p.name)) }
         print("mem used", SystemMonitor.gigabytes(m.memoryUsed), "of", SystemMonitor.gigabytes(m.memoryTotal),
               "compressed", SystemMonitor.gigabytes(m.memoryCompressed), "pressure", m.memoryPressure)
         print("gpu", m.gpu.map { String(format: "%.0f%%", $0 * 100) } ?? "n/a")

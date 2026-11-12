@@ -473,7 +473,7 @@
 "Wi-Fi kapatıldı" = "Wi-Fi turned off";
 
 /* SystemViews */
-"%lld çekirdek · sistem %%%lld" = "%1$lld cores · system %2$lld%%";
+"kullanıcı %%%lld · sistem %%%lld" = "user %1$lld%% · system %2$lld%%";
 "%@ içinden · sıkışt. %@" = "of %1$@ · compressed %2$@";
 "Sürücü kullanım bildirmiyor" = "The driver doesn't report usage";
 "Grafik işlemci kullanımı" = "Graphics processor usage";

@@ -35,7 +35,10 @@ final class SystemMonitor: ObservableObject {
     static let shared = SystemMonitor()
     static let historyLength = 60
 
+    // CPU, process and network figures are averages over Activity Monitor's update period,
+    // so the two show the same numbers; the charts still move every second.
     private(set) var cpu: Double = 0                 // 0…1
+    private(set) var cpuUser: Double = 0
     private(set) var cpuSystem: Double = 0
     private(set) var cores: [Double] = []
     private(set) var memoryUsed: UInt64 = 0
@@ -54,8 +57,11 @@ final class SystemMonitor: ObservableObject {
 
     var memoryFraction: Double { memoryTotal > 0 ? Double(memoryUsed) / Double(memoryTotal) : 0 }
 
-    private var previousTicks: [[UInt32]] = []
-    private var previousNet: (down: UInt64, up: UInt64, date: Date)?
+    private var tickHistory: [[[UInt32]]] = []
+    private var netHistory: [(down: UInt64, up: UInt64, date: Date)] = []
+    private var netCounters: [String: (down: UInt64, up: UInt64)] = [:]
+    private var netLast: [String: (down: UInt64, up: UInt64)] = [:]
+    private var processHistory: [(times: [Int32: (name: String, seconds: Double)], date: Date)] = []
     private var timer: Timer?
     private var tick = 0
     private var demands = Set<String>()
@@ -87,12 +93,10 @@ final class SystemMonitor: ObservableObject {
         sampleMemory()
         gpu = Self.readGPU()
         sampleNetwork()
-        record(.cpu, cpu)
         record(.memory, memoryFraction)
         record(.gpu, gpu ?? 0)
-        record(.network, downBytesPerSec + upBytesPerSec)
         if tick % 10 == 0 { sampleDisk() }
-        if tick % 3 == 0 && demands.contains("tab") { sampleTopProcesses() }
+        if demands.contains("tab") { sampleTopProcesses() }
         tick += 1
     }
 
@@ -119,24 +123,43 @@ final class SystemMonitor: ObservableObject {
         for i in 0..<Int(count) {
             ticks.append((0..<states).map { UInt32(bitPattern: info[i * states + $0]) })
         }
-        defer { previousTicks = ticks }
-        guard previousTicks.count == ticks.count else { return }
+        tickHistory.append(ticks)
+        if tickHistory.count > Self.window + 1 { tickHistory.removeFirst(tickHistory.count - Self.window - 1) }
+        guard tickHistory.count > 1, tickHistory.allSatisfy({ $0.count == ticks.count }) else { return }
+        let previous = tickHistory[tickHistory.count - 2]
 
+        // The chart gets this second's load; the figures get the load over the whole period.
+        record(.cpu, Self.load(from: previous, to: ticks).busy)
+        let load = Self.load(from: tickHistory[0], to: ticks)
+        cpu = load.busy
+        cpuUser = load.user
+        cpuSystem = load.system
+        cores = load.cores
+    }
+
+    private static func load(from before: [[UInt32]], to now: [[UInt32]]) -> (busy: Double, user: Double, system: Double, cores: [Double]) {
+        let states = Int(CPU_STATE_MAX)
         var perCore: [Double] = []
-        var busy: UInt64 = 0, system: UInt64 = 0, total: UInt64 = 0
-        for (now, before) in zip(ticks, previousTicks) {
-            let d = (0..<states).map { UInt64(now[$0] &- before[$0]) }
-            let user = d[Int(CPU_STATE_USER)] + d[Int(CPU_STATE_NICE)]
-            let sys = d[Int(CPU_STATE_SYSTEM)]
+        var user: UInt64 = 0, system: UInt64 = 0, total: UInt64 = 0
+        for (n, b) in zip(now, before) {
+            // Tick counters are 32-bit and wrap; the wrapping subtraction still gives the step.
+            let d = (0..<states).map { UInt64(n[$0] &- b[$0]) }
+            let u = d[Int(CPU_STATE_USER)] + d[Int(CPU_STATE_NICE)]
+            let s = d[Int(CPU_STATE_SYSTEM)]
             let all = d.reduce(0, +)
-            perCore.append(all > 0 ? Double(user + sys) / Double(all) : 0)
-            busy += user + sys
-            system += sys
+            perCore.append(all > 0 ? Double(u + s) / Double(all) : 0)
+            user += u
+            system += s
             total += all
         }
-        cores = perCore
-        cpu = total > 0 ? Double(busy) / Double(total) : 0
-        cpuSystem = total > 0 ? Double(system) / Double(total) : 0
+        guard total > 0 else { return (0, 0, 0, perCore) }
+        return (Double(user + system) / Double(total), Double(user) / Double(total), Double(system) / Double(total), perCore)
+    }
+
+    /// Activity Monitor's View → Update Frequency, in seconds (5 unless changed there).
+    static var window: Int {
+        let period = UserDefaults(suiteName: "com.apple.ActivityMonitor")?.integer(forKey: "UpdatePeriod") ?? 0
+        return [1, 2, 5].contains(period) ? period : 5
     }
 
     // MARK: Memory
@@ -188,31 +211,52 @@ final class SystemMonitor: ObservableObject {
 
     // MARK: Network
 
+    /// Bytes through the physical interfaces (Wi-Fi, Ethernet, cellular), read as 64-bit
+    /// counters. VPN tunnels are left out: their traffic also crosses the physical interface,
+    /// so counting both would double it.
     private func sampleNetwork() {
-        var down: UInt64 = 0, up: UInt64 = 0
-        var addrs: UnsafeMutablePointer<ifaddrs>?
-        guard getifaddrs(&addrs) == 0, let first = addrs else { return }
-        defer { freeifaddrs(addrs) }
-        var cursor: UnsafeMutablePointer<ifaddrs>? = first
-        while let ifa = cursor {
-            defer { cursor = ifa.pointee.ifa_next }
-            guard let addr = ifa.pointee.ifa_addr, addr.pointee.sa_family == UInt8(AF_LINK),
-                  let data = ifa.pointee.ifa_data else { continue }
-            let name = String(cString: ifa.pointee.ifa_name)
-            // Physical and tunnel interfaces only; loopback and Apple's internal links would double count.
-            guard name.hasPrefix("en") || name.hasPrefix("utun") || name.hasPrefix("pdp_ip") else { continue }
-            let stats = data.assumingMemoryBound(to: if_data.self).pointee
-            down += UInt64(stats.ifi_ibytes)
-            up += UInt64(stats.ifi_obytes)
+        var mib: [Int32] = [CTL_NET, PF_ROUTE, 0, 0, NET_RT_IFLIST2, 0]
+        var length = 0
+        guard sysctl(&mib, 6, nil, &length, nil, 0) == 0, length > 0 else { return }
+        var buffer = [UInt8](repeating: 0, count: length)
+        guard sysctl(&mib, 6, &buffer, &length, nil, 0) == 0 else { return }
+        var seen: [String: (down: UInt64, up: UInt64)] = [:]
+        buffer.withUnsafeBytes { raw in
+            var offset = 0
+            while offset + MemoryLayout<if_msghdr>.size <= length {
+                let header = raw.load(fromByteOffset: offset, as: if_msghdr.self)
+                defer { offset += Int(header.ifm_msglen) }
+                guard header.ifm_msglen > 0 else { offset = length; return }
+                guard Int32(header.ifm_type) == RTM_IFINFO2 else { continue }
+                let message = raw.loadUnaligned(fromByteOffset: offset, as: if_msghdr2.self)
+                var name = [CChar](repeating: 0, count: Int(IF_NAMESIZE) + 1)
+                guard if_indextoname(UInt32(message.ifm_index), &name) != nil else { continue }
+                let interface = String(cString: name)
+                guard interface.hasPrefix("en") || interface.hasPrefix("pdp_ip") else { continue }
+                seen[interface] = (message.ifm_data.ifi_ibytes, message.ifm_data.ifi_obytes)
+            }
         }
+        // Keep running totals so an interface that disappears or resets doesn't count as a jump.
+        for (interface, now) in seen {
+            if let last = netLast[interface], now.down >= last.down, now.up >= last.up {
+                var total = netCounters[interface] ?? (0, 0)
+                total.down += now.down - last.down
+                total.up += now.up - last.up
+                netCounters[interface] = total
+            }
+            netLast[interface] = now
+        }
+        let down = netCounters.values.reduce(0) { $0 + $1.down }
+        let up = netCounters.values.reduce(0) { $0 + $1.up }
         let now = Date()
-        if let previous = previousNet {
-            let dt = max(0.2, now.timeIntervalSince(previous.date))
-            // Counters are 32-bit per interface and wrap; a negative step is treated as no traffic.
-            downBytesPerSec = down >= previous.down ? Double(down - previous.down) / dt : 0
-            upBytesPerSec = up >= previous.up ? Double(up - previous.up) / dt : 0
-        }
-        previousNet = (down, up, now)
+        netHistory.append((down, up, now))
+        if netHistory.count > Self.window + 1 { netHistory.removeFirst(netHistory.count - Self.window - 1) }
+        guard netHistory.count > 1 else { return }
+        let last = netHistory[netHistory.count - 2], first = netHistory[0]
+        record(.network, Double(down - last.down + up - last.up) / max(0.2, now.timeIntervalSince(last.date)))
+        let span = max(0.2, now.timeIntervalSince(first.date))
+        downBytesPerSec = Double(down - first.down) / span
+        upBytesPerSec = Double(up - first.up) / span
     }
 
     // MARK: Disk and processes
@@ -224,30 +268,62 @@ final class SystemMonitor: ObservableObject {
         diskTotal = Int64(values.volumeTotalCapacity ?? 0)
     }
 
+    /// The busiest processes system-wide, like Activity Monitor's "% CPU" column. `ps` can
+    /// read every process (it runs as root); its own %CPU is a decaying estimate, so the
+    /// figure comes from the change in each process's CPU time over the update period.
     private func sampleTopProcesses() {
         DispatchQueue.global(qos: .utility).async {
             let task = Process()
             task.executableURL = URL(fileURLWithPath: "/bin/ps")
-            task.arguments = ["-Aceo", "pcpu=,comm=", "-r"]
+            task.arguments = ["-Aceo", "pid=,time=,comm="]
+            // Fixed number format: under a Turkish locale ps writes "1:09,49".
+            task.environment = ["LC_ALL": "C"]
             let pipe = Pipe()
             task.standardOutput = pipe
             task.standardError = FileHandle.nullDevice
             guard (try? task.run()) != nil else { return }
             let data = pipe.fileHandleForReading.readDataToEndOfFile()
             task.waitUntilExit()
-            let top = String(decoding: data, as: UTF8.self)
-                .split(separator: "\n")
-                .prefix(3)
-                .compactMap { line -> TopProcess? in
-                    let parts = line.trimmingCharacters(in: .whitespaces).split(separator: " ", maxSplits: 1)
-                    guard parts.count == 2, let cpu = Double(parts[0]) else { return nil }
-                    return TopProcess(name: String(parts[1]), cpu: cpu)
-                }
-            DispatchQueue.main.async {
-                self.objectWillChange.send()
-                self.topProcesses = top
+            var times: [Int32: (name: String, seconds: Double)] = [:]
+            for line in String(decoding: data, as: UTF8.self).split(separator: "\n") {
+                let parts = line.split(separator: " ", maxSplits: 2, omittingEmptySubsequences: true)
+                guard parts.count == 3, let pid = Int32(parts[0]), let seconds = Self.seconds(parts[1]) else { continue }
+                times[pid] = (String(parts[2]), seconds)
             }
+            DispatchQueue.main.async { self.updateTopProcesses(times) }
         }
+    }
+
+    private func updateTopProcesses(_ times: [Int32: (name: String, seconds: Double)]) {
+        let now = Date()
+        processHistory.append((times, now))
+        processHistory.removeAll { now.timeIntervalSince($0.date) > Double(Self.window) + 0.5 }
+        guard let first = processHistory.first, first.date < now else { return }
+        let span = now.timeIntervalSince(first.date)
+        let top = times.compactMap { pid, entry -> TopProcess? in
+            guard let before = first.times[pid], before.name == entry.name else { return nil }
+            return TopProcess(name: entry.name, cpu: max(0, entry.seconds - before.seconds) / span * 100)
+        }
+        .sorted { $0.cpu > $1.cpu }
+        objectWillChange.send()
+        topProcesses = Array(top.prefix(3))
+    }
+
+    /// "[[dd-]hh:]mm:ss.cc" from ps.
+    private static func seconds(_ field: Substring) -> Double? {
+        var days = 0.0
+        var rest = field
+        if let dash = field.firstIndex(of: "-") {
+            guard let d = Double(field[..<dash]) else { return nil }
+            days = d
+            rest = field[field.index(after: dash)...]
+        }
+        var total = 0.0
+        for part in rest.split(separator: ":") {
+            guard let value = Double(part) else { return nil }
+            total = total * 60 + value
+        }
+        return days * 86_400 + total
     }
 
     // MARK: Formatting
@@ -270,8 +346,9 @@ final class SystemMonitor: ObservableObject {
         }
     }
 
+    /// Two decimals in the interface language's number format, as Activity Monitor shows memory.
     static func gigabytes(_ bytes: UInt64) -> String {
-        String(format: "%.1f GB", Double(bytes) / 1_073_741_824)
+        String(format: "%.2f GB", locale: AppLanguage.locale, Double(bytes) / 1_073_741_824)
     }
 }
 
@@ -300,6 +377,7 @@ extension SystemMonitor {
         }
         cpu = wave(0.24, 0.1, 0.35)
         cpuSystem = cpu * 0.3
+        cpuUser = cpu - cpuSystem
         cores = (0..<12).map { wave(cpu, 0.12, 0.5, Double($0)) }
         memoryUsed = UInt64(wave(14.2, 0.25, 0.1) * 1_073_741_824)
         memoryCompressed = 2_100_000_000
