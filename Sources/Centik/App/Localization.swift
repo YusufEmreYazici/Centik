@@ -1,10 +1,10 @@
 import AppKit
 
-/// The interface language. It follows the Mac's language by default; Settings can pin Turkish
-/// or English. The choice is stored as the app's own `AppleLanguages`, which macOS reads at
-/// launch, so changing it restarts Çentik.
+/// The interface language follows the Mac by default or can be set in Settings.
+/// macOS reads the app's own `AppleLanguages` at launch, so changing it restarts Çentik.
 enum AppLanguage: String, CaseIterable, Identifiable {
     case system, tr, en
+    case zhHans = "zh-Hans"
 
     var id: String { rawValue }
 
@@ -13,6 +13,7 @@ enum AppLanguage: String, CaseIterable, Identifiable {
         case .system: return String(localized: "Sistem dili")
         case .tr: return "Türkçe"
         case .en: return "English"
+        case .zhHans: return "简体中文"
         }
     }
 
@@ -22,7 +23,10 @@ enum AppLanguage: String, CaseIterable, Identifiable {
     static var chosen: AppLanguage {
         guard let list = UserDefaults.standard.persistentDomain(forName: Bundle.main.bundleIdentifier ?? "")?[key] as? [String],
               let first = list.first else { return .system }
-        return first.hasPrefix("en") ? .en : first.hasPrefix("tr") ? .tr : .system
+        if first.hasPrefix("en") { return .en }
+        if first.hasPrefix("tr") { return .tr }
+        if first.hasPrefix("zh-Hans") { return .zhHans }
+        return .system
     }
 
     /// The language the interface is showing right now.
