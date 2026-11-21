@@ -16,6 +16,7 @@
 	<array>
 		<string>tr</string>
 		<string>en</string>
+		<string>zh-Hans</string>
 	</array>
 	<key>CFBundleName</key>
 	<string>Çentik</string>

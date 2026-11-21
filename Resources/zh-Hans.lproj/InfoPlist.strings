@@ -1,0 +1,7 @@
+/* macOS 权限提示。 */
+"NSAppleEventsUsageDescription" = "Çentik 请求权限，以显示和控制 Spotify 或「音乐」当前播放的内容。";
+"NSCalendarsFullAccessUsageDescription" = "Çentik 读取你的日历，以在刘海区域显示今天的日程。";
+"NSCalendarsUsageDescription" = "Çentik 读取你的日历，以在刘海区域显示今天的日程。";
+"NSCameraUsageDescription" = "Çentik 的镜子功能使用摄像头，方便你在视频通话前预览画面。画面不会录制。";
+"NSDesktopFolderUsageDescription" = "Çentik 监测「桌面」中的新截屏，以在刘海区域显示它们。";
+"NSDownloadsFolderUsageDescription" = "Çentik 监测「下载」文件夹，以在刘海区域显示已完成的下载。";

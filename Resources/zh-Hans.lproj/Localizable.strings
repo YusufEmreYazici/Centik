@@ -1,0 +1,531 @@
+/* Çentik 简体中文译文。键名沿用土耳其语原文。 */
+
+
+/* AIProviders */
+"Otomatik" = "自动";
+"Asistan" = "助手";
+"Önce kurulu araçlara, sonra kayıtlı anahtarlara bakar." = "优先尝试已安装的工具，再尝试已保存的密钥。";
+"Bilgisayardaki Claude Code oturumu. Claude aboneliği ya da API kredisi kullanır." = "使用这台 Mac 上已登录的 Claude Code，可用 Claude 订阅或 API 额度。";
+"Bilgisayardaki Gemini CLI. Google hesabıyla giriş ücretsizdir." = "使用这台 Mac 上的 Gemini CLI。用 Google 账号登录即可免费使用。";
+"Anthropic API anahtarı. Kullandıkça ücretlendirilir." = "Anthropic API 密钥，按用量计费。";
+"Google AI Studio anahtarı. Ücretsiz katmanı vardır." = "Google AI Studio 密钥，提供免费额度。";
+"Bilgisayarda çalışan yerel modeller. Ücretsiz, internete bir şey gitmez." = "直接在这台 Mac 上运行模型，免费使用，数据不会发送到外部。";
+"Yanıt gelmedi (çıkış kodu %d)." = "未收到回复（退出代码 %d）。";
+"%@ başlatılamadı: %@" = "无法启动 %1$@：%2$@";
+"Durduruldu." = "已停止。";
+"Claude Code varsayılanı" = "Claude Code 默认模型";
+"Opus (en güçlü)" = "Opus（能力最强）";
+"Sonnet (hızlı)" = "Sonnet（速度快）";
+"Haiku (en hızlı)" = "Haiku（速度最快）";
+"Claude bir hata döndürdü." = "Claude 返回了错误。";
+"Claude Code'a giriş yapılmamış. Terminalde claude yazıp bir kez giriş yap." = "Claude Code 尚未登录。请在终端运行 claude 并登录。";
+"Otomatik (önerilen)" = "自动（推荐）";
+"Pro (en güçlü)" = "Pro（能力最强）";
+"Flash (hızlı)" = "Flash（速度快）";
+"Flash-Lite (en hızlı)" = "Flash-Lite（速度最快）";
+"Gemini bir hata döndürdü." = "Gemini 返回了错误。";
+"Gemini CLI'ya giriş yapılmamış. Terminalde gemini yazıp Google hesabınla giriş yap." = "Gemini CLI 尚未登录。请在终端运行 gemini，然后用 Google 账号登录。";
+"Gemini CLI için Node.js bulunamadı." = "未找到 Gemini CLI 所需的 Node.js。";
+"Sunucu %lld hatası döndürdü." = "服务器返回错误 %lld。";
+"Bağlanılamadı: %@" = "无法连接：%@";
+"Anahtar geçersiz ya da yetkisiz." = "密钥无效或未获授权。";
+"Claude API anahtarı kayıtlı değil." = "尚未保存 Claude API 密钥。";
+"Claude bu isteği yanıtlamadı." = "Claude 拒绝了此请求。";
+"Claude API bir hata döndürdü." = "Claude API 返回了错误。";
+"Claude API anahtarı geçersiz." = "Claude API 密钥无效。";
+"Geçersiz model adı: %@" = "模型名称无效：%@";
+"Gemini API anahtarı kayıtlı değil." = "尚未保存 Gemini API 密钥。";
+"Gemini bu isteği yanıtlamadı (%@)." = "Gemini 拒绝了此请求（%@）。";
+"Gemini API bir hata döndürdü." = "Gemini API 返回了错误。";
+"Gemini API anahtarı geçersiz." = "Gemini API 密钥无效。";
+"Gemini kullanım sınırına ulaşıldı. Biraz sonra tekrar dene." = "已达到 Gemini 使用上限，请稍后重试。";
+"Ollama'da kurulu model yok. Terminalde ollama pull llama3.2 gibi bir model indir." = "Ollama 尚未安装任何模型。请在终端运行 ollama pull llama3.2 等命令下载模型。";
+"Ollama çalışmıyor. Ollama uygulamasını aç ya da terminalde ollama serve çalıştır." = "Ollama 未运行。请打开 Ollama 应用，或在终端运行 ollama serve。";
+
+/* AgentService */
+"%@ işini bitirdi" = "%@ 已完成";
+"%@ geçerli bir JSON nesnesi değil; dosyaya dokunulmadı." = "%@ 不是有效的 JSON 对象，文件未修改。";
+"config.toml içinde zaten başka bir `notify` tanımlı; dosyaya dokunulmadı." = "config.toml 已定义其他 `notify` 项，文件未修改。";
+
+/* AppDelegate */
+"Çentik Ayarları" = "Çentik 设置";
+"Çentiği Aç  (⌃⌥N)" = "打开 Çentik  (⌃⌥N)";
+"Rafı Aç" = "打开文件暂存区";
+"Ayarlar…" = "设置…";
+"Çentik'ten Çık" = "退出 Çentik";
+
+/* AssistantService */
+"Şu an %@ kullanılıyor." = "当前正在使用 %@。";
+"Hazır bir sağlayıcı yok. Aşağıdan birini bağla." = "暂无可用的服务，请在下方连接一个。";
+"Claude Code kurulu değil." = "未安装 Claude Code。";
+"Bulundu ve giriş yapılmış: %@" = "已找到并登录：%@";
+"Bulundu ama giriş yapılmamış. Terminalde gemini yazıp Google ile giriş yap." = "已找到，但尚未登录。请在终端运行 gemini，然后用 Google 账号登录。";
+"Gemini CLI kurulu değil." = "未安装 Gemini CLI。";
+"Anahtar Anahtar Zinciri'nde kayıtlı." = "密钥已保存到钥匙串。";
+"Anahtar girilmedi." = "尚未输入密钥。";
+"Çalışıyor." = "正在运行。";
+"Çalışmıyor ya da kurulu değil." = "未运行或未安装。";
+"Henüz bir yapay zekâ bağlı değil. Ayarlar > Yapay Zekâ'dan Claude, Gemini ya da Ollama'yı bağla." = "尚未连接 AI 服务。前往「设置 → 人工智能」连接 Claude、Gemini 或 Ollama。";
+"%@ hazır değil: %@ Ayarlar > Yapay Zekâ'dan kontrol edebilirsin." = "%1$@ 尚未就绪：%2$@。可在「设置 → 人工智能」中检查。";
+"Şu an: %@ (%@)" = "当前：%1$@（%2$@）";
+", bugün en yüksek %lld° en düşük %lld°" = "，今日最高 %1$lld°，最低 %2$lld°";
+", yağış ihtimali %%%lld" = "，降水概率 %lld%%";
+"[Bağlam: " = "[上下文：";
+"%@ başlatılamadı." = "无法启动 %@。";
+"Yalnızca şunu yaz: Bağlantı tamam" = "请仅回复：连接成功";
+"Yanıt boş geldi." = "收到空白回复。";
+"Bunu araç kullanmadan yanıtlayamadı. Soruyu biraz farklı sormayı dene." = "此问题需要调用工具才能回答。请换一种问法。";
+"\n\n…(yanıt kısaltıldı)" = "\n\n…（回复已截短）";
+
+/* AssistantSettings */
+"Kurulu araçlar · anahtar gerekmez" = "已安装的工具 · 无需密钥";
+"API anahtarı" = "API 密钥";
+"Sohbet sekmesini yanıtlayan" = "聊天所用的服务";
+"Sağlayıcı" = "服务";
+"Herkes kendi hesabını kullanır; Çentik kimseye ücret ödemez ya da veri toplamaz. Sohbet yalnızca konuşmadır: dosyalarına erişilmez, komut çalıştırılmaz. Her mesajla yalnızca saat, tarih ve seçtiğin şehrin havası gider." = "请使用自己的账号。Çentik 不代付费用，也不收集数据。聊天功能不会读取文件或运行命令。发送消息时只会附带时间、日期和所选城市的天气。";
+"Bu Mac'te" = "这台 Mac";
+"API anahtarları macOS Anahtar Zinciri'nde saklanır, yalnızca ilgili servise gönderilir." = "API 密钥保存在 macOS 钥匙串中，仅发送给对应的服务。";
+"Anahtar al" = "获取密钥";
+"Nasıl kurulur" = "安装方法";
+"Kullanılıyor" = "正在使用";
+"Hazır" = "就绪";
+"Bağlı değil" = "未连接";
+"gemini" = "gemini";
+"komutunu terminalde bir kez çalıştırıp Google ile giriş yap." = "——在终端运行一次，然后用 Google 账号登录。";
+"Kontrol et" = "检查";
+"Yeniden kontrol et" = "重新检查";
+"Model" = "模型";
+"Bağlantıyı test et" = "测试连接";
+"Önerilen (%@)" = "推荐（%@）";
+"Varsayılan" = "默认";
+"Model listesi alınamadı: %@" = "无法加载模型列表：%@";
+"İlk model (%@)" = "第一个模型（%@）";
+"Kurulu model yok" = "未安装模型";
+"Kayıtlı anahtarı değiştirmek için yenisini yapıştır" = "粘贴新密钥以替换已保存的密钥";
+"API anahtarını yapıştır" = "粘贴 API 密钥";
+"Kaydet" = "保存";
+"Sil" = "删除";
+
+/* AssistantViews */
+"Bir yapay zekâ bağla" = "连接 AI 服务";
+"Claude ya da Gemini hesabını, bir API anahtarını veya Ollama'yı bağla. Ücretsiz seçenekler de var." = "连接 Claude 或 Gemini 账号、API 密钥或 Ollama，也有免费选项。";
+"Ayarlar'da bağla" = "前往设置连接";
+"Yalnızca sohbet" = "仅聊天";
+"Burada dosyalara erişilmez ve komut çalıştırılmaz. Sağlayıcıyı Ayarlar > Yapay Zekâ'dan değiştirebilirsin." = "聊天不会读取文件或运行命令。你可以在「设置 → 人工智能」中切换服务。";
+"Son kopyaladığın metni sorunun önüne ekler" = "将上次复制的文本添加到问题前面";
+"Yanıtlıyor" = "正在回答";
+"Panodan ekle" = "从剪贴板添加";
+"Yeni" = "新建";
+"Ne sormak istersin?" = "你想问什么？";
+"Kopyaladığım metni kısaca özetle" = "简要概括我复制的文本";
+"Kopyaladığım e-postayı daha kibar yaz" = "把我复制的邮件写得更礼貌";
+"Kopyaladığım kodu açıkla" = "解释我复制的代码";
+"Kopyaladığım metni İngilizceye çevir" = "把我复制的文本翻译成英语";
+"%@ ile konuş… (Enter ile gönder)" = "向 %@ 提问…（按回车发送）";
+"Durdur" = "停止";
+"Gönder" = "发送";
+
+/* CaptureService */
+"Ekran görüntüsü alındı" = "已截屏";
+"Ekran kaydı hazır" = "屏幕录制已就绪";
+"İndirme tamamlandı" = "下载完成";
+
+/* ClipboardService */
+"Metin" = "文本";
+"Bağlantı" = "链接";
+"Kod" = "代码";
+"Renk" = "颜色";
+"Görsel" = "图像";
+"Dosya" = "文件";
+"Görsel · %lld×%lld" = "图像 · %1$lld×%2$lld";
+"Uygulama" = "应用";
+
+/* ClipboardViews */
+"Pano geçmişi kapalı" = "剪贴板历史记录已关闭";
+"Ayarlar → Aktiviteler'den açabilirsin." = "可在「设置 → 工具」中开启。";
+"Henüz bir şey kopyalanmadı" = "尚未复制任何内容";
+"Metin, bağlantı, renk, görsel ve dosyalar burada birikir." = "复制的文本、链接、颜色、图像和文件会显示在这里。";
+"Bu filtrede öğe yok" = "此类别下没有项目";
+"Başka bir tür seç." = "请选择其他类别。";
+"Tümü" = "全部";
+"Bellekte" = "仅保存在内存中";
+"Geçmiş yalnızca bellekte tutulur; sabitlenenler hariç diske yazılmaz. Şifre yöneticisi öğeleri kaydedilmez." = "历史记录仅保存在内存中。只有固定项目会写入磁盘。密码管理器的内容从不保存。";
+"Sabitlenmemiş her şeyi temizle" = "清除所有未固定的项目";
+"%lld" = "%lld";
+"Kopyala" = "复制";
+"Kopyalandı" = "已复制";
+"%@ · %@" = "%1$@ · %2$@";
+"az önce" = "刚刚";
+"Düz Metin Olarak Kopyala" = "复制为纯文本";
+"Sabitlemeyi Kaldır" = "取消固定";
+"Sabitle" = "固定";
+"Rafa Ekle" = "添加到文件暂存区";
+"İndirilenler'e Kaydet" = "存储到「下载」文件夹";
+"· %@" = "· %@";
+"Sabitlemeyi kaldır" = "取消固定";
+"Sabitle; yeniden başlatınca da kalır" = "固定后，重启应用仍会保留";
+"Boyut" = "大小";
+"Veri" = "数据";
+"+%lld dosya daha" = "另有 %lld 个文件";
+" · biçimli" = " · 带格式";
+"%lld karakter · %lld kelime · %lld satır" = "%1$lld 个字符 · %2$lld 个词 · %3$lld 行";
+"Rafa ekle" = "添加到文件暂存区";
+"Aç" = "打开";
+"Göster" = "显示";
+"RGB kopyala" = "复制 RGB";
+"Düz metin" = "纯文本";
+
+/* ExpandedView */
+"Ayna" = "镜子";
+"Ayarlar" = "设置";
+"%%%lld" = "%lld%%";
+"Etkinliklerini görmek için takvim erişimi ver." = "允许访问日历以查看日程。";
+"Sistem Ayarları" = "系统设置";
+"İzin Ver" = "允许";
+"Bugün takvimin boş" = "今天没有日程";
+"+%lld etkinlik daha" = "另有 %lld 项日程";
+"ŞİMDİ" = "正在进行";
+"%@ toplantısına katıl" = "加入 %@";
+"Tüm gün" = "全天";
+"Katıl" = "加入";
+"Raf" = "文件暂存区";
+"%lld öğe" = "%lld 项";
+"AirDrop" = "隔空投送";
+"Temizle" = "清除";
+"Bırak, rafa ekleyeyim" = "松开即可添加到文件暂存区";
+"Dosyaları buraya bırak" = "将文件拖到这里";
+"Finder'dan ya da herhangi bir yerden çentiğe sürükle." = "从访达或其他位置将文件拖到刘海区域。";
+"AirDrop ile paylaş" = "通过隔空投送共享";
+"Geri sürükle" = "拖出文件";
+"Dosyalar yerinde kalır" = "文件留在原位置";
+"Sürükle\nbırak" = "拖放\n文件";
+"Klasör" = "文件夹";
+"Finder'da Göster" = "在访达中显示";
+"AirDrop ile Gönder" = "通过隔空投送发送";
+"Raftan Kaldır" = "从文件暂存区移除";
+"Hızlı başlat" = "快速开始";
+"Bitiş %@" = "%@ 结束";
+"Bir süre seç. Çalışırken geri sayım çentiğin yanında görünür." = "选择时长。计时开始后，刘海区域旁会显示倒计时。";
+"Çalışıyor" = "计时中";
+"Duraklatıldı" = "已暂停";
+"dk" = "分钟";
+"HAZIR" = "就绪";
+"KALAN" = "剩余";
+"DURAKLATILDI" = "已暂停";
+"Kodlama ajanları" = "编程代理";
+"Onay beklediğinde ve işi bitince haber verir." = "需要批准或任务完成时会通知你。";
+"Her tur tamamlandığında haber verir." = "每轮完成时会通知你。";
+"BEKLİYOR" = "等待中";
+"Tek tıkla bağla" = "一键连接";
+"Bağlı" = "已连接";
+
+/* HomeIdle */
+"Günaydın" = "早上好";
+"İyi günler" = "下午好";
+"İyi akşamlar" = "晚上好";
+"İyi geceler" = "晚安";
+"Uyanık" = "保持唤醒";
+"Uyanık tut" = "保持唤醒";
+"Uykuyu engelle" = "防止睡眠";
+"25 dk odak" = "专注 25 分钟";
+"Zamanlayıcı" = "计时器";
+"Kamera önizleme" = "摄像头预览";
+"Ekran" = "显示器";
+"Boş" = "空闲";
+"30 dakika" = "30 分钟";
+"1 saat" = "1 小时";
+"2 saat" = "2 小时";
+"Süresiz" = "无限期";
+"Kapat" = "关闭";
+"Müzik çalmıyor" = "未播放音乐";
+"Son çalan · %@" = "上次播放 · %@";
+"%@ — %@" = "%1$@ — %2$@";
+"Devam et" = "继续";
+"Hava durumu alınamadı" = "无法获取天气";
+"Yükleniyor" = "正在加载";
+"Hava durumu ekle" = "添加天气";
+"%lld°" = "%lld°";
+
+/* IslandModel */
+"Ana" = "主页";
+"Sistem" = "系统";
+"Notlar" = "备忘录";
+"Pano" = "剪贴板";
+"Ajanlar" = "代理";
+
+/* IslandView */
+"Süre doldu" = "时间到";
+"Zamanlayıcı tamamlandı" = "计时结束";
+"%@ — katılmak için çentiği aç" = "%@ — 打开 Çentik 即可加入";
+"Şimdi" = "现在";
+"Rafa eklemek için tıkla, paylaşmak için sürükle" = "点按添加到文件暂存区，拖动即可共享";
+
+/* KeepAwake */
+"Çentik: Uyanık tut" = "Çentik：保持唤醒";
+"İzin verildi" = "已允许";
+"Reddedildi" = "已拒绝";
+"Henüz sorulmadı" = "尚未请求";
+"Uygulama kapalı" = "应用未运行";
+"Yüklü değil" = "未安装";
+
+/* Localization */
+"Sistem dili" = "跟随系统";
+
+/* MirrorView */
+"Kamera bulunamadı" = "未找到摄像头";
+"Bu Mac'te kullanılabilir kamera yok." = "此 Mac 没有可用的摄像头。";
+"Kamera izni yok" = "没有摄像头访问权限";
+"Ayna için Sistem Ayarları'nda Çentik'e kamera izni ver." = "请在系统设置中允许 Çentik 使用摄像头，以使用镜子功能。";
+"Sistem Ayarları'nı Aç" = "打开系统设置";
+
+/* NotesViews */
+"Henüz not yok" = "还没有备忘录";
+"Aklına geleni hızla yaz; işaretleyince yapıldı olur." = "随手记录想法，完成后勾选。";
+"%lld açık" = "%lld 项未完成";
+"Bitenleri sil" = "删除已完成的项目";
+"Not ya da yapılacak yaz, Enter ile ekle" = "输入备忘或待办事项，按回车添加";
+"Yapılmadı olarak işaretle" = "标记为未完成";
+"Yapıldı olarak işaretle" = "标记为已完成";
+
+/* ProcessViews */
+"Genel" = "通用";
+"Uygulamalar" = "应用";
+"Grafikler" = "图表";
+"Müzik çalmıyorken çentiğin iki yanında canlı ölçümleri göster" = "未播放音乐时，在刘海区域两侧显示实时数据";
+"Kanatlarda" = "刘海区域两侧";
+"Kanatlara ekle" = "在刘海旁显示";
+"Uygulamalar (yardımcılarıyla)" = "应用及其辅助进程";
+"Tüm işlemlerim" = "我的所有进程";
+"UYGULAMA" = "应用";
+"İŞLEM" = "进程";
+"%lld işlem" = "%lld 个进程";
+"PID %d" = "PID %d";
+"Sistem için gerekli; buradan kapatılamaz" = "系统需要此进程，无法在此退出";
+"Emin misin?" = "确定退出吗？";
+"Kaydedilmemiş değişiklikler kaybolur" = "未保存的更改将丢失";
+"Uygulamadan kapanmasını ister (⌘Q gibi). Zorla kapatmak için sağ tıkla." = "请求应用退出，效果与 ⌘Q 相同。右键点按可强制退出。";
+"Zorla Kapat…" = "强制退出…";
+"PID'yi Kopyala" = "复制 PID";
+"Son 60 saniye" = "过去 60 秒";
+"Ağ" = "网络";
+"%@ %%%lld" = "%1$@ %2$lld%%";
+
+/* SettingsView */
+"Etkileşim" = "交互";
+"Görünüm" = "外观";
+"Canlı Etkinlikler" = "实时活动";
+"Araçlar" = "工具";
+"Yapay Zekâ" = "人工智能";
+"Kodlama Ajanları" = "编程代理";
+"İzinler" = "权限";
+"Hakkında" = "关于";
+"Başlangıç, ekran ve kısayol" = "启动、显示器和快捷键";
+"Sekmeler, açılma, kapanma ve dokunsal geri bildirim" = "标签页、打开、关闭和触感反馈";
+"Tema, vurgu rengi, efektler ve boyutlar" = "主题、强调色、效果和尺寸";
+"Çentikte beliren müzik, ses, pil ve ağ bildirimleri" = "在刘海区域显示的音乐、音量、电池和网络通知";
+"Pano, takvim, raf ve uyanık tut" = "剪贴板、日历、文件暂存区和保持唤醒";
+"Sohbet sekmesi için Claude, Gemini ya da Ollama bağlantısı" = "为聊天标签页连接 Claude、Gemini 或 Ollama";
+"Claude Code ve Codex uyarıları" = "Claude Code 和 Codex 通知";
+"Çentik'in kullandığı izinlerin durumu" = "Çentik 的权限状态";
+"Sürüm ve kısayollar" = "版本和快捷键";
+"Başlangıç" = "启动";
+"Kısayol" = "快捷键";
+"Arayüz dili" = "界面语言";
+"Yeni dil Çentik yeniden başlayınca görünür." = "重启 Çentik 后将使用所选语言。";
+"Şimdi yeniden başlat" = "立即重启";
+"Dil" = "语言";
+"Oturum açınca başlat" = "登录时启动";
+"Menü çubuğu simgesi" = "菜单栏图标";
+"Kapatırsan ayarlara adadaki dişliden ya da ⌃⌥N ile ulaşırsın." = "关闭后，可从刘海区域内的齿轮图标或按 ⌃⌥N 打开设置。";
+"Mac açıldığında Çentik kendiliğinden çalışır." = "登录 Mac 时自动启动 Çentik。";
+"Sistem Ayarları → Genel → Giriş Öğeleri'nden onay ver." = "请前往「系统设置 → 通用 → 登录项」允许启动。";
+"Ayarlanamadı: %@" = "无法更改：%@";
+"Tam ekranda gizle" = "全屏时隐藏";
+"Video ya da oyun tam ekrandayken ada çekilir." = "视频或游戏进入全屏时隐藏刘海面板。";
+"Adanın göründüğü ekran" = "刘海面板显示位置";
+"MacBook ekranı (çentikli)" = "MacBook 显示屏（带刘海）";
+"Etkin ekran" = "当前活跃的显示器";
+"⌃⌥N ile aç / kapat" = "按 ⌃⌥N 打开或关闭";
+"Her uygulamadan çalışır, Erişilebilirlik izni gerektirmez." = "在任何应用中均可使用，无需辅助功能权限。";
+"Tüm ayarları varsayılana döndür…" = "恢复所有默认设置…";
+"Tüm ayarlar varsayılana dönsün mü?" = "要恢复所有默认设置吗？";
+"Varsayılana Döndür" = "恢复默认设置";
+"Raf, pano ve sabitlenen öğeler korunur." = "文件暂存区、剪贴板和固定的项目会保留。";
+"Açılma" = "打开";
+"Kapanma" = "关闭";
+"Geri bildirim" = "反馈";
+"Üzerine gelince aç" = "悬停时打开";
+"Kapalıyken adaya tıklayarak açarsın." = "关闭此选项后，点按刘海区域可打开面板。";
+"Açılma gecikmesi" = "打开延迟";
+"İmleç bu kadar beklerse açılır; kazara açılmayı önler." = "指针停留指定时间后才打开，以防误触。";
+"Açılınca gösterilecek sekme" = "打开时显示的标签页";
+"En son açık olan" = "上次使用的标签页";
+"Kapanma gecikmesi" = "关闭延迟";
+"İmleç adadan çıktıktan sonra bu kadar bekler." = "指针移出面板后，等待指定时间再关闭。";
+"Sekmeler" = "标签页";
+"Kapattığın sekmeler çentikte görünmez; sırayı oklarla değiştir. En az bir sekme açık kalır." = "关闭的标签页会隐藏。使用箭头调整顺序，至少保留一个标签页。";
+"Dokunsal titreşim" = "触感反馈";
+"Force Touch trackpad'de adanın üzerine gelince hafif tık." = "指针移到刘海区域上方时，力度触控板会轻振一下。";
+"Üzerine gelince büyüme" = "悬停时放大";
+"%@ sn" = "%@ 秒";
+"Vurgu rengi" = "强调色";
+"Efektler" = "效果";
+"Boyutlar" = "尺寸";
+"Tema" = "主题";
+"Müzik çalmıyorken bu renk kullanılır." = "未播放音乐时使用此颜色。";
+"Kaynak" = "来源";
+"Çalan şarkının kapağı" = "当前歌曲的专辑封面";
+"Kendi rengim" = "自定义颜色";
+"Animasyonlar" = "动画";
+"Kapatınca ada anında açılıp kapanır; en az işlemci kullanır." = "关闭后，刘海面板会立即打开或关闭，尽量减少 CPU 占用。";
+"Hız" = "速度";
+"Hareket" = "动效";
+"Kanat genişliği" = "两侧宽度";
+"Müzik ve göstergelerin çentiğin yanında kapladığı yer." = "音乐和指示器在刘海区域两侧占用的宽度。";
+"Ses/parlaklık çizgisi" = "音量和亮度指示条";
+"+%lld pt" = "+%lld 点";
+"%lld pt" = "%lld 点";
+"Çentiğin yanında" = "刘海区域旁";
+"Toplantılar" = "会议";
+"Dosyalar" = "文件";
+"Müzik" = "音乐";
+"Ses ve parlaklık" = "音量和亮度";
+"Pil ve ağ" = "电池和网络";
+"Kilit açma" = "解锁";
+"Sol kanat" = "左侧";
+"Sağ kanat" = "右侧";
+"Yalnızca müzik" = "仅显示音乐";
+"Müzik; çalmıyorsa sistem" = "优先显示音乐，未播放时显示系统数据";
+"Her zaman sistem" = "始终显示系统数据";
+"Hiçbiri" = "无";
+"Toplantı geri sayımı" = "会议倒计时";
+"Takvimdeki etkinlik yaklaşınca çentikte geri sayım ve Zoom/Meet/Teams için Katıl düğmesi." = "日程即将开始时在刘海区域显示倒计时，Zoom、Meet 和 Teams 会议还会显示「加入」按钮。";
+"Ne kadar önce" = "提前时间";
+"%lld dk" = "%lld 分钟";
+"Ekran görüntüleri" = "截屏";
+"Yeni ekran görüntüsü ve kaydı gösterir; tıkla rafa ekle, sürükle paylaş." = "显示新的截屏和录屏。点按可添加到文件暂存区，拖动即可共享。";
+"Biten indirmeler" = "已完成的下载";
+"İndirilenler klasörüne yeni dosya inince gösterir." = "「下载」文件夹有新文件时显示。";
+"Spotify ve Apple Music" = "Spotify 和 Apple Music";
+"Çalan şarkıyı gösterir ve kontrol eder." = "显示并控制当前播放的音乐。";
+"Şarkı değişince önizleme" = "切歌时显示预览";
+"Parlaklık değişince göster" = "亮度变化时显示";
+"Otomatik parlaklığın küçük adımları gösterilmez." = "自动亮度的微小变化不会显示。";
+"Ekranda kalma" = "显示时长";
+"Gösterim" = "显示样式";
+"Çizgi" = "指示条";
+"Yüzde" = "百分比";
+"Düşük pil uyarısı" = "低电量提醒";
+"Şarjda değilken bu seviyeye inince bir kez uyarır." = "未接通电源时，电量降至此值会提醒一次。";
+"İnternet ve Wi-Fi değişiklikleri" = "互联网和 Wi-Fi 状态变化";
+"Kısa kopmalar gösterilmez." = "短暂断线时不显示。";
+"Ses" = "声音";
+"Takvim" = "日历";
+"Pano geçmişi" = "剪贴板历史记录";
+"Metin, bağlantı, renk, görsel ve dosyalar. Yalnızca bellekte; şifreler kaydedilmez." = "支持文本、链接、颜色、图像和文件。历史记录仅保存在内存中，密码不会保存。";
+"%lld öğe, %lld sabit" = "%1$lld 项，已固定 %2$lld 项";
+"Geçmişi temizle" = "清除历史记录";
+"Hava durumu" = "天气";
+"Open-Meteo kullanılır; hesap ya da konum izni gerekmez, yalnızca seçtiğin şehrin koordinatları gönderilir." = "使用 Open-Meteo，无需账号或定位权限，仅发送所选城市的坐标。";
+"Raf boş" = "文件暂存区为空";
+"Rafta %lld öğe" = "文件暂存区有 %lld 项";
+"Rafı boşalt" = "清空文件暂存区";
+"Mac'i ve ekranı uyanık tut" = "保持 Mac 和显示器唤醒";
+"%@'e kadar açık" = "保持开启至 %@";
+"Ana sekmedeki kısayoldan da açılır; sağ tıkla süre seç." = "也可在「主页」中开启。右键点按即可选择时长。";
+"Bağlantılar" = "连接";
+"Başka araçlardan" = "来自其他工具";
+"Hook'lar yalnızca yerel bir dosyaya küçük bir olay satırı yazar; hiçbir şey internete gönderilmez. Değiştirilen dosyanın yanına .centik-backup yedeği bırakılır." = "钩子只会向本地文件写入一行简短的事件记录，不会向互联网发送数据。修改文件时会在同一目录下创建 .centik-backup 备份。";
+"Onay beklediğinde ve işi bitince" = "需要批准时及任务完成时";
+"Her tur tamamlandığında" = "每轮完成时";
+"\"%@\" kaynak tür '{\"message\":\"…\"}'" = "“%@”的来源类型为‘{\"message\":\"…\"}’";
+"Kaldır" = "移除";
+"Bağla" = "连接";
+"Spotify kontrolü" = "Spotify 控制";
+"Müzik kontrolü" = "音乐控制";
+"Çentik Erişilebilirlik, Ekran Kaydı ya da Tam Disk Erişimi istemez. Otomasyon izni, ilgili uygulama açıkken sorulabilir. Uygulama kalıcı bir imzayla imzalandığı için izinler güncellemelerden sonra da hatırlanır." = "Çentik 无需辅助功能、屏幕录制或完全磁盘访问权限。只有目标应用打开时才会请求自动化权限。应用使用固定签名，更新后会保留已授予的权限。";
+"Uygulama açılınca kontrol edilir" = "应用打开时检查";
+"İzin İste" = "请求访问权限";
+"Kısayollar" = "快捷键";
+"Çentik" = "Çentik";
+"Sürüm %@" = "版本 %@";
+"Tamamen ücretsiz; hesap, reklam ya da veri toplama yok." = "完全免费，无账号、无广告，也不会收集数据。";
+"Çentiği aç / kapat" = "打开或关闭 Çentik";
+"Panodan kopyala" = "从剪贴板复制";
+"Uyanık tut süresi" = "保持唤醒时长";
+"%lld° · %@" = "%1$lld° · %2$@";
+"Şehir ara (ör. İstanbul)" = "搜索城市（例如北京）";
+"Başka şehir ara" = "搜索其他城市";
+"Ara" = "搜索";
+"Varsayılan sıra ve tüm sekmeler" = "恢复默认顺序并显示所有标签页";
+
+/* SystemMonitor */
+"Bellek" = "内存";
+
+/* SystemServices */
+"Kişisel Erişim Noktası bağlandı" = "已连接个人热点";
+"İnternet geri geldi · Wi-Fi" = "网络已恢复 · Wi-Fi";
+"İnternet geri geldi · Ethernet" = "网络已恢复 · 以太网";
+"İnternet geri geldi" = "网络已恢复";
+"İnternet bağlantısı yok" = "未连接互联网";
+"Wi-Fi açıldı" = "Wi-Fi 已打开";
+"Wi-Fi kapatıldı" = "Wi-Fi 已关闭";
+
+/* SystemViews */
+"kullanıcı %%%lld · sistem %%%lld" = "用户 %1$lld%% · 系统 %2$lld%%";
+"%@ içinden · sıkışt. %@" = "共 %1$@ · 已压缩 %2$@";
+"Sürücü kullanım bildirmiyor" = "驱动程序未报告使用率";
+"Grafik işlemci kullanımı" = "图形处理器使用率";
+"%@ boş" = "可用 %@";
+"Açık kalma süresi" = "运行时间";
+"Kritik" = "严重";
+"Baskı var" = "有压力";
+"Ilık" = "微热";
+"Sıcak" = "热";
+"Çok sıcak" = "很热";
+"Bilinmiyor" = "未知";
+
+/* Theme */
+"Gece" = "夜色";
+"Cam" = "玻璃";
+"Sade" = "简约";
+"Saf siyah, çentikle bütünleşir" = "纯黑，与刘海融为一体";
+"Arkadaki masaüstünü buzlu camla gösterir" = "透过磨砂玻璃显示后方桌面";
+"Vurgu renginde yavaşça akan ışık" = "以强调色缓缓流动的光效";
+"Kenarında dönen parlak çizgi" = "沿边缘环绕的亮线";
+"Gölgesiz, sakin, dikkat dağıtmaz" = "无阴影，减少视觉干扰";
+"Akıcı" = "流畅";
+"Zıplayan" = "弹跳";
+"Sakin" = "平缓";
+
+/* ToolServices */
+"Toplantı" = "会议";
+"Etkinlik" = "日程";
+
+/* WeatherService */
+"Çoğunlukla açık" = "晴间多云";
+"Parçalı bulutlu" = "局部多云";
+"Sisli" = "有雾";
+"Çisenti" = "毛毛雨";
+"Yağmurlu" = "有雨";
+"Karlı" = "有雪";
+"Sağanak" = "阵雨";
+"Kar sağanağı" = "阵雪";
+"Gök gürültülü" = "雷暴";
+"Bulutlu" = "多云";
+"awake.on" = "已开启";
+"action.screenshot.title" = "屏幕";
+"action.screenshot.subtitle" = "截图";
+"system.overview" = "概览";
+"weather.clear" = "晴";
+"weather.overcast" = "阴";
+"%@'e kadar" = "截至 %@";
+
+/* Added */
+"%@ onay bekliyor" = "%@ 需要批准";
+"%@ seni bekliyor" = "%@ 正在等待你的操作";
+"Bulundu: %@" = "找到：%@";
+"Pano %@.png" = "剪贴板 %@.png";
+"%lld bitti" = "%lld 项已完成";
+"Hava (%@): %lld°C, %@" = "天气（%1$@）：%2$lld°C，%3$@";
+", hissedilen %lld°C" = "，体感 %lld°C";
